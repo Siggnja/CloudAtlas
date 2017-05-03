@@ -1,2 +1,8 @@
 language: csharp
 solution: CloudAtlas.sln
+install:
+  - nuget restore CloudAtlas.sln
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release CloudAtlas.sln
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./CloudAtlas.Tests/bin/Release/CloudAtlas.Tests.dll

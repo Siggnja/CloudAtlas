@@ -4,14 +4,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Collections.Generic;
 
 namespace CloudAtlas.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
-        {
+        { 
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
@@ -41,6 +44,8 @@ namespace CloudAtlas.Models
 
         protected override void OnModelCreating(DbModelBuilder builder)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, CloudAtlas.Migrations.Configuration>());
+
             builder.Conventions.Remove<PluralizingTableNameConvention>();
             builder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
             builder.Entity<IdentityRole>().HasKey<string>(r => r.Id);

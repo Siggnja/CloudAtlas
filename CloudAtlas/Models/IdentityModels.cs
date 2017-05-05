@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CloudAtlas.Models
 {
@@ -12,7 +13,12 @@ namespace CloudAtlas.Models
     public class ApplicationUser : IdentityUser
     {
         public virtual ICollection<Project> Projects { get; set; }
+        [InverseProperty("ApplicationUsers")]
         public virtual ICollection<Group> Groups { get; set; }
+        [InverseProperty("Owner")]
+        public virtual ICollection<Group> OwnedGroups { get; set; }
+
+        
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         { 
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -44,7 +50,7 @@ namespace CloudAtlas.Models
 
         protected override void OnModelCreating(DbModelBuilder builder)
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, CloudAtlas.Migrations.Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>());
 
             builder.Conventions.Remove<PluralizingTableNameConvention>();
             builder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);

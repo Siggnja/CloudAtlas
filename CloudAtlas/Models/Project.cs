@@ -12,7 +12,6 @@ namespace CloudAtlas.Models
 
         public string Type { get; set; }
 
-
         public string StartupFile { get; set; }
 
         public bool IsGroupProject { get; set; }

@@ -24,6 +24,9 @@
                     <ul>
                         <li id="child_node_1">test</li>
                         <li>index.js</li>
+                        <li data-jstree='{"icon":"//jstree.com/tree.png"}'>
+                            Sum.cpp
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -51,7 +54,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -67,11 +69,27 @@
                 $('#sendmessage').click();
         });
     });
+
+    $(function () {
+        // 6 create an instance when the DOM is ready
+        $('#jstree').jstree();
+        // 7 bind to events triggered on the tree
+        $('#jstree').on("changed.jstree", function (e, data) {
+            console.log(data.selected);
+        });
+        // 8 interact with the tree - either way is OK
+        $('button').on('click', function () {
+            $('#jstree').jstree(true).select_node('child_node_1');
+            $('#jstree').jstree('select_node', 'child_node_1');
+            $.jstree.reference('#jstree').select_node('child_node_1');
+        });
+    });
 </script>
 
 @section scripts {
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
     <script>
         $(function () {

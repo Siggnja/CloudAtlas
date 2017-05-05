@@ -36,5 +36,10 @@ namespace CloudAtlas.Controllers
         {
             return View();
         }
+
+        public ActionResult Project()
+        {
+            return View();
+        }
     }
 }

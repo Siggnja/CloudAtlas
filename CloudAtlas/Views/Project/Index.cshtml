@@ -1,4 +1,5 @@
-﻿
+﻿@model CloudAtlas.Models.ApplicationUser
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -50,7 +51,7 @@
             <div class="message-box">
                 <input type="text" id="message" />
                 <input type="button" id="sendmessage" value="Send" />
-                <input type="hidden" id="displayname" />
+                <input type="hidden" id="displayname" value="@Model.Email"/>
             </div>
         </div>
     </div>
@@ -116,7 +117,7 @@
                 console.log(message);
             };
 
-            $('#displayname').val(prompt('Enter your name:', ''));
+            
 
             // Hub
             $.connection.hub.start().done(function () {

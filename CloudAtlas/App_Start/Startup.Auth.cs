@@ -55,9 +55,9 @@ namespace CloudAtlas
             //   consumerSecret: "");
 
             app.UseFacebookAuthentication(
-               appId: "286893545069830",
-               appSecret: "c413d4a488e550e3b328e1ae525d3bcd");
-
+               appId: "407994202919003",
+               appSecret: "c02d120c4f6fc6f7e8d13504000d80a4");
+            
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "949780432684-tpbrr98slhs5vag1prtqks7tdbrjl1lp.apps.googleusercontent.com",

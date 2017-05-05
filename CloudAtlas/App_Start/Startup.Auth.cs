@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using CloudAtlas.Models;
+using Owin.Security.Providers.GitHub;
 
 namespace CloudAtlas
 {
@@ -63,6 +64,10 @@ namespace CloudAtlas
                 ClientId = "949780432684-tpbrr98slhs5vag1prtqks7tdbrjl1lp.apps.googleusercontent.com",
                 ClientSecret = "nWUH5113Qb77ddkPbK48_OpS"
             });
+            app.UseGitHubAuthentication
+            (
+               clientId: "a595d72e3ab420b31799",
+			   clientSecret: "c8a95b335438d92ed9a990c63df5b5158c24d56b");
         }
     }
 }

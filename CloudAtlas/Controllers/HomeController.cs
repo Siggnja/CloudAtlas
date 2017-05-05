@@ -15,14 +15,6 @@ namespace CloudAtlas.Controllers
 
         public ActionResult Index()
         {
-<<<<<<< HEAD
-            var i = (from item in context.Users
-                     select item).ToList();
-=======
-          
-              var i = (from item in context.Users
-                    select item).ToList();
->>>>>>> develop
 
               return View();
         }

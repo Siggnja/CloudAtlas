@@ -156,7 +156,6 @@ body {
   flex-direction: column;
   align-items: center; }
 
-<<<<<<< Updated upstream
 /*
     Dashboard Container
 */
@@ -200,15 +199,10 @@ body {
     .dashboard-container .my-projects .title {
       margin-bottom: 45px;
       font-size: 20px; }
-=======
 .my-projects {
   height: 100%;
   display: flex;
   width: 1500px;
-<<<<<<< Updated upstream
-  margin-top: 40px;
-=======
->>>>>>> Stashed changes
   flex-direction: column;
   align-items: center; }
   .my-projects h3 {
@@ -229,11 +223,7 @@ body {
     background-color: #293241;
     padding: 20px;
     color: #fff;
-<<<<<<< Updated upstream
     margin: 0 40px 40px 0; }
-=======
-    margin-right: 40px; }
->>>>>>> Stashed changes
   .my-projects .left {
     flex: 1; }
   .my-projects .right {
@@ -249,7 +239,6 @@ body {
 
 .created {
   font-size: 13px; }
->>>>>>> Stashed changes
 
 /*
     Settings CSS

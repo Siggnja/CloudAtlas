@@ -12,7 +12,6 @@ namespace CloudAtlas.Models
 
         public string Type { get; set; }
 
-        public int ApplicationUserID { get; set; }
 
         public string StartupFile { get; set; }
 
@@ -24,10 +23,6 @@ namespace CloudAtlas.Models
 
         public virtual Folder Folder { get; set; }
 
-<<<<<<< HEAD
-       // public virtual ApplicationUser ApplicationUser { get; set; }
-=======
         public virtual ApplicationUser ApplicationUser { get; set; }
->>>>>>> develop
     }
 }

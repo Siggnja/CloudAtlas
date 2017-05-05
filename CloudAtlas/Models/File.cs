@@ -19,7 +19,5 @@ namespace CloudAtlas.Models
 
 
 
-
-
     }
 }

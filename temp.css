@@ -1,0 +1,52 @@
+<meta charset="utf-8" />
+
+
+<section>
+  <p>This is a paragraph.</p>
+  <p>This is a paragraph.</p>
+</section>
+
+
+var person = {
+    firstName: "John",
+    lastName: "Doe",
+    age: 50,
+    eyeColor: "blue"
+};
+
+/*Positing*/
+position: absolute;
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+z­index: 10;
+
+/*Box model*/
+display: block;
+float: right;
+width: 100px;
+height: 100px;
+
+/*Typographic*/
+font: normal 13px "Calibri", sans­sergif;
+line­height: 1.5;
+color: #333;
+text­transform: uppercase;
+
+/*Visual*/
+background­color: #f5f5f5;
+border: 1px solid #e5e5e5;
+border­radius: 3px;
+
+{
+  "WEBSITE_AUTH_GOOGLE_CLIENT_SECRET": "nWUH5113Qb77ddkPbK48_OpS",
+  "WEBSITE_AUTH_GOOGLE_CLIENT_ID": "949780432684-tpbrr98slhs5vag1prtqks7tdbrjl1lp.apps.googleusercontent.com",
+  "GitHub:ClientSecret": "c8a95b335438d92ed9a990c63df5b5158c24d56b",
+  "GitHub:ClientId": "a595d72e3ab420b31799",
+  "Authentication:Google:ClientSecret": "nWUH5113Qb77ddkPbK48_OpS",
+  "Authentication:Google:ClientID": "949780432684-tpbrr98slhs5vag1prtqks7tdbrjl1lp.apps.googleusercontent.com", 
+  "Authentication:Facebook:AppId": "286893545069830",
+  "Authentication:Facebook:AppSecret": "c413d4a488e550e3b328e1ae525d3bcd"
+}
+

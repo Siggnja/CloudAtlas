@@ -8,7 +8,7 @@ using CloudAtlas.Models;
 namespace CloudAtlas.Controllers
 {
 
-    
+    [RequireHttps]
     public class HomeController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();
@@ -30,6 +30,13 @@ namespace CloudAtlas.Controllers
         public ActionResult Chat()
         {
             return View();
+        }
+        public ActionResult Login(string provider,string returnUrl)
+        {
+
+            return RedirectToAction("ExternalLogin","Account", new { provider = provider, returnurl = returnUrl });
+
+
         }
     }
 }

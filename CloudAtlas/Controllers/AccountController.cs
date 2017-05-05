@@ -356,7 +356,7 @@ namespace CloudAtlas.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Manage");
+                return RedirectToAction("Index", "Dashboard");
             }
 
             if (ModelState.IsValid)
@@ -449,7 +449,7 @@ namespace CloudAtlas.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "DashBoard");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

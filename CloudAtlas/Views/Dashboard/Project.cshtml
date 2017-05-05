@@ -34,7 +34,12 @@
         <input type="button" id="savecode" value="Save"/>
     </div>
     <div class="under">
-
+        <div class="container">
+            <input type="text" id="message" />
+            <input type="button" id="sendmessage" value="Send" />
+            <input type="hidden" id="displayname" />
+            <ul id="discussion"></ul>
+        </div>
     </div>
 </div>
 
@@ -68,6 +73,15 @@
                 ignore = false;
             };
 
+            chat.client.addNewMessageToPage2 = function (name, message) {
+                // Add the message to the page.
+                $('#discussion').append('<li><strong>' + htmlEncode(name)
+                    + '</strong>: ' + htmlEncode(message) + '</li>');
+                console.log(message);
+            };
+
+            $('#displayname').val(prompt('Enter your name:', ''));
+
             // Hub 
             $.connection.hub.start().done(function () {
                 editor.on('change', function () { // sync for each change
@@ -77,8 +91,20 @@
                     }
                 });
 
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    chat.server.send2($('#displayname').val(), $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+
             });
         });
+
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
         
     </script>
 }

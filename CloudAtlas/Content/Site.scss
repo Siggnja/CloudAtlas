@@ -198,8 +198,10 @@ body {
 }
 
 .my-projects {
+    height: 100%;
     display: flex;
     width: 1500px;
+    margin-top: 40px;
     flex-direction: column;
     align-items: center;
 
@@ -210,6 +212,14 @@ body {
         margin-bottom: 40px;
     }
 
+    .box-projects {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
     .box {
         display: flex;
         height: 125px;
@@ -217,7 +227,7 @@ body {
         background-color: #293241;
         padding: 20px;
         color: #fff;
-        margin-right: 40px;
+        margin: 0 40px 40px 0;
     }
 
     .left {
@@ -227,6 +237,14 @@ body {
     .right {
         margin: auto 0;
         font-size: 50px;
+
+        a {
+            color: #fff;
+
+            &:hover {
+                color: #4ea5d9;
+            }
+        }
     }
 
     .title {
@@ -239,10 +257,7 @@ body {
     font-size: 13px;
 }
 
-.boxprojects {
-    display: flex;
-    flex-wrap: wrap;
-}
+
 
 footer {
     display: flex;

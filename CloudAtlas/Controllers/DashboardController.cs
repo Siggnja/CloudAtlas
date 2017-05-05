@@ -14,10 +14,10 @@ namespace CloudAtlas.Controllers
         {
             List<Project> proj = new List<Project>
             {
-                new Project{ID = 0, Name = "Veff"},
-                new Project{ID = 1, Name = "Gagn"},
-                new Project{ID = 2, Name = "WhatUp"},
-                new Project{ID = 0, Name = "Veff"}
+                new Project{ID = 0, Name = "Hello World"},
+                new Project{ID = 1, Name = "Project X"},
+                new Project{ID = 2, Name = "Facebook 2.0"},
+                new Project{ID = 4, Name = "Verklegt 2"}
             };
             List<Group> grou = new List<Group>
             {

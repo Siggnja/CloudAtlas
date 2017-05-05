@@ -20,8 +20,14 @@ namespace CloudAtlas.Models
 
         public int FolderID { get; set; }
 
+        public string ApplicationUserID { get; set; }
+
         public virtual Folder Folder { get; set; }
 
+<<<<<<< HEAD
        // public virtual ApplicationUser ApplicationUser { get; set; }
+=======
+        public virtual ApplicationUser ApplicationUser { get; set; }
+>>>>>>> develop
     }
 }

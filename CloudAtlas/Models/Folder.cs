@@ -15,7 +15,7 @@ namespace CloudAtlas.Models
 
         public bool IsRoot { get; set; }
 
-        public virtual IEnumerable<Folder> SubFolders { get; set; }
+        public virtual IEnumerable<Folder> Folders { get; set; }
 
         public virtual IEnumerable<Folder> Files { get; set; }
 

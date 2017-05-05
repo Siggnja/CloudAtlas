@@ -12,6 +12,8 @@ namespace CloudAtlas.Models
 
         public string Type { get; set; }
 
+        public int ApplicationUserID { get; set; }
+
         public string StartupFile { get; set; }
 
         public bool IsGroupProject { get; set; }
@@ -19,5 +21,7 @@ namespace CloudAtlas.Models
         public int FolderID { get; set; }
 
         public virtual Folder Folder { get; set; }
+
+       // public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

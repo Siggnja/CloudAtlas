@@ -13,11 +13,9 @@ namespace CloudAtlas.Models
 
         public string Name { get; set; }
 
-        public virtual IEnumerable<User> Users { get; set; }
+     //   public virtual IEnumerable<ApplicationUser> ApplicationUsers { get; set; }
 
         public virtual IEnumerable<Project> Projects { get; set; }
-
-
 
     }
 }

@@ -15,8 +15,8 @@ namespace CloudAtlas.Controllers
 
         public ActionResult Index()
         {
-            var i = (from item in context.Projects
-                    select item).ToList();
+            var i = (from item in context.Users
+                     select item).ToList();
 
               return View();
         }

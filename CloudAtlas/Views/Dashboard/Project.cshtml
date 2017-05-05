@@ -54,17 +54,29 @@
         $(function () {
             // Reference the hub
             var chat = $.connection.chatHub;
+            editor.$blockScrolling = Infinity;
 
-            // Hub calls this function
+            var ignore;
+
+            // Hub calls this function, happens auto now!
             chat.client.addNewMessageToPage = function (message) {
-                editor.setValue(message);
+                ignore = true;
+                var row = editor.getCursorPosition()['row'];
+                var column = editor.getCursorPosition()['column'];
+                editor.getSession().setValue(message);
+                editor.gotoLine(row+1, column, 0);
+                ignore = false;
             };
 
             // Hub 
             $.connection.hub.start().done(function () {
-                $('#savecode').click(function () {
-                    chat.server.send(editor.getValue());
+                editor.on('change', function () { // sync for each change
+                    if (!ignore)
+                    {
+                        chat.server.send(editor.getValue());
+                    }
                 });
+
             });
         });
         

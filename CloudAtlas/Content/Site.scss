@@ -151,9 +151,6 @@ body {
 }
 
 
-.dashboard-container {
-    height: 100%;
-}
 
 .header {
     display: flex;
@@ -196,115 +193,224 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
 }
 
-.my-projects {
+/*
+    Dashboard Container
+*/
+
+.dashboard-container {
+    height: 100%;
+
+    .my-projects {
+        height: 100%;
+        display: flex;
+        width: 1500px;
+        margin-top: 40px;
+        flex-direction: column;
+        align-items: center;
+
+        h3 {
+            font-size: 55px;
+            text-transform: uppercase;
+            color: #4EA5D9;
+            margin-bottom: 40px;
+        }
+
+        .box-projects {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            display: flex;
+            height: 125px;
+            width: 350px;
+            background-color: #293241;
+            padding: 20px;
+            color: #fff;
+            margin: 0 40px 40px 0;
+        }
+
+        .left {
+            flex: 1;
+        }
+
+        .right {
+            margin: auto 0;
+            font-size: 50px;
+
+            a {
+                color: #fff;
+
+                &:hover {
+                    color: #4ea5d9;
+                }
+            }
+        }
+
+        .title {
+            margin-bottom: 45px;
+            font-size: 20px;
+        }
+    }
+}
+
+/*
+    Settings CSS
+*/
+
+.settings-container {
     display: flex;
-    width: 1500px;
     flex-direction: column;
     align-items: center;
+    margin-top: 30px;
+    width: 900px;
 
-    h3 {
+    h1 {
         font-size: 55px;
         text-transform: uppercase;
         color: #4EA5D9;
-        margin-bottom: 40px;
+        margin-bottom: 10px;
     }
 
-    .box {
-        display: flex;
-        height: 125px;
-        width: 350px;
-        background-color: #293241;
-        padding: 20px;
-        color: #fff;
-        margin-right: 40px;
+    .settings-form {
+        width: 500px;
+
+        .color-scheme {
+            width: 100%;
+            height: 40px;
+            padding: 5px;
+            font-size: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px 0;
+            font-weight: 700;
+            letter-spacing: .2px;
+            font-size: 15px;
+            color: #212121;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            padding: 5px 10px;
+            outline: 0;
+            height: 40px;
+            color: #212121;
+            font-size: .875rem;
+            width: 100%;
+            border: 0.063rem solid #b0bec5;
+        }
+
+        input[type="submit"] {
+            padding: 5px;
+            height: 40px;
+            margin: 15px 0 0;
+            outline: 0;
+            border: 0;
+            background: #293241;
+            color: #FFF;
+            font-weight: 700;
+            font-size: .875rem;
+            letter-spacing: .25px;
+            width: 100%;
+
+            &:hover {
+                color: #4EA5D9;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+/*
+    PROJECT CSS
+*/
+
+.project-container {
+    background-color: red;
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    .left-sidebar {
+        order: -1;
+        background-color: #FFF;
+        border-right: 1px solid grey;
+        border-left: 1px solid grey;
+        border-bottom: 1px solid grey;
+        flex: 0 0 20em;
+
+        h3 {
+            text-align: center;
+            color: #000;
+            font-weight: 600;
+            font-size: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid grey;
+        }
+
+        #jstree {
+            margin: 0 10px;
+        }
     }
 
-    .left {
+    .main {
         flex: 1;
     }
 
-    .right {
-        margin: auto 0;
-        font-size: 50px;
+    .right-sidebar {
+        background-color: #fff;
+        border-right: 1px solid grey;
+        border-left: 1px solid grey;
+        border-bottom: 1px solid grey;
+        flex: 0 0 20em;
+
+        h3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            background-color: #4EA5D9;
+            height: 45px;
+            text-align: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .messages {
+            display: flex;
+            flex-direction: column;
+
+            .message-chat {
+                flex: 1;
+                padding: 10px;
+                height: 500px;
+                overflow-y: scroll;
+
+                ul {
+                    li {
+                        font-size: 15px;
+                        padding: 5px;
+                    }
+                }
+            }
+
+            .message-box {
+                input[type=text] {
+                    height: 50px;
+                    width: 100%;
+                    border-left: 0;
+                    border-right: 0;
+                }
+            }
+        }
     }
-
-    .title {
-        margin-bottom: 45px;
-        font-size: 20px;
-    }
 }
-
-.created {
-    font-size: 13px;
-}
-
-.boxprojects {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    border-top: 1px solid grey;
-
-    p {
-        font-size: 12px;
-    }
-}
-
-
-label {
-    display: block;
-    margin: 0 0 .5rem;
-    font-weight: 700;
-    letter-spacing: .2px;
-    font-size: 15px;
-    color: #212121;
-}
-
-.settings {
-    width: 400px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    padding: 0.75rem 0.875rem;
-    outline: 0;
-    color: #212121;
-    font-size: .875rem;
-    width: 100%;
-    border: 0.063rem solid #b0bec5;
-}
-
-input[type="submit"] {
-    padding: 0.75rem 1.5rem;
-    margin: .5rem 0 0;
-    outline: 0;
-    border: 0;
-    background: #293241;
-    border-radius: 4px;
-    color: #FFF;
-    font-weight: 700;
-    font-size: .875rem;
-    letter-spacing: .25px;
-    -webkit-transition: background .3s ease;
-    transition: background .3s ease;
-    width: 100%;
-}
-
-input[type="submit"]:hover {
-    cursor: pointer;
-}
-

@@ -1,38 +1,53 @@
-﻿
+﻿@model CloudAtlas.Models.DashboardViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="dashboard-container">
+    <div class="my-projects">
+        <h3><i class="fa fa-folder-open" aria-hidden="true"></i> My Projects</h3>
+        <div class="box-projects">
+            @foreach (var i in Model.Projects)
+            {
+                <div class="box">
+                    <div class="left">
+                        <p class="title">@i.Name</p>
+                        <span class="created">last modified 5 days ago</span>
+                    </div>
 
-<div class="my-projects">
-    <h3><i class="fa fa-folder-open" aria-hidden="true"></i> My Projects</h3>
-
-
-    <div class="boxprojects">
-        <div class="box">
-            <div class="left">
-                <p class="title">hello-world</p>
-                <span class="created">last modified 5 days ago</span>
-            </div>
-
-            <div class="right">
-                <a href="@Url.Action("Project")">
-                    <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                </a>
-            </div>
+                    <div class="right">
+                        <a href=@Url.Action("Index", "Project", new { id = i.ID })>
+                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            }
         </div>
 
-        <div class="box">
-            <div class="left">
-                <p class="title">project 1</p>
-                <span class="created">last modified 5 days ago</span>
-            </div>
+        <div class="my-projects">
+            <h3><i class="fa fa-users" aria-hidden="true"></i> My Groups</h3>
 
-            <div class="right">
-                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+            <div class="box-projects">
+                @foreach (var i in Model.Groups)
+            {
+                    <div class="box">
+                        <div class="left">
+                            <p class="title">@i.Name</p>
+                        </div>
+                    </div>
+                }
+                <div class="box">
+                    <div class="left">
+                        <p class="title">Create new Group</p>
+                    </div>
+
+                    <div class="right">
+                        <a href=@Url.Action("Create", "Group", null)>
+                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-
 </div>

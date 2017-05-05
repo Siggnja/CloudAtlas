@@ -1,11 +1,149 @@
-﻿
+﻿@model CloudAtlas.Models.ApplicationUser
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="project-container">
+    <div class="main">
+        <div id="editor" style="width: 100%; height:100%;">
+            int x = 3;
+            cout << x;
+        </div>
+    </div>
 
-<h2>Index</h2>
+    <div class="left-sidebar">
+        <h3>Project 1</h3>
 
+        <div id="jstree">
+            <!-- in this example the tree is populated from inline HTML -->
+            <ul>
+                <li class="jstree-open" id="node_1">
+                    project 1
+                    <ul>
+                        <li id="child_node_1">test</li>
+                        <li>index.js</li>
+                        <li data-jstree='{"icon":"//jstree.com/tree.png"}'>
+                            Sum.cpp
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
 
+    <div class="right-sidebar">
+        <h3>Collaborators</h3>
 
-sdfasdfdasfs
+        <div class="collaborators">
+            <div class="user">
+                <img src="#" alt="" />
+            </div>
+        </div>
+
+        <h3>Chat</h3>
+    
+        <div class="messages">
+            <div class="message-chat">
+                <ul id="discussion">
+
+                </ul>
+            </div>
+
+            <div class="message-box">
+                <input type="text" id="message" />
+                <input type="button" id="sendmessage" value="Send" />
+                <input type="hidden" id="displayname" value="@Model.Email"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/c_cpp");
+
+    $(document).ready(function () {
+        $('#message').keypress(function (e) {
+            if (e.keyCode == 13)
+                $('#sendmessage').click();
+        });
+    });
+
+    $(function () {
+        // 6 create an instance when the DOM is ready
+        $('#jstree').jstree();
+        // 7 bind to events triggered on the tree
+        $('#jstree').on("changed.jstree", function (e, data) {
+            console.log(data.selected);
+        });
+        // 8 interact with the tree - either way is OK
+        $('button').on('click', function () {
+            $('#jstree').jstree(true).select_node('child_node_1');
+            $('#jstree').jstree('select_node', 'child_node_1');
+            $.jstree.reference('#jstree').select_node('child_node_1');
+        });
+    });
+</script>
+
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+    <script>
+        $(function () {
+            // Reference the hub
+            var chat = $.connection.chatHub;
+            editor.$blockScrolling = Infinity;
+
+            var ignore;
+
+            // Hub calls this function, happens auto now!
+            chat.client.addNewMessageToPage = function (message) {
+                ignore = true;
+                var row = editor.getCursorPosition()['row'];
+                var column = editor.getCursorPosition()['column'];
+                editor.getSession().setValue(message);
+                editor.gotoLine(row+1, column, 0);
+                ignore = false;
+            };
+
+            chat.client.addNewMessageToPage2 = function (name, message) {
+                // Add the message to the page.
+                $('#discussion').append('<li><strong>' + htmlEncode(name)
+                    + '</strong>: ' + htmlEncode(message) + '</li>');
+                console.log(message);
+            };
+
+            
+
+            // Hub
+            $.connection.hub.start().done(function () {
+                editor.on('change', function () { // sync for each change
+                    if (!ignore)
+                    {
+                        chat.server.send(editor.getValue());
+                    }
+                });
+
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    chat.server.send2($('#displayname').val(), $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+
+            });
+        });
+
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+
+    </script>
+}

@@ -1,4 +1,4 @@
-﻿
+﻿@model CloudAtlas.Models.DashboardViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,30 +9,52 @@
 
 
     <div class="boxprojects">
-        <div class="box">
-            <div class="left">
-                <p class="title">hello-world</p>
-                <span class="created">last modified 5 days ago</span>
-            </div>
+         @foreach (var i in Model.Projects)
+         {
+            <a href=@Url.Action("Index","Project",new { id = i.ID }) class="box">             
+                <div class="left">
+                    <p class="title">@i.Name</p>
+                    <span class="created">last modified 5 days ago</span>
+                </div>
 
+                <div class="right">
+                    <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                </div>
+            </a>
+         }
+        <a href=@Url.Action("Create","Project",null) class="box">
+            <div class="left">
+               <p class="title">Create new project</p>
+            </div>
             <div class="right">
                 <a href="@Url.Action("Project")">
                     <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                 </a>
             </div>
-        </div>
+        </a>
+    </div>
+</div>
+<div class="my-projects">
+    <h3><i class="fa fa-users" aria-hidden="true"></i> My Groups</h3>
 
-        <div class="box">
+
+    <div class="boxprojects">
+        @foreach (var i in Model.Groups)
+        {
+            <a href=@Url.Action("Index","Group",new { id = i.ID }) class="box">
+                <div class="left">
+                    <p class="title">@i.Name</p>
+                </div>
+            </a>
+        }
+        <a href=@Url.Action("Create","Group",null) class="box">
             <div class="left">
-                <p class="title">project 1</p>
-                <span class="created">last modified 5 days ago</span>
+                <p class="title">Create new Group</p>
             </div>
-
             <div class="right">
                 <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
             </div>
-        </div>
+        </a>
     </div>
-
-
 </div>
+

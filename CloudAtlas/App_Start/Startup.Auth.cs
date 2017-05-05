@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using CloudAtlas.Models;
+using Owin.Security.Providers.GitHub;
 
 namespace CloudAtlas
 {
@@ -55,14 +56,18 @@ namespace CloudAtlas
             //   consumerSecret: "");
 
             app.UseFacebookAuthentication(
-               appId: "286893545069830",
-               appSecret: "c413d4a488e550e3b328e1ae525d3bcd");
-
+               appId: "407994202919003",
+               appSecret: "c02d120c4f6fc6f7e8d13504000d80a4");
+            
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "949780432684-tpbrr98slhs5vag1prtqks7tdbrjl1lp.apps.googleusercontent.com",
                 ClientSecret = "nWUH5113Qb77ddkPbK48_OpS"
             });
+            app.UseGitHubAuthentication
+            (
+               clientId: "a595d72e3ab420b31799",
+			   clientSecret: "c8a95b335438d92ed9a990c63df5b5158c24d56b");
         }
     }
 }

@@ -39,13 +39,28 @@
                         using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
                         {
                             @Html.AntiForgeryToken()
-                            <div id="socialLoginList">
-                                <p>
+                            <div>
+                                    @{ var i = 0;}
                                     @foreach (AuthenticationDescription p in loginProviders)
                                     {
-                                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                                        if (i == 0)
+                                        {
+                                            <input type="image" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account" src="~/Content/images/github-social.png" />
+                                            i++;
+
+
+                                        }
+                                        else if (i == 1)
+                                        {
+                                            <input type="image" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account" src="~/Content/images/google-social.png" />
+                                            i++;
+                                        }
+                                        else
+                                        {
+                                            <input type="image" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account" src="~/Content/images/facebook-social.png" />
+                                            i++;
+                                        }
                                     }
-                                </p>
                             </div>
                         }
                     }
@@ -61,6 +76,5 @@
                 <!--->
             </div>
         </div>
-    </div>
 </body>
 </html>

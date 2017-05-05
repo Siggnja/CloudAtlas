@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CloudAtlas - @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/Content/Site.min.css" />
+    @Scripts.Render("~/bundles/modernizr")
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 </head>
 <body>
     <div class="dashboard-container">
@@ -23,10 +25,30 @@
         <div class="main">
             @RenderBody()
         </div>
-
-        <footer>
-            <p>2017 Cloud Atlas ehf.</p>
-        </footer>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+    <script>
+                $(function () {
+                    // 6 create an instance when the DOM is ready
+                    $('#jstree').jstree();
+                    // 7 bind to events triggered on the tree
+                    $('#jstree').on("changed.jstree", function (e, data) {
+                        console.log(data.selected);
+                    });
+                    // 8 interact with the tree - either way is OK
+                    $('button').on('click', function () {
+                        $('#jstree').jstree(true).select_node('child_node_1');
+                        $('#jstree').jstree('select_node', 'child_node_1');
+                        $.jstree.reference('#jstree').select_node('child_node_1');
+                    });
+                });
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
+
+

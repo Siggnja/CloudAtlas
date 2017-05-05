@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace CloudAtlas.Models
 {
@@ -25,9 +26,25 @@ namespace CloudAtlas.Models
         {
         }
 
+        public DbSet<Project> Projects { get; set; }
+
+        public DbSet<Folder> Folders { get; set; }
+
+        public DbSet<File> Files { get; set; }
+
+        public DbSet<Group> Groups { get; set; }
+        
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder builder)
+        {
+            builder.Conventions.Remove<PluralizingTableNameConvention>();
+            builder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
+            builder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
+            builder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
         }
     }
 }

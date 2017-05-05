@@ -1,4 +1,7 @@
-﻿@{
+﻿@model CloudAtlas.Models.ExternalLoginListViewModel
+@using CloudAtlas.Models
+@using Microsoft.Owin.Security
+@{
     ViewData["Title"] = "Home Page";
     Layout = "";
 }
@@ -20,13 +23,58 @@
 
 
             <div class="login-buttons">
+                @{
+                    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+                    if (loginProviders.Count() == 0)
+                    {
+                        <div>
+                            <p>
+                                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                                for details on setting up this ASP.NET application to support logging in via external services.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div>
+                                    @{ var i = 0;}
+                                    @foreach (AuthenticationDescription p in loginProviders)
+                                    {
+                                        if (i == 0)
+                                        {
+                                            <input type="image" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account" src="~/Content/images/github-social.png" />
+                                            i++;
+
+
+                                        }
+                                        else if (i == 1)
+                                        {
+                                            <input type="image" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account" src="~/Content/images/google-social.png" />
+                                            i++;
+                                        }
+                                        else
+                                        {
+                                            <input type="image" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account" src="~/Content/images/facebook-social.png" />
+                                            i++;
+                                        }
+                                    }
+                            </div>
+                        }
+                    }
+                }
+
+            </div>
+                <!--
                 <a href="/Dashboard">
                     <img src="~/Content/images/facebook-social.png">
                 </a>
                 <img src="~/Content/images/google-social.png">
                 <img src="~/Content/images/github-social.png">
+                <!--->
             </div>
         </div>
-    </div>
 </body>
 </html>

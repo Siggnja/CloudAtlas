@@ -4,18 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    #editor 
-    {
-        width: 400px;
-        height: 400px;
-    }
-</style>
-
 <div class="project-container">
 
     <div class="main">
-        <div id="editor">
+        <div id="editor" style="width: 100%; height:100%;">
             int x = 3;
             cout << x;
         </div>
@@ -68,6 +60,13 @@
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/c_cpp");
+
+    $(document).ready(function () {
+        $('#message').keypress(function (e) {
+            if (e.keyCode == 13)
+                $('#sendmessage').click();
+        });
+    });
 </script>
 
 @section scripts {

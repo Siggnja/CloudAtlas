@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CloudAtlas.Models;
+using System.Web.Security;
+using Microsoft.AspNet.Identity;
 
 namespace CloudAtlas.Controllers
 {
@@ -12,6 +14,7 @@ namespace CloudAtlas.Controllers
         // GET: Dashboard
         public ActionResult Index()
         {
+            /*
             List<Project> proj = new List<Project>
             {
                 new Project{ID = 0, Name = "Hello World"},
@@ -26,9 +29,19 @@ namespace CloudAtlas.Controllers
                 new Group{ID = 2, Name = "Ramadan"},
                 new Group{ID = 3, Name = "Allah"}
             };
+            */
 
-            DashboardViewModel model = new DashboardViewModel{ Projects = proj, Groups = grou};
+            string id = User.Identity.GetUserId<string>();
+            ApplicationDbContext context = new ApplicationDbContext();
+            var proj = (from i in context.Projects
+                        where i.ApplicationUserID == id
+                        select i).ToList() ;
+            var grou = (from i in context.Groups
+                        where i.OwnerID == id
+                        select i).ToList();
 
+            DashboardViewModel model = new DashboardViewModel{ Projects = proj.ToList<Project>(), Groups = grou};
+           
             return View(model);
         }
 

@@ -7,6 +7,8 @@ using System.Web.Mvc;
 
 namespace CloudAtlas.Controllers
 {
+
+    [Authorize]
     public class ProjectController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();

@@ -10,13 +10,13 @@ namespace CloudAtlas.Models
     {
         public int ID { get; set; }
 
-        public int ProjectID { get; set; }
-        
         public string Name { get; set; }
 
         public bool IsRoot { get; set; }
 
-        public int ParentID { get; set; }
+        public int? ParentID { get; set; }
+
+        public int? FolderID { get; set; }
 
         [InverseProperty("SubFolders")]
         public virtual Folder Parent { get; set; }
@@ -24,8 +24,6 @@ namespace CloudAtlas.Models
         public virtual ICollection<Folder> SubFolders { get; set; }
 
         public virtual ICollection<File> Files { get; set; }
-
-
 
 
 

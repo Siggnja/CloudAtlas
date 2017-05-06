@@ -17,7 +17,14 @@
 
         <div class="actions">
             <a href="/Dashboard/Settings">Settings</a>
-            <a href="/">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            @using (Html.BeginForm("Log Out", "Account/LogOff", FormMethod.Post,
+            new { id = "logoutForm" }))
+            {
+
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+
+            }
         </div>
     </div>
 

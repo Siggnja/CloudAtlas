@@ -8,7 +8,7 @@ namespace CloudAtlas
         public void Send(string message)
         {
             // Call the addNewMessageToPage method to update clients.
-            Clients.All.addNewMessageToPage(message);
+            Clients.Others.addNewMessageToPage(message);
         }
         public void Send2(string name, string message)
         {

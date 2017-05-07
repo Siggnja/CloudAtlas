@@ -449,3 +449,29 @@ body {
         }
     }
 }
+
+.http-error-box {
+    margin-top: 45px;
+
+    h2 {
+        font-size: 10em;
+        color: #4EA5D9;
+        font-weight: 600;
+    }
+
+    h3 {
+        font-size: 4em;
+        color: #4EA5D9;
+    }
+
+    .error-buttons {
+        margin-top: 15px;
+
+        a {
+            &:hover {
+                color: #4EA5D9;
+                cursor: pointer;
+            }
+        }
+    }
+}

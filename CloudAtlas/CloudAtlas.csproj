@@ -228,9 +228,7 @@
     <Content Include="Content\images\facebook-social.png" />
     <Content Include="Content\images\github-social.png" />
     <Content Include="Content\images\google-social.png" />
-    <Content Include="Content\Site.css">
-      <DependentUpon>Site.scss</DependentUpon>
-    </Content>
+    <Content Include="Content\Site.css" />
     <Content Include="Content\Site.min.css">
       <DependentUpon>Site.css</DependentUpon>
     </Content>
@@ -241,7 +239,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
-    <None Include="Content\Site.scss" />
+    <None Include="CSSTEST\Site.scss" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -1,4 +1,4 @@
-﻿@model CloudAtlas.Models.ApplicationUser
+﻿@model CloudAtlas.Models.ProjectViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -7,25 +7,29 @@
 <div class="project-container">
     <div class="main">
         <div id="editor" style="width: 100%; height:100%;">
-            int x = 3;
-            cout << x;
+@Model.Files[0].Content;
         </div>
     </div>
 
     <div class="left-sidebar">
-        <h3>Project 1</h3>
+        <h3>@Model.Project.Name;</h3>
 
         <div id="jstree">
             <!-- in this example the tree is populated from inline HTML -->
             <ul>
                 <li class="jstree-open" id="node_1">
-                    project 1
+                    @Model.Root.Name;
                     <ul>
-                        <li id="child_node_1">test</li>
-                        <li>index.js</li>
-                        <li data-jstree='{"icon":"//jstree.com/tree.png"}'>
-                            Sum.cpp
-                        </li>
+                        @foreach(var fold in @Model.Folders)
+                        {
+                            <li>@fold.Name;</li>
+                        }
+                        @foreach (var file in @Model.Files)
+                        {
+                            <li data-jstree='{"icon":"//jstree.com/tree.png"}'>
+                                @file.Name;
+                            </li>
+                        }
                     </ul>
                 </li>
             </ul>
@@ -33,7 +37,7 @@
     </div>
 
     <div class="right-sidebar">
-        <h3>Collaborators - 3</h3>
+        <h3>Collaborators</h3>
 
         <div class="collaborators">
             <div class="user">
@@ -53,7 +57,7 @@
             <div class="message-box">
                 <input type="text" id="message" />
                 <input type="button" id="sendmessage" value="Send" />
-                <input type="hidden" id="displayname" value="@Model.Email"/>
+                <input type="hidden" id="displayname" value="@ViewData["UserEmail"]"/>
             </div>
         </div>
     </div>
@@ -86,6 +90,7 @@
             $('#jstree').jstree('select_node', 'child_node_1');
             $.jstree.reference('#jstree').select_node('child_node_1');
         });
+
     });
 </script>
 

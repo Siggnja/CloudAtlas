@@ -5,25 +5,16 @@ namespace CloudAtlas
 {
     public class ChatHub : Hub
     {
-        public void Send(string message)
+
+        public void ChatMessage(string name, string message)
         {
             // Call the addNewMessageToPage method to update clients.
-            Clients.Others.addNewMessageToPage(message);
-        }
-        public void SendLine(int line, string message)
-        {
-            // Call the addNewMessageToPage method to update clients.
-            Clients.Others.addNewMessageToPageLine(line, message);
-        }
-        public void Send2(string name, string message)
-        {
-            // Call the addNewMessageToPage method to update clients.
-            Clients.All.addNewMessageToPage2(name, message);
+            Clients.All.ChatMessage(name, message);
         }
 
-        public void OnChange(object changeData)
+        public void UpdateEditor(object changeData)
         {
-            Clients.Others.OnChange(changeData);
+            Clients.Others.UpdateEditor(changeData);
         }
     }
 }

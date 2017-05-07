@@ -102,59 +102,34 @@
 
             var ignore;
 
-
-            // Hub calls this function, happens auto now!
-            chat.client.addNewMessageToPage = function (message) {
+            chat.client.updateEditor = function (changedata) {
                 ignore = true;
-                var row = editor.getCursorPosition()['row'];
-                var column = editor.getCursorPosition()['column'];
-                editor.getSession().setValue(message);
-                editor.gotoLine(row + 1, column, 0);
+                editor.getSession().getDocument().applyDelta(changedata);
                 ignore = false;
             };
 
-            chat.client.addNewMessageToPageLine = function (line, message) {
-                ignore = true;
-                var row = editor.getCursorPosition()['row'];
-                var column = editor.getCursorPosition()['column'];
-                editor.session.replace({
-                    start: { row: line, column: 0 },
-                    end: { row: line, column: Number.MAX_VALUE }
-                }, message)
-
-
-                editor.gotoLine(row + 1, column, 0);
-                ignore = false;
-            };
-
-            chat.client.addNewMessageToPage2 = function (name, message) {
+            chat.client.chatMessage = function (name, message) {
                 // Add the message to the page.
                 $('#discussion').append('<li><strong>' + htmlEncode(name)
                     + '</strong>: ' + htmlEncode(message) + '</li>');
                 console.log(message);
             };
 
-            chat.client.onChange = function (changedata) {
-                ignore = true;
-                console.log(changedata);
-                editor.getSession().getDocument().applyDelta(changedata);
-                ignore = false;
-            };
-
             
             // Hub
             $.connection.hub.start().done(function () {
+
+                // Change is detected and editor is updated.
                 editor.on("change", function (obj) {
                     if (!ignore)
                     {
-                        console.log(obj);
-                        chat.server.onChange(obj);
+                        chat.server.updateEditor(obj);
                     }
                 });
 
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
-                    chat.server.send2($('#displayname').val(), $('#message').val());
+                    chat.server.chatMessage($('#displayname').val(), $('#message').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });

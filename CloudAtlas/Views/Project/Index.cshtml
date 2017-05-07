@@ -33,7 +33,7 @@
     </div>
 
     <div class="right-sidebar">
-        <h3>Collaborators - 8</h3>
+        <h3>Collaborators - 1</h3>
 
         <div class="collaborators">
             <div class="user">
@@ -113,6 +113,20 @@
                 ignore = false;
             };
 
+            chat.client.addNewMessageToPageLine = function (line, message) {
+                ignore = true;
+                var row = editor.getCursorPosition()['row'];
+                var column = editor.getCursorPosition()['column'];
+                editor.session.replace({
+                    start: { row: line, column: 0 },
+                    end: { row: line, column: Number.MAX_VALUE }
+                }, message)
+
+
+                editor.gotoLine(row + 1, column, 0);
+                ignore = false;
+            };
+
             chat.client.addNewMessageToPage2 = function (name, message) {
                 // Add the message to the page.
                 $('#discussion').append('<li><strong>' + htmlEncode(name)
@@ -121,13 +135,18 @@
             };
 
             
-
+            
             // Hub
             $.connection.hub.start().done(function () {
                 editor.on('change', function () { // sync for each change
                     if (!ignore)
                     {
-                        chat.server.send(editor.getValue());
+                        var currline = editor.getSelectionRange().start.row;
+                        var wholelinetxt = editor.session.getLine(currline);
+                        console.log(wholelinetxt + " " + currline);
+
+
+                        chat.server.sendLine(currline, wholelinetxt);
                     }
                 });
 

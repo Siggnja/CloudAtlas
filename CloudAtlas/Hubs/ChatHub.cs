@@ -10,6 +10,11 @@ namespace CloudAtlas
             // Call the addNewMessageToPage method to update clients.
             Clients.Others.addNewMessageToPage(message);
         }
+        public void SendLine(int line, string message)
+        {
+            // Call the addNewMessageToPage method to update clients.
+            Clients.Others.addNewMessageToPageLine(line, message);
+        }
         public void Send2(string name, string message)
         {
             // Call the addNewMessageToPage method to update clients.

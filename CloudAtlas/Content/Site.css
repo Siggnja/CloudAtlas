@@ -123,7 +123,7 @@ body {
     display: block; }
     .login-buttons input[type="image"]:hover {
       cursor: pointer;
-      border: 1px solid #fff; }
+      opacity: 0.9; }
 
 .header {
   display: flex;
@@ -260,12 +260,12 @@ body {
     PROJECT CSS
 */
 .project-container {
-  background-color: red;
   display: flex;
   height: 100%;
   width: 100%; }
   .project-container .left-sidebar {
     order: -1;
+    height: 100%;
     background-color: #FFF;
     border-right: 1px solid grey;
     border-left: 1px solid grey;
@@ -283,11 +283,34 @@ body {
   .project-container .main {
     flex: 1; }
   .project-container .right-sidebar {
+    height: 100%;
     background-color: #fff;
     border-right: 1px solid grey;
     border-left: 1px solid grey;
     border-bottom: 1px solid grey;
     flex: 0 0 20em; }
+    .project-container .right-sidebar .collaborators {
+      display: flex;
+      justify-content: center;
+      width: 100%; }
+      .project-container .right-sidebar .collaborators .user-img {
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        border-radius: 50%;
+        position: relative;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto; }
+        .project-container .right-sidebar .collaborators .user-img img {
+          width: 100%;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%); }
+        .project-container .right-sidebar .collaborators .user-img .fa-plus-circle {
+          font-size: 50px;
+          color: #4EA5D9; }
     .project-container .right-sidebar h3 {
       display: flex;
       justify-content: center;
@@ -306,7 +329,7 @@ body {
         flex: 1;
         padding: 10px;
         height: 500px;
-        overflow-y: scroll; }
+        overflow-y: auto; }
         .project-container .right-sidebar .messages .message-chat ul li {
           font-size: 15px;
           padding: 5px; }
@@ -315,4 +338,19 @@ body {
         width: 100%;
         border-left: 0;
         border-right: 0; }
+
+.http-error-box {
+  margin-top: 45px; }
+  .http-error-box h2 {
+    font-size: 10em;
+    color: #4EA5D9;
+    font-weight: 600; }
+  .http-error-box h3 {
+    font-size: 4em;
+    color: #4EA5D9; }
+  .http-error-box .error-buttons {
+    margin-top: 15px; }
+    .http-error-box .error-buttons a:hover {
+      color: #4EA5D9;
+      cursor: pointer; }
 

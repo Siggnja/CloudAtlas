@@ -7,27 +7,27 @@
 <div class="project-container">
     <div class="main">
         <div id="editor" style="width: 100%; height:100%;">
-@Model.Files[0].Content;
+@Model.Files[0].Content
         </div>
     </div>
 
     <div class="left-sidebar">
-        <h3>@Model.Project.Name;</h3>
+        <h3>@Model.Project.Name</h3>
 
         <div id="jstree">
             <!-- in this example the tree is populated from inline HTML -->
             <ul>
                 <li class="jstree-open" id="node_1">
-                    @Model.Root.Name;
+                    @Model.Root.Name
                     <ul>
                         @foreach(var fold in @Model.Folders)
                         {
-                            <li>@fold.Name;</li>
+                            <li>@fold.Name</li>
                         }
                         @foreach (var file in @Model.Files)
                         {
                             <li data-jstree='{"icon":"//jstree.com/tree.png"}'>
-                                @file.Name;
+                                @file.Name
                             </li>
                         }
                     </ul>
@@ -40,8 +40,20 @@
         <h3>Collaborators</h3>
 
         <div class="collaborators">
-            <div class="user">
-                <img src="#" alt="" />
+            <div class="user-img">
+                <img src="https://scontent-lhr3-1.xx.fbcdn.net/v/t1.0-9/1554494_10202480640245651_7477605474618443507_n.jpg?oh=32dfb7eb5346ac6762711cd7ed1c32af&oe=5980ABF8" alt="" />
+            </div>
+
+            <div class="user-img">
+                <img src="https://scontent-lhr3-1.xx.fbcdn.net/v/t1.0-9/1554494_10202480640245651_7477605474618443507_n.jpg?oh=32dfb7eb5346ac6762711cd7ed1c32af&oe=5980ABF8" alt="" />
+            </div>
+
+            <div class="user-img">
+                <img src="https://scontent-lhr3-1.xx.fbcdn.net/v/t1.0-9/1554494_10202480640245651_7477605474618443507_n.jpg?oh=32dfb7eb5346ac6762711cd7ed1c32af&oe=5980ABF8" alt="" />
+            </div>
+
+            <div class="user-img">
+                <i class="fa fa-plus-circle fa-5x" aria-hidden="true"></i>
             </div>
         </div>
 

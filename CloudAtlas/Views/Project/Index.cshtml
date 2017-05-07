@@ -102,17 +102,9 @@
 
             var ignore;
 
-            chat.client.updateEditor = function (changedata, original) {
+            chat.client.updateEditor = function (changedata) {
                 ignore = true;
-                console.log(changedata);
                 editor.getSession().getDocument().applyDelta(changedata);
-                if (editor.getValue() != original)
-                {
-                    var row = editor.getCursorPosition()['row'];
-                    var column = editor.getCursorPosition()['column'];
-                    editor.setValue(original);
-                    editor.gotoLine(row + 1, column, 0);
-                }
                 ignore = false;
             };
 
@@ -131,8 +123,7 @@
                 editor.on("change", function (obj) {
                     if (!ignore)
                     {
-                        console.log(obj);
-                        chat.server.updateEditor(obj, editor.getValue());
+                        chat.server.updateEditor(obj);
                     }
                 });
 

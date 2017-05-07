@@ -176,7 +176,10 @@ body {
 .header .actions {
     color: #fff;
     font-size: 18px;
-
+    #logoutForm
+    {
+        display:inline;
+    }
     a {
         text-decoration: none;
         color: #fff;

@@ -144,6 +144,8 @@ body {
 .header .actions {
   color: #fff;
   font-size: 18px; }
+  .header .actions #logoutForm {
+    display: inline; }
   .header .actions a {
     text-decoration: none;
     color: #fff;

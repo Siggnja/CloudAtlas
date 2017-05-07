@@ -333,13 +333,13 @@ body {
 */
 
 .project-container {
-    background-color: red;
     display: flex;
     height: 100%;
     width: 100%;
 
     .left-sidebar {
         order: -1;
+        height: 100%;
         background-color: #FFF;
         border-right: 1px solid grey;
         border-left: 1px solid grey;
@@ -365,11 +365,43 @@ body {
     }
 
     .right-sidebar {
+        height: 100%;
         background-color: #fff;
         border-right: 1px solid grey;
         border-left: 1px solid grey;
         border-bottom: 1px solid grey;
         flex: 0 0 20em;
+
+        .collaborators {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+
+            .user-img {
+                width: 50px;
+                height: 50px;
+                overflow: hidden;
+                border-radius: 50%;
+                position: relative;
+                margin-top: 20px;
+                margin-left: auto;
+                margin-right: auto;
+
+                img {
+                    width: 100%;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%)
+                }
+
+                .fa-plus-circle {
+                    font-size: 50px;
+                    color: #4EA5D9;
+                }
+            }
+        }
+
 
         h3 {
             display: flex;
@@ -392,7 +424,7 @@ body {
                 flex: 1;
                 padding: 10px;
                 height: 500px;
-                overflow-y: scroll;
+                overflow-y: auto;
 
                 ul {
                     li {

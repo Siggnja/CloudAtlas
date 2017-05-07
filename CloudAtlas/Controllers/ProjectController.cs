@@ -1,4 +1,5 @@
 ﻿using CloudAtlas.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,40 @@ namespace CloudAtlas.Controllers
     {
         ApplicationDbContext context = new ApplicationDbContext();
         // GET: Project
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var model = (from item in context.Users
-                        select item).FirstOrDefault();
+            var project = (from proj in context.Projects
+                           where proj.ID == id
+                           select proj).FirstOrDefault();
 
+            var root = (from fold in context.Folders
+                        where fold.ID == project.FolderID
+                        select fold).FirstOrDefault();
+
+            var folders = (from fold in context.Folders
+                           where fold.ParentID == root.ID
+                           select fold).ToList();
+
+            var files = (from file in context.Files
+                         where file.FolderID == root.ID
+                         select file).ToList();
+
+            ProjectViewModel model = new ProjectViewModel
+            {
+                Project = project,
+                Root = root,
+                Folders = folders,
+                Files = files
+            };
+
+
+            string userid = User.Identity.GetUserId<string>();
+            var useremail = (from user in context.Users
+                         where user.Id == userid
+                         select user.Email).FirstOrDefault();
+
+            ViewData["UserEmail"] = useremail;
+                         
 
             return View(model);
         }

@@ -21,7 +21,7 @@ namespace CloudAtlas.Controllers
             ApplicationDbContext context = new ApplicationDbContext();
             var proj = (from i in context.Projects
                         where i.ApplicationUserID == id
-                        select i).ToList() ;
+                        select i).ToList();
             var grou = (from i in context.Groups
                         where i.OwnerID == id
                         select i).ToList();

@@ -20,5 +20,10 @@ namespace CloudAtlas
             // Call the addNewMessageToPage method to update clients.
             Clients.All.addNewMessageToPage2(name, message);
         }
+
+        public void OnChange(object changeData)
+        {
+            Clients.Others.OnChange(changeData);
+        }
     }
 }

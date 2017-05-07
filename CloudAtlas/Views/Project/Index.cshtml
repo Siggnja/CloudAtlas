@@ -33,7 +33,7 @@
     </div>
 
     <div class="right-sidebar">
-        <h3>Collaborators - 1</h3>
+        <h3>Collaborators - 2</h3>
 
         <div class="collaborators">
             <div class="user">
@@ -134,19 +134,21 @@
                 console.log(message);
             };
 
-            
+            chat.client.onChange = function (changedata) {
+                ignore = true;
+                console.log(changedata);
+                editor.getSession().getDocument().applyDelta(changedata);
+                ignore = false;
+            };
+
             
             // Hub
             $.connection.hub.start().done(function () {
-                editor.on('change', function () { // sync for each change
+                editor.on("change", function (obj) {
                     if (!ignore)
                     {
-                        var currline = editor.getSelectionRange().start.row;
-                        var wholelinetxt = editor.session.getLine(currline);
-                        console.log(wholelinetxt + " " + currline);
-
-
-                        chat.server.sendLine(currline, wholelinetxt);
+                        console.log(obj);
+                        chat.server.onChange(obj);
                     }
                 });
 

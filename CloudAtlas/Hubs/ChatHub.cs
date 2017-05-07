@@ -12,9 +12,9 @@ namespace CloudAtlas
             Clients.All.ChatMessage(name, message);
         }
 
-        public void UpdateEditor(object changeData)
+        public void UpdateEditor(object changeData, string original)
         {
-            Clients.Others.UpdateEditor(changeData);
+            Clients.Others.UpdateEditor(changeData, original);
         }
     }
 }

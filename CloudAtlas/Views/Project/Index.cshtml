@@ -33,7 +33,7 @@
     </div>
 
     <div class="right-sidebar">
-        <h3>Collaborators - 2</h3>
+        <h3>Collaborators - 3</h3>
 
         <div class="collaborators">
             <div class="user">
@@ -104,6 +104,7 @@
 
             chat.client.updateEditor = function (changedata) {
                 ignore = true;
+                console.log(changedata);
                 editor.getSession().getDocument().applyDelta(changedata);
                 ignore = false;
             };
@@ -123,6 +124,7 @@
                 editor.on("change", function (obj) {
                     if (!ignore)
                     {
+                        console.log(obg);
                         chat.server.updateEditor(obj);
                     }
                 });

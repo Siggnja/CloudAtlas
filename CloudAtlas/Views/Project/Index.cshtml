@@ -33,7 +33,7 @@
     </div>
 
     <div class="right-sidebar">
-        <h3>Collaborators - 5</h3>
+        <h3>Collaborators - 6</h3>
 
         <div class="collaborators">
             <div class="user">
@@ -101,15 +101,20 @@
             editor.$blockScrolling = Infinity;
 
             var ignore;
+            var me;
 
             // Hub calls this function, happens auto now!
             chat.client.addNewMessageToPage = function (message) {
-                ignore = true;
-                var row = editor.getCursorPosition()['row'];
-                var column = editor.getCursorPosition()['column'];
-                editor.getSession().setValue(message);
-                editor.gotoLine(row+1, column, 0);
-                ignore = false;
+                if (!me)
+                {
+                    ignore = true;
+                    var row = editor.getCursorPosition()['row'];
+                    var column = editor.getCursorPosition()['column'];
+                    editor.getSession().setValue(message);
+                    editor.gotoLine(row + 1, column, 0);
+                    ignore = false;
+                }
+                me = false;
             };
 
             chat.client.addNewMessageToPage2 = function (name, message) {
@@ -126,6 +131,7 @@
                 editor.on('change', function () { // sync for each change
                     if (!ignore)
                     {
+                        me = true;
                         chat.server.send(editor.getValue());
                     }
                 });

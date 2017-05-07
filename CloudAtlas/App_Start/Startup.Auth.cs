@@ -6,6 +6,9 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using CloudAtlas.Models;
+using Owin.Security.Providers.GitHub;
+using System.Web;
+using System.Diagnostics;
 
 namespace CloudAtlas
 {
@@ -55,14 +58,31 @@ namespace CloudAtlas
             //   consumerSecret: "");
 
             app.UseFacebookAuthentication(
-               appId: "286893545069830",
-               appSecret: "c413d4a488e550e3b328e1ae525d3bcd");
-
+               appId: "407994202919003",
+               appSecret: "c02d120c4f6fc6f7e8d13504000d80a4");
+            
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "949780432684-tpbrr98slhs5vag1prtqks7tdbrjl1lp.apps.googleusercontent.com",
                 ClientSecret = "nWUH5113Qb77ddkPbK48_OpS"
             });
+            bool isRunningInIisExpress = Process.GetCurrentProcess()
+                                 .ProcessName.ToLower().Contains("iisexpress");
+            if (isRunningInIisExpress)
+            {
+                app.UseGitHubAuthentication
+            (
+               clientId: "a595d72e3ab420b31799",
+               clientSecret: "c8a95b335438d92ed9a990c63df5b5158c24d56b");
+            }
+            else
+            {
+                app.UseGitHubAuthentication
+                (
+                clientId: "17b18adec4a25a61d43a",
+                clientSecret: "c45e5a0ca1e4f669242ffee3132ebc7a1e1d7217");
+            }
+           
         }
     }
 }

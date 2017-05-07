@@ -117,10 +117,11 @@ body {
   justify-content: center;
   margin-top: 25px;
   z-index: 1; }
-  .login-buttons img {
+  .login-buttons input[type="image"] {
     height: 40px;
-    margin-bottom: 15px; }
-    .login-buttons img:hover {
+    margin-bottom: 15px;
+    display: block; }
+    .login-buttons input[type="image"]:hover {
       cursor: pointer;
       border: 1px solid #fff; }
 
@@ -143,6 +144,8 @@ body {
 .header .actions {
   color: #fff;
   font-size: 18px; }
+  .header .actions #logoutForm {
+    display: inline; }
   .header .actions a {
     text-decoration: none;
     color: #fff;

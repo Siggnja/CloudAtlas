@@ -80,9 +80,55 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Project", new { id = projectid});
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            SelectLanguage();
+
+            return View(new Project());
         }
+
+
+        [HttpPost]
+        public ActionResult Create(Project project)
+        {
+            if (ModelState.IsValid)
+            {
+                Project newProject = new Project();
+                newProject.ID = project.ID;
+                newProject.Name = project.Name;
+                newProject.Description = project.Description;
+                newProject.Type = project.Type;
+                
+
+                context.Projects.Add(newProject);
+                context.SaveChanges();
+
+                return RedirectToAction("Project", "Index", new { id = newProject.ID });
+            }
+
+            return View(project);
+        }
+
+
+        public void SelectLanguage()
+        {
+            IEnumerable<SelectListItem> items = new List<SelectListItem>() {
+
+                new SelectListItem { Text = "Javascript", Value = "javascript" },
+
+                new SelectListItem { Text = "HTML", Value = "html" },
+
+                new SelectListItem { Text = "CSS", Value = "css" },
+
+                new SelectListItem { Text = "C#", Value = "c#" },
+
+                new SelectListItem { Text = "C++", Value = "c++" }
+            };
+            ViewData["Type"] = items;
+
+        }
+
+
     }
 }

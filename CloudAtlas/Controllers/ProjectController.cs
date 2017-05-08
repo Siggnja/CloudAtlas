@@ -53,10 +53,12 @@ namespace CloudAtlas.Controllers
 
         public ActionResult OpenFile(int id)
         {
+            var thisfile = (from file in context.Files
+                            where file.ID == id
+                            select file).FirstOrDefault();
 
-       
-
-            return View();
+            return Json(new { content = thisfile.Content },
+                JsonRequestBehavior.AllowGet);
         }
 
 

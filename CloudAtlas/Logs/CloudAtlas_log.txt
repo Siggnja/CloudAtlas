@@ -1,9 +1,140 @@
-An error occurred while executing the command definition. See the inner exception for details. Time: 5/8/2017 3:19:42 PM.
-For: EntityFramework
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 3:26:10 PM.
+For: System.Web.Mvc
 
-An error occurred while executing the command definition. See the inner exception for details. Time: 5/8/2017 3:31:03 PM.
-For: EntityFramework
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 3:26:47 PM.
+For: System.Web.Mvc
 
-Object reference not set to an instance of an object. Time: 5/8/2017 4:00:46 PM.
-For: CloudAtlas
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 3:44:01 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 4:09:10 PM.
+For: System.Web.Mvc
+
+"//Url.Action("OpenFile", "Project", new { id = $("#jstree").jstree("get_selected", true)[0].data.jstree.fileid });" is not valid at the start of a code block.  Only identifiers, keywords, comments, "(" and "{" are valid.
+ Time: 5/8/2017 4:09:25 PM.
+For: System.Web.WebPages.Razor
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 4:09:46 PM.
+For: System.Web.Mvc
+
+The provided anti-forgery token was meant for a different claims-based user than the current user. Time: 5/8/2017 4:28:05 PM.
+For: System.Web.WebPages
+
+The model item passed into the dictionary is of type 'System.Web.Mvc.HandleErrorInfo', but this dictionary requires a model item of type 'CloudAtlas.Models.ErrorViewModel'. Time: 5/8/2017 4:28:05 PM.
+For: System.Web.Mvc
+
+The provided anti-forgery token was meant for a different claims-based user than the current user. Time: 5/8/2017 4:29:36 PM.
+For: System.Web.WebPages
+
+The model item passed into the dictionary is of type 'System.Web.Mvc.HandleErrorInfo', but this dictionary requires a model item of type 'CloudAtlas.Models.ErrorViewModel'. Time: 5/8/2017 4:29:36 PM.
+For: System.Web.Mvc
+
+The provided anti-forgery token was meant for a different claims-based user than the current user. Time: 5/8/2017 4:29:36 PM.
+For: System.Web.WebPages
+
+The model item passed into the dictionary is of type 'System.Web.Mvc.HandleErrorInfo', but this dictionary requires a model item of type 'CloudAtlas.Models.ErrorViewModel'. Time: 5/8/2017 4:29:36 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:10:07 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:11:05 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:11:51 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:17:18 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:20:00 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:20:17 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:20:17 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:20:18 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:20:19 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:20:58 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:21:14 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:21:14 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:21:15 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:21:16 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:23:13 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:23:48 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:23:49 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:23:49 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:23:50 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:23:51 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:23:51 PM.
+For: System.Web.Mvc
+
+This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet. Time: 5/8/2017 5:23:51 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:26:23 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:27:33 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:34:53 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:39:47 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:41:30 PM.
+For: System.Web.Mvc
+
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Index(Int32)' in 'CloudAtlas.Controllers.ProjectController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Parameter name: parameters Time: 5/8/2017 5:42:28 PM.
+For: System.Web.Mvc
+>>>>>>> 993f380d5e385be0b2ea5ec746e445998681de56
 

@@ -51,5 +51,32 @@ namespace CloudAtlas.Controllers
 
             return View(model);
         }
+
+        public ActionResult OpenFile(int id)
+        {
+
+
+
+            return View();
+        }
+
+
+        public ActionResult SaveFile(FormCollection collection)
+        {
+            var code = collection["hiddencode"];
+            var id = Int32.Parse(collection["hiddenid"]);
+
+            var thisfile = (from file in context.Files
+                            where file.ID == id
+                            select file).FirstOrDefault();
+
+            thisfile.Content = code;
+
+            context.SaveChanges();
+
+            var projectid = Int32.Parse(collection["hiddenproject"]);
+
+            return RedirectToAction("Index", "Project", new { id = projectid});
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace CloudAtlas.Migrations
         {
 
 
-            context.Folders.AddOrUpdate(x => x.ID,
+            context.Folders.AddOrUpdate(x => x.Name,
                 new Folder() { ID = 1, Name="Folder1",IsRoot=true},
                 new Folder() { ID = 2, Name = "Folder2", IsRoot = true},
                 new Folder() { ID = 3, Name = "Folder3", IsRoot = true},
@@ -29,7 +29,7 @@ namespace CloudAtlas.Migrations
                 new Folder() { ID = 7, Name = "Folder7", IsRoot = true}
 
             );
-            context.Files.AddOrUpdate(x => x.ID,
+            context.Files.AddOrUpdate(x => x.Name,
                 new File() { ID = 1, FolderID = 1, Name = "File1", Extension = ".js", Content = "var x = 1;" },
                 new File() { ID = 2, FolderID = 2, Name = "File2", Extension = ".js", Content = "var x = 2;" },
                 new File() { ID = 3, FolderID = 3, Name = "File3", Extension = ".js", Content = "var x = 3;" },

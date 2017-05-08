@@ -298,6 +298,7 @@
     <Content Include="Views\Dashboard\Settings.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Project\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

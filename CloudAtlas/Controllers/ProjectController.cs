@@ -78,5 +78,10 @@ namespace CloudAtlas.Controllers
 
             return RedirectToAction("Index", "Project", new { id = projectid});
         }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
     }
 }

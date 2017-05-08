@@ -21,7 +21,7 @@ namespace CloudAtlas.Tests.Controllers
             ViewResult result = controller.Index() as ViewResult;
 
 
-
+   
             // Assert
             Assert.IsNotNull(result);
         }

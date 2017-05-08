@@ -16,7 +16,6 @@ namespace CloudAtlas.Controllers
         // GET: Dashboard
         public ActionResult Index()
         {
-
             string id = User.Identity.GetUserId<string>();
             ApplicationDbContext context = new ApplicationDbContext();
             var proj = (from i in context.Projects

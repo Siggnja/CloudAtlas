@@ -15,21 +15,18 @@ namespace CloudAtlas.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private readonly ProjectsRepository projectsRepository;
+        private readonly GroupsRepository groupsRepository;
         public DashboardController()
         {
             projectsRepository = new ProjectsRepository(db);
-
+            groupsRepository = new GroupsRepository(db);
         }
         // GET: Dashboard
         public ActionResult Index()
         {
             string id = User.Identity.GetUserId<string>();
-            ApplicationDbContext context = new ApplicationDbContext();
-            var proj = projectsRepository.GetProjectByUserId(id);
-            var grou = (from i in context.Groups
-                        where i.OwnerID == id
-                        select i).ToList();
-
+            var proj = projectsRepository.GetProjectsByUserId(id);
+            var grou = groupsRepository.getAllGroupsByUserId(id);
             DashboardViewModel model = new DashboardViewModel{ Projects = proj.ToList<Project>(), Groups = grou};
            
             return View(model);

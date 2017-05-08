@@ -14,14 +14,37 @@ namespace CloudAtlas.Repositories
         {
             db = context ?? new ApplicationDbContext();
         }
-        public List<Project> GetProjectByUserId(string id)
+        public void AddProjectToUser(Project proj, ApplicationUser user)
         {
-
-            return (from i in db.Projects
-                        where i.ApplicationUserID == id
-                        select i).ToList();
+            user.Projects.Add(proj);
         }
-
+        public void DeleteProject(Project proj, ApplicationUser user)
+        {
+            user.Projects.Remove(proj);
+        }
+        public List<Project> GetProjectsByUserId(string id)
+        { 
+            List<Project> result = new List<Project>();
+            var allGroups = (from i in db.Projects
+                             select i);
+            foreach (var proj in allGroups)
+            {
+                foreach (var user in proj.ApplicationUsers)
+                {
+                    if (user == null)
+                    {
+                        break;
+                    }
+                    if (user.Id == id)
+                    {
+                        result.Add(proj);
+                        break;
+                    }
+                }
+            }
+            return result;
+            
+        }
         public Project GetProjectById(int id)
         {
             return (from i in db.Projects

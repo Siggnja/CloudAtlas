@@ -13,35 +13,63 @@ namespace CloudAtlas.Repositories
         {
             db = context ?? new ApplicationDbContext();
         }
-        /*
-        public List<Project> GetParentFolder(string id)
+        public Folder GetFolderByID(int id)
         {
             return (from i in db.Folders
-                    where i.
-                    select i).ToList();
-               
-        }
-
-        public Project GetProjectById(int id)
-        {
-            return (from i in db.Projects
                     where i.ID == id
                     select i).FirstOrDefault();
         }
-        public void AddProject(Project project)
+        public Folder GetParentFolder(Folder folder)
         {
-            db.Projects.Add(project);
-            db.SaveChanges();
+            return folder.Parent;               
         }
-        public void RemoveProject(Project project)
+        public List<Folder> GetSubFolders(Folder folder)
         {
-            db.Projects.Remove(project);
-            db.SaveChanges();
+            return folder.SubFolders.ToList();
         }
-        public void UpdateProject(EntityState state, Project project)
+        public void addFolder(Folder folder)
         {
-            db.Entry(project).State = state;
+            db.Folders.Add(folder);
         }
-        */
+        public void removeFolder(Folder folder)
+        {
+            db.Folders.Remove(folder);
+        }
+        public List<File> getAllFilesById(int id)
+        {
+            var fold = GetFolderByID(id);
+            return fold.Files.ToList();
+        }
+        public void addFileToFolder(int id,File file)
+        {
+            GetFolderByID(id).Files.Add(file);
+        }
+        public void removeFileFromFolder(int id, File file)
+        {
+            GetFolderByID(id).Files.Remove(file);
+        }
+        /*
+      /*
+    public Project GetProjectById(int id)
+    {
+        return (from i in db.Projects
+                where i.ID == id
+                select i).FirstOrDefault();
+    }
+    public void AddProject(Project project)
+    {
+        db.Projects.Add(project);
+        db.SaveChanges();
+    }
+    public void RemoveProject(Project project)
+    {
+        db.Projects.Remove(project);
+        db.SaveChanges();
+    }
+    public void UpdateProject(EntityState state, Project project)
+    {
+        db.Entry(project).State = state;
+    }
+    */
     }
 }

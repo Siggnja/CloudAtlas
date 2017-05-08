@@ -22,6 +22,17 @@
                     </div>
                 </div>
             }
+            <div class="box">
+                <div class="left">
+                    <p class="title">Create new Project</p>
+                </div>
+
+                <div class="right">
+                    <a href=@Url.Action("Create", "Project", null)>
+                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div class="my-projects">
@@ -29,7 +40,7 @@
 
             <div class="box-projects">
                 @foreach (var i in Model.Groups)
-            {
+                {
                     <div class="box">
                         <div class="left">
                             <p class="title">@i.Name</p>

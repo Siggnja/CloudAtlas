@@ -30,6 +30,7 @@ namespace CloudAtlas.Repositories
         public void addFolder(Folder folder)
         {
             db.Folders.Add(folder);
+            db.SaveChanges();
         }
         public void removeFolder(Folder folder)
         {

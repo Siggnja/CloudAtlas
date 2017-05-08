@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CloudAtlas.Repositories;
 
 namespace CloudAtlas.Controllers
 {
@@ -13,6 +14,15 @@ namespace CloudAtlas.Controllers
     public class ProjectController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();
+        private readonly ProjectsRepository projrepository;
+        private readonly FolderRepository foldrepository;
+
+        public ProjectController()
+        {
+            projrepository = new ProjectsRepository(context);
+            foldrepository = new FolderRepository(context);
+        }
+
         // GET: Project
         public ActionResult Index(int id)
         {
@@ -92,22 +102,39 @@ namespace CloudAtlas.Controllers
         [HttpPost]
         public ActionResult Create(Project project)
         {
-            if (ModelState.IsValid)
+            
+            Folder newfold = new Folder { Name = "Folder20", IsRoot = true };
+
+            foldrepository.addFolder(newfold);
+
+            var foldid = (from fold in context.Folders
+                            where fold.Name == newfold.Name
+                            select fold.ID).FirstOrDefault();
+
+            Project newProject = new Project()
             {
-                Project newProject = new Project();
-                newProject.ID = project.ID;
-                newProject.Name = project.Name;
-                newProject.Description = project.Description;
-                newProject.Type = project.Type;
+                ID = 998,
+                Name = project.Name,
+                Description = project.Description,
+                Type = project.Type,
+                IsGroupProject = false,
+                FolderID = foldid
+            };
+            string userid = User.Identity.GetUserId<string>();
+
+            var curruser = (from user in context.Users
+                            where user.Id == userid
+                            select user).FirstOrDefault();
+
+
+            projrepository.AddProject(newProject);
+
+            projrepository.AddProjectToUser(newProject, curruser);
+
                 
 
-                context.Projects.Add(newProject);
-                context.SaveChanges();
+            return RedirectToAction("Project", "Index", new { id = 998 });
 
-                return RedirectToAction("Project", "Index", new { id = newProject.ID });
-            }
-
-            return View(project);
         }
 
 

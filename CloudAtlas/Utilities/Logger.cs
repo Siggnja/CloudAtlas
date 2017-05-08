@@ -26,6 +26,7 @@ namespace CloudAtlas.Utilities
 
         public void LogException(Exception ex)
         {
+            /*
             string logFilePath = ConfigurationManager.AppSettings["LogFile"];
 
             string message = string.Format("{0} was thrown on the {1}.{4}For: {2}{3}{4}",
@@ -42,7 +43,7 @@ namespace CloudAtlas.Utilities
             {
                 writer.WriteLine(message);
             }
-
+            */
         }
     }
 }

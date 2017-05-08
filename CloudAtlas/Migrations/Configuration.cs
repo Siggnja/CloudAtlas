@@ -21,7 +21,7 @@ namespace CloudAtlas.Migrations
 
             context.Folders.AddOrUpdate(x => x.Name,
                 new Folder() { Name=  "Folder8",  IsRoot=true},
-                new Folder() { Name = "Folder9", IsRoot = true},
+                new Folder() { Name = "Folder9",  IsRoot = true},
                 new Folder() { Name = "Folder10", IsRoot = true},
                 new Folder() { Name = "Folder11", IsRoot = true},
                 new Folder() { Name = "Folder12", IsRoot = true},
@@ -54,13 +54,13 @@ namespace CloudAtlas.Migrations
                        select i.ID).FirstOrDefault();
 
             context.Files.AddOrUpdate(x => x.Name,
-                new File() { ID = 1, FolderID = id1, Name = "File11", Extension = ".js", Content = "var x = 1;" },
-                new File() { ID = 2, FolderID = id2, Name = "File21", Extension = ".js", Content = "var x = 2;" },
-                new File() { ID = 3, FolderID = id3, Name = "File31", Extension = ".js", Content = "var x = 3;" },
-                new File() { ID = 4, FolderID = id4, Name = "File41", Extension = ".js", Content = "var x = 4;" },
-                new File() { ID = 5, FolderID = id5, Name = "File51", Extension = ".js", Content = "var x = 5;" },
-                new File() { ID = 6, FolderID = id6, Name = "Pile61", Extension = ".js", Content = "var x = 6;" },
-                new File() { ID = 7, FolderID = id7, Name = "File71", Extension = ".js", Content = "var x = 7;" }
+                new File() { FolderID = id1, Name = "File1", Extension = ".js", Content = "var x = 1;" },
+                new File() { FolderID = id2, Name = "File2", Extension = ".js", Content = "var x = 2;" },
+                new File() { FolderID = id3, Name = "File3", Extension = ".js", Content = "var x = 3;" },
+                new File() { FolderID = id4, Name = "File4", Extension = ".js", Content = "var x = 4;" },
+                new File() { FolderID = id5, Name = "File5", Extension = ".js", Content = "var x = 5;" },
+                new File() { FolderID = id6, Name = "Pile6", Extension = ".js", Content = "var x = 6;" },
+                new File() { FolderID = id7, Name = "File7", Extension = ".js", Content = "var x = 7;" }
             );
             context.Projects.AddOrUpdate(x => x.Name,
                 new Project() {Name=  "Project1",Type="Javascript",IsGroupProject=true, FolderID=id1,ApplicationUserID= "0272c0a9-94eb-4fdc-bca0-798d4bb48db4"},

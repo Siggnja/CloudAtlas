@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="create-project-container">
+    <h2>Lets create something new</h2>
+
+    <form class="create-project-form">
+        <label for="name">Name of project</label>
+        <input type="text" name="name">
+
+        <label for="colorScheme">Programming language</label>
+        <select name="colorScheme" class="color-scheme">
+            <option value="javascript">JavaScript</option>
+            <option value="html">HTML</option>
+            <option value="c++">C++</option>
+        </select>
+
+        <label for="description">Description</label>
+        <textarea name="description" placeholder="Simple description for the project"></textarea>
+
+        <input type="submit" name="submit" value="Create">
+    </form>
+</div>
+
+
+    
+
+
+    

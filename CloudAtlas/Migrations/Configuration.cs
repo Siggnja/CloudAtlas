@@ -18,7 +18,7 @@ namespace CloudAtlas.Migrations
         protected override void Seed(CloudAtlas.Models.ApplicationDbContext context)
         {
            
-
+            
             context.Folders.AddOrUpdate(x => x.Name,
                 new Folder() { Name=  "Folder8",  IsRoot=true},
                 new Folder() { Name = "Folder9",  IsRoot = true},
@@ -60,7 +60,8 @@ namespace CloudAtlas.Migrations
                 new File() { FolderID = id4, Name = "File4", Extension = ".js", Content = "var x = 4;" },
                 new File() { FolderID = id5, Name = "File5", Extension = ".js", Content = "var x = 5;" },
                 new File() { FolderID = id6, Name = "Pile6", Extension = ".js", Content = "var x = 6;" },
-                new File() { FolderID = id7, Name = "File7", Extension = ".js", Content = "var x = 7;" }
+                new File() { FolderID = id7, Name = "File7", Extension = ".js", Content = "var x = 7;" },
+                new File() { FolderID = id4, Name = "File8", Extension = ".js", Content = "var x = 8;" }
             );
             context.Projects.AddOrUpdate(x => x.Name,
                 new Project() {Name=  "Project1",Type="Javascript",IsGroupProject=true, FolderID=id1,ApplicationUserID= "0272c0a9-94eb-4fdc-bca0-798d4bb48db4"},

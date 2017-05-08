@@ -6,15 +6,26 @@ namespace CloudAtlas
     public class ChatHub : Hub
     {
 
-        public void ChatMessage(string name, string message)
+        public void JoinFile(int fileID)
         {
-            // Call the addNewMessageToPage method to update clients.
-            Clients.All.ChatMessage(name, message);
+            Groups.Add(Context.ConnectionId, Convert.ToString(fileID));
         }
 
-        public void UpdateEditor(object changeData)
+        public void JoinChat(int projectID)
         {
-            Clients.Others.UpdateEditor(changeData);
+            Groups.Add(Context.ConnectionId, Convert.ToString(projectID));
+        }
+
+        public void ChatMessage(string name, string message, int projectID)
+        {
+            Clients.Group(Convert.ToString(projectID)).ChatMessage(name, message);
+            //Clients.All.ChatMessage(name, message);
+        }
+
+        public void UpdateEditor(object changeData, int fileID)
+        {
+            Clients.Group(Convert.ToString(fileID), Context.ConnectionId).UpdateEditor(changeData);
+            //Clients.Others.UpdateEditor(changeData);
         }
     }
 }

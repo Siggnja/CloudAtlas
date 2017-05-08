@@ -9,7 +9,7 @@ namespace CloudAtlas
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             //filters.Add(new HandleErrorAttribute());
-            filters.Add(new CustomHandlerErrorAttribute());
+           // filters.Add(new CustomHandlerErrorAttribute());
         }
     }
 }

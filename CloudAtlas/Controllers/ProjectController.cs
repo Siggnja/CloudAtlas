@@ -16,10 +16,11 @@ namespace CloudAtlas.Controllers
         // GET: Project
         public ActionResult Index(int id)
         {
+            
             var project = (from proj in context.Projects
                            where proj.ID == id
                            select proj).FirstOrDefault();
-
+   
             var root = (from fold in context.Folders
                         where fold.ID == project.FolderID
                         select fold).FirstOrDefault();
@@ -31,7 +32,7 @@ namespace CloudAtlas.Controllers
             var files = (from file in context.Files
                          where file.FolderID == root.ID
                          select file).ToList();
-
+            
             ProjectViewModel model = new ProjectViewModel
             {
                 Project = project,
@@ -47,8 +48,6 @@ namespace CloudAtlas.Controllers
                          select user.Email).FirstOrDefault();
 
             ViewData["UserEmail"] = useremail;
-                         
-
             return View(model);
         }
 
@@ -57,7 +56,6 @@ namespace CloudAtlas.Controllers
             var thisfile = (from file in context.Files
                             where file.ID == id
                             select file).FirstOrDefault();
-
 
             return Json(new { content = thisfile.Content },
                 JsonRequestBehavior.AllowGet);

@@ -15,7 +15,8 @@ namespace CloudAtlas.Controllers
 
         public ActionResult Index()
         {
-
+            var i = (from item in context.Users
+                     select item);
               return View();
         }
 
@@ -31,10 +32,7 @@ namespace CloudAtlas.Controllers
         }
         public ActionResult Login(string provider,string returnUrl)
         {
-
             return RedirectToAction("ExternalLogin","Account", new { provider = provider, returnurl = returnUrl });
-
-
         }
     }
 }

@@ -31,6 +31,42 @@
     <div class="main">
         @RenderBody()
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+    <script>
+        $(function () {
+            // 6 create an instance when the DOM is ready
+            $('#jstree').jstree();
+            // 7 bind to events triggered on the tree
+            $('#jstree').on("changed.jstree", function (e, data) {
+                console.log(data.selected);
+            });
+            // 8 interact with the tree - either way is OK
+            $('button').on('click', function () {
+                $('#jstree').jstree(true).select_node('child_node_1');
+                $('#jstree').jstree('select_node', 'child_node_1');
+                $.jstree.reference('#jstree').select_node('child_node_1');
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        if (window.location.hash && window.location.hash == '#_=_') {
+            if (window.history && history.pushState) {
+                window.history.pushState("", document.title, window.location.pathname);
+            } else {
+                // Prevent scrolling by storing the page's current scroll offset
+                var scroll = {
+                    top: document.body.scrollTop,
+                    left: document.body.scrollLeft
+                };
+                window.location.hash = '';
+                // Restore the scroll offset, should be flicker free
+                document.body.scrollTop = scroll.top;
+                document.body.scrollLeft = scroll.left;
+            }
+        }
+    </script>
 
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)

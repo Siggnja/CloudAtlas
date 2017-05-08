@@ -7,8 +7,16 @@
 <div class="project-container">
     <div class="main">
         <div id="editor" style="width: 100%; height:100%;">
-@Model.Files[0].Content
+            @Model.Files[0].Content
         </div>
+        @using (Html.BeginForm("SaveFile", "Project", FormMethod.Post, new { id = "ace-form" }))
+        {
+            <input type="hidden" id="hiddencode" name="hiddencode" value="@Model.Files[0].Content" />
+            <input type="hidden" id="hiddenid" name="hiddenid" value="@Model.Files[0].ID" />
+            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID"/>
+            <button type="submit">Save</button>
+        }
+        <p id="saved" style="display: none;">Saved!</p>
     </div>
 
     <div class="left-sidebar">
@@ -17,16 +25,18 @@
         <div id="jstree">
             <!-- in this example the tree is populated from inline HTML -->
             <ul>
-                <li class="jstree-open" id="node_1">
+                <li class="jstree-open" id="node_1" data-jstree='{"folderid":"@Model.Root.ID"}'>
                     @Model.Root.Name
                     <ul>
                         @foreach(var fold in @Model.Folders)
                         {
-                            <li>@fold.Name</li>
+                            <li data-jstree='{"folderid":"@fold.ID"}'>
+                                @fold.Name
+                            </li>
                         }
                         @foreach (var file in @Model.Files)
                         {
-                            <li data-jstree='{"icon":"//jstree.com/tree.png"}'>
+                            <li data-jstree='{"icon":"//jstree.com/tree.png", "fileid":"@file.ID"}'>
                                 @file.Name
                             </li>
                         }
@@ -94,13 +104,35 @@
         $('#jstree').jstree();
         // 7 bind to events triggered on the tree
         $('#jstree').on("changed.jstree", function (e, data) {
-            console.log(data.selected);
+            if($("#jstree").jstree("get_selected", true)[0].data.jstree.hasOwnProperty('fileid'))
+            {
+                console.log($("#jstree").jstree("get_selected", true)[0].data.jstree.fileid);
+            }
+            else
+            {
+                console.log('folder');
+            }
+            
         });
         // 8 interact with the tree - either way is OK
         $('button').on('click', function () {
-            $('#jstree').jstree(true).select_node('child_node_1');
+            /*$('#jstree').jstree(true).select_node('child_node_1');
             $('#jstree').jstree('select_node', 'child_node_1');
-            $.jstree.reference('#jstree').select_node('child_node_1');
+            $.jstree.reference('#jstree').select_node('child_node_1');*/
+        });
+
+        $('#ace-form').on('submit', function () {
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                data: form.serialize(),
+                method: 'POST',
+                success: function (data) {
+                    $("#saved").show();
+                    setTimeout(function () { $("#saved").fadeOut(); }, 1500);
+                }
+            });
+            return false;
         });
 
     });
@@ -129,7 +161,6 @@
                 // Add the message to the page.
                 $('#discussion').append('<li><strong>' + htmlEncode(name)
                     + '</strong>: ' + htmlEncode(message) + '</li>');
-                console.log(message);
             };
 
             
@@ -141,6 +172,7 @@
                     if (!ignore)
                     {
                         chat.server.updateEditor(obj);
+                        $('#hiddencode').val(editor.getValue());
                     }
                 });
 

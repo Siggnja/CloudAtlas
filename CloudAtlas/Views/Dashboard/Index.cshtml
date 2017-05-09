@@ -29,13 +29,13 @@
 
                 <div class="right">
                     <a href=@Url.Action("Create", "Project", null)>
-                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                        <i class="fa fa-plus" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
         </div>
 
-        <div class="my-projects">
+        <div class="my-groups">
             <h3><i class="fa fa-users" aria-hidden="true"></i> My Groups</h3>
 
             <div class="box-projects">
@@ -43,7 +43,9 @@
                 {
                     <div class="box">
                         <div class="left">
-                            <p class="title">@i.Name</p>
+                            <a href=@Url.Action("Index", "Group", new { id = i.ID })>
+                                <p class="title">@i.Name</p>
+                            </a>
                         </div>
                     </div>
                 }
@@ -54,7 +56,7 @@
 
                     <div class="right">
                         <a href=@Url.Action("Create", "Group", null)>
-                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                            <i class="fa fa-plus" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>

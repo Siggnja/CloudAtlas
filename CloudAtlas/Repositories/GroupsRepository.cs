@@ -46,9 +46,15 @@ namespace CloudAtlas.Repositories
         }
         public List<Group> getAllGroupsByUserId(string id)
         {
+            /*
             List<Group> result = new List<Group>();
             var allGroups = (from i in db.Groups
                              select i);
+*/
+            return (from item in db.Users
+                    where item.Id == id
+                    select item.Groups).FirstOrDefault().ToList();
+            /*
             foreach(var grou in allGroups)
             {
                 foreach(var user in grou.ApplicationUsers)
@@ -65,6 +71,7 @@ namespace CloudAtlas.Repositories
                 }
             }
             return result;
+            */
         }
         
     }

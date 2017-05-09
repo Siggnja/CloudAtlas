@@ -1,11 +1,11 @@
 ﻿using CloudAtlas.Models;
+using CloudAtlas.Repositories;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CloudAtlas.Repositories;
 
 namespace CloudAtlas.Controllers
 {
@@ -14,6 +14,9 @@ namespace CloudAtlas.Controllers
     public class ProjectController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();
+        private readonly ProjectsRepository repository;
+
+
         private readonly ProjectsRepository projrepository;
         private readonly FolderRepository foldrepository;
         private readonly FileRepository filerepository;
@@ -100,6 +103,42 @@ namespace CloudAtlas.Controllers
             return View(new Project());
         }
 
+        public JsonResult Search(string term)
+        {
+            var p = (from item in context.Users
+                     where item.Email.StartsWith(term)
+                     select item.Email).ToList();
+
+            return Json(p, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Invite(FormCollection collection)
+        {
+            var UserEmail = collection["UserEmail"];
+            var hidden = collection["hiddenproject"];
+            int projectID = Int32.Parse(hidden);
+
+            var thisUser = (from item in context.Users
+                            where item.Email == UserEmail
+                            select item).FirstOrDefault();
+
+            if(thisUser == null)
+            {
+                return RedirectToAction("Index", "Project", new { id = projectID });
+            }
+
+            var project = (from i in context.Projects
+                           where i.ID == projectID
+                           select i).FirstOrDefault();
+
+
+            if (!thisUser.Projects.Contains(project))
+            {
+                repository.AddProjectToUser(project, thisUser);
+            }
+            return RedirectToAction("Index", "Project", new { id = projectID });
+
+        }
 
         [HttpPost]
         public ActionResult Create(Project project)
@@ -198,7 +237,5 @@ namespace CloudAtlas.Controllers
             ViewData["Type"] = items;
 
         }
-
-
     }
 }

@@ -22,6 +22,7 @@ namespace CloudAtlas.Repositories
         public void addFile(File file)
         {
             db.Files.Add(file);
+            db.SaveChanges();
         }
         public void deleteFile(File file)
         {

@@ -11,8 +11,8 @@
         </div>
         @using (Html.BeginForm("SaveFile", "Project", FormMethod.Post, new { id = "ace-form" }))
         {
-            <input type="hidden" id="hiddencode" name="hiddencode" value="@Model.Files[0].Content" />
-            <input type="hidden" id="hiddenid" name="hiddenid" value="@Model.Files[0].ID" />
+            <input type="hidden" id="hiddencode" name="hiddencode" />
+            <input type="hidden" id="hiddenid" name="hiddenid" />
             <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID"/>
             <button type="submit">Save</button>
         }
@@ -67,6 +67,14 @@
             </div>
         </div>
 
+        @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))
+        {
+            @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite" })
+            <!--<input type="submit" id="submitInvite" />-->
+            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
+            <input type="submit" />
+        }
+
         <h3>Chat</h3>
     
         <div class="messages">
@@ -83,9 +91,16 @@
             </div>
         </div>
     </div>
-</div>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    alert("saelir");
+    $("#searchInvite").autocomplete({
+        source: '@Url.Action("Search", "Project")'
+    });
+</script>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<!--<script src="~/Scripts/jquery-1.10.2.min.js"></script>-->
 <script src="~/Scripts/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("editor");
@@ -151,7 +166,7 @@
 </script>
 
 @section scripts {
-    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 

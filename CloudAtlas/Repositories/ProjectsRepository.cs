@@ -17,16 +17,25 @@ namespace CloudAtlas.Repositories
         public void AddProjectToUser(Project proj, ApplicationUser user)
         {
             user.Projects.Add(proj);
+
+            db.SaveChanges();
         }
         public void DeleteProject(Project proj, ApplicationUser user)
         {
             user.Projects.Remove(proj);
         }
         public List<Project> GetProjectsByUserId(string id)
-        { 
+        {
+            /*
             List<Project> result = new List<Project>();
             var allGroups = (from i in db.Projects
                              select i);
+            return new List<Project>();
+            */
+            return (from item in db.Users
+                    where item.Id == id
+                    select item.Projects).FirstOrDefault().ToList();
+            /*
             foreach (var proj in allGroups)
             {
                 foreach (var user in proj.ApplicationUsers)
@@ -43,7 +52,7 @@ namespace CloudAtlas.Repositories
                 }
             }
             return result;
-            
+            */
         }
         public Project GetProjectById(int id)
         {

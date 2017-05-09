@@ -14,9 +14,6 @@ namespace CloudAtlas.Controllers
     public class ProjectController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();
-        private readonly ProjectsRepository repository;
-
-
         private readonly ProjectsRepository projrepository;
         private readonly FolderRepository foldrepository;
         private readonly FileRepository filerepository;
@@ -134,7 +131,7 @@ namespace CloudAtlas.Controllers
 
             if (!thisUser.Projects.Contains(project))
             {
-                repository.AddProjectToUser(project, thisUser);
+                projrepository.AddProjectToUser(project, thisUser);
             }
             return RedirectToAction("Index", "Project", new { id = projectID });
 

@@ -69,7 +69,7 @@ namespace CloudAtlas.Controllers
                             where file.ID == id
                             select file).FirstOrDefault();
 
-            return Json(new { content = thisfile.Content },
+            return Json(new { content = thisfile.Content, type = thisfile.Type },
                 JsonRequestBehavior.AllowGet);
         }
 
@@ -169,7 +169,7 @@ namespace CloudAtlas.Controllers
                 fileext = ".css";
                 filecont = "#id{\n color: DeepSkyBlue;}";
             }
-            else if(project.Type == "c#")
+            else if(project.Type == "csharp")
             {
                 filename = "Main";
                 fileext = ".cs";
@@ -187,6 +187,7 @@ namespace CloudAtlas.Controllers
                 FolderID = foldid,
                 Name = filename,
                 Extension = fileext,
+                Type = project.Type,
                 Content = filecont
             };
 
@@ -227,9 +228,9 @@ namespace CloudAtlas.Controllers
 
                 new SelectListItem { Text = "CSS", Value = "css" },
 
-                new SelectListItem { Text = "C#", Value = "c#" },
+                new SelectListItem { Text = "C#", Value = "csharp" },
 
-                new SelectListItem { Text = "C++", Value = "c++" }
+                new SelectListItem { Text = "C++", Value = "c_cpp" }
             };
             ViewData["Type"] = items;
 

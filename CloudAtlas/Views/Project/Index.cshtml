@@ -155,9 +155,18 @@
                 // Change is detected and editor is updated.
                 editor.on("change", function (obj) {
                     if (!ignore) {
-                        console.log("Hundur");
-                        chat.server.updateEditor(obj, $('#hiddenid').val());
                         $('#hiddencode').val(editor.getValue());
+
+                        $.ajax({
+                            url: '/Project/SaveFileAuto',
+                            dataType: 'json',
+                            data: { code: $('#hiddencode').val() , id: $('#hiddenid').val(), projectid: $('#hiddenproject').val()},
+                            method: 'POST',
+                            success: function (data) {
+                                console.log('Saved');
+                            }
+                        });
+                        chat.server.updateEditor(obj, $('#hiddenid').val());
                     }
                 });
 

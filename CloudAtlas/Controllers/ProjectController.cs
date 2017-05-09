@@ -92,6 +92,21 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Project", new { id = projectid});
         }
 
+        public ActionResult SaveFileAuto(string code, int id, int projectid)
+        {
+
+            var thisfile = (from file in context.Files
+                            where file.ID == id
+                            select file).FirstOrDefault();
+
+            thisfile.Content = code;
+
+            context.SaveChanges();
+
+
+            return RedirectToAction("Index", "Project", new { id = projectid });
+        }
+
         [HttpGet]
         public ActionResult Create()
         {

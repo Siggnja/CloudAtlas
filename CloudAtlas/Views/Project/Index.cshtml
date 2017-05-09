@@ -194,14 +194,15 @@
                         url: '/Project/OpenFile',
                         data: { id: fid },
                         success: function (response, textStatus, jqXHR) {
-                            editor.setValue(response.content, 1);
+                            chat.server.switchFile($('#hiddenid').val(), fid);
                             $('#hiddenid').val(fid);
-                            console.log(fid);
+                            ignore = true;
+                            editor.setValue(response.content, 1);
                             $('#hiddencode').val(response.content);
                             $('#hiddentype').val(response.type);
                             var syntax = "ace/mode/" + $('#hiddentype').val();
                             editor.getSession().setMode(syntax);
-                            chat.server.joinFile($('#hiddenid').val());
+                            ignore = false;
                         }
                     });
                 }

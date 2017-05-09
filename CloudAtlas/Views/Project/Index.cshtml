@@ -37,7 +37,7 @@
                         @foreach (var file in @Model.Files)
                         {
                             <li data-jstree='{"icon":"//jstree.com/tree.png", "fileid":"@file.ID"}'>
-                                @file.Name
+                                @(file.Name + file.Extension)
                             </li>
                         }
                     </ul>
@@ -91,10 +91,10 @@
             </div>
         </div>
     </div>
+</div>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-    alert("saelir");
     $("#searchInvite").autocomplete({
         source: '@Url.Action("Search", "Project")'
     });

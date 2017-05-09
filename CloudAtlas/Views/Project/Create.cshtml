@@ -1,32 +1,40 @@
-﻿
+﻿@model CloudAtlas.Models.Project
+
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="create-project-container">
-    <h2>Lets create something new</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-    <form class="create-project-form">
-        <label for="name">Name of project</label>
-        <input type="text" name="name">
+    <div class="create-project-container">
+        <h2>Lets create something new</h2>
 
-        <label for="colorScheme">Programming language</label>
-        <select name="colorScheme" class="color-scheme">
-            <option value="javascript">JavaScript</option>
-            <option value="html">HTML</option>
-            <option value="c++">C++</option>
-        </select>
+        <form class="create-project-form">
 
-        <label for="description">Description</label>
-        <textarea name="description" placeholder="Simple description for the project"></textarea>
+            <label for="name">Name of project</label>
+            @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name" })
 
-        <input type="submit" name="submit" value="Create">
-    </form>
+
+            <label for="colorScheme">Programming language</label>
+
+            @Html.DropDownListFor(x => x.Type, ViewData["Type"] as List<SelectListItem>)
+
+            
+
+
+            
+
+            <input type="submit" name="submit" value="Create">
+        </form>
+    </div>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index","Dashboard")
 </div>
 
 
-    
-
-
-    

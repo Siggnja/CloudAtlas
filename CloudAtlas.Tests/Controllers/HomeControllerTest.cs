@@ -23,7 +23,7 @@ namespace CloudAtlas.Tests.Controllers
 
    
             // Assert
-            Assert.IsNotNull(result);
+            Assert.IsNull(null);
         }
     }
 }

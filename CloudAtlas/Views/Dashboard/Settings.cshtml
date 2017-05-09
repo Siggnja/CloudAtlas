@@ -13,11 +13,9 @@
     <input type="text" name="name" id="name" value="@Model.UserName">
 
     <label for="colorScheme">Color Scheme</label>
-    <select name="colorScheme" id="colorScheme" class="color-scheme">
-        <option value="dawn">Light</option>
-        <option value="chaos">Dark</option>
-        <option value="monokai">Sublime</option>
-    </select>
+
+    @Html.DropDownList("Color Scheme", ViewData["Theme"] as List<SelectListItem>  ,new { @id = "colorScheme" })
+
 
     <input type="button" id="save" value="Save Changes" />
     

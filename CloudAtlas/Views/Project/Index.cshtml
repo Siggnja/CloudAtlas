@@ -14,6 +14,7 @@
             <input type="hidden" id="hiddencode" name="hiddencode"  />
             <input type="hidden" id="hiddenid" name="hiddenid"  />
             <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID"/>
+            <input type="hidden" id="hiddentype" name="hiddentype"/>
             <button type="submit">Save</button>
         }
         <p id="saved" style="display: none;">Saved!</p>
@@ -90,7 +91,7 @@
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/c_cpp");
+    editor.getSession().setMode("ace/mode/.cpp");
 
     $(document).ready(function () {
         $('#message').keypress(function (e) {
@@ -117,6 +118,9 @@
                         editor.setValue(response.content, 1);
                         $('#hiddenid').val(fid);
                         $('#hiddencode').val(response.content);
+                        $('#hiddentype').val(response.type);
+                        var syntax = "ace/mode/" + $('#hiddentype').val();
+                        editor.getSession().setMode(syntax);
                     }
                 });
             }

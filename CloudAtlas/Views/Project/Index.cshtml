@@ -7,17 +7,13 @@
 <div class="project-container">
     <div class="main">
         <div id="editor" style="width: 100%; height:100%;">
-
         </div>
-        @using (Html.BeginForm("SaveFile", "Project", FormMethod.Post, new { id = "ace-form" }))
-        {
+        <div>
             <input type="hidden" id="hiddencode" name="hiddencode" />
             <input type="hidden" id="hiddenid" name="hiddenid" />
-            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID"/>
-            <input type="hidden" id="hiddentype" name="hiddentype"/>
-            <button type="submit">Save</button>
-        }
-        <p id="saved" style="display: none;">Saved!</p>
+            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
+            <input type="hidden" id="hiddentype" name="hiddentype" />
+        </div>
     </div>
 
     <div class="left-sidebar">
@@ -110,6 +106,7 @@
 
             // Ace functions
             var editor = ace.edit("editor");
+            editor.setShowPrintMargin(false);
             editor.setTheme("ace/theme/monokai");
             editor.getSession().setMode("ace/mode/c_cpp");
 
@@ -161,10 +158,7 @@
                             url: '/Project/SaveFileAuto',
                             dataType: 'json',
                             data: { code: $('#hiddencode').val() , id: $('#hiddenid').val(), projectid: $('#hiddenproject').val()},
-                            method: 'POST',
-                            success: function (data) {
-                                console.log('Saved');
-                            }
+                            method: 'POST'
                         });
                         chat.server.updateEditor(obj, $('#hiddenid').val());
                     }

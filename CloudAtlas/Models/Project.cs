@@ -20,7 +20,6 @@ namespace CloudAtlas.Models
 
         public int FolderID { get; set; }
 
-        public string Description { get; set; }
 
         public virtual Folder Folder { get; set; }
 

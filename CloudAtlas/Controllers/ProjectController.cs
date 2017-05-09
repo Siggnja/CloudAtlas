@@ -16,11 +16,13 @@ namespace CloudAtlas.Controllers
         ApplicationDbContext context = new ApplicationDbContext();
         private readonly ProjectsRepository projrepository;
         private readonly FolderRepository foldrepository;
+        private readonly FileRepository filerepository;
 
         public ProjectController()
         {
             projrepository = new ProjectsRepository(context);
             foldrepository = new FolderRepository(context);
+            filerepository = new FileRepository(context);
         }
 
         // GET: Project
@@ -103,19 +105,60 @@ namespace CloudAtlas.Controllers
         public ActionResult Create(Project project)
         {
             
-            Folder newfold = new Folder { Name = "Folder20", IsRoot = true };
+            Folder newfold = new Folder { Name = "Root", IsRoot = true };
 
             foldrepository.addFolder(newfold);
 
-            var foldid = (from fold in context.Folders
-                            where fold.Name == newfold.Name
-                            select fold.ID).FirstOrDefault();
+            var foldid = newfold.ID;
+
+            var filecont = "";
+            var fileext = "";
+            var filename = "";
+
+            if(project.Type == "javascript")
+            {
+                filename = "Index";
+                fileext = ".js";
+                filecont = "var x = \"Hello World\";";
+            }
+            else if(project.Type == "html")
+            {
+                filename = "Index";
+                fileext = ".html";
+                filecont = "<html>\n< header >< title > This is title </ title ></ header >\n< body >\nHello world\n</ body >\n</ html > ";
+            }
+            else if(project.Type == "css")
+            {
+                filename = "Index";
+                fileext = ".css";
+                filecont = "#id{\n color: DeepSkyBlue;}";
+            }
+            else if(project.Type == "c#")
+            {
+                filename = "Main";
+                fileext = ".cs";
+                filecont = "public class Hello1\n{\npublic static void Main()\n{\nSystem.Console.WriteLine(\"Hello, World!\");\n}\n}";
+            }
+            else
+            {
+                filename = "Main";
+                fileext = ".cpp";
+                filecont = "#include <iostream>\n\nint main()\n{\nstd::cout << \"Hello World!\";\n}";
+            }
+
+            File newfile = new File
+            {
+                FolderID = foldid,
+                Name = filename,
+                Extension = fileext,
+                Content = filecont
+            };
+
+            filerepository.addFile(newfile);
 
             Project newProject = new Project()
             {
-                ID = 998,
                 Name = project.Name,
-                Description = project.Description,
                 Type = project.Type,
                 IsGroupProject = false,
                 FolderID = foldid
@@ -133,7 +176,7 @@ namespace CloudAtlas.Controllers
 
                 
 
-            return RedirectToAction("Project", "Index", new { id = 998 });
+            return RedirectToAction("Index", "Project", new { id = newProject.ID });
 
         }
 

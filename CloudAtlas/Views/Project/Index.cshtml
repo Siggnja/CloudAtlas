@@ -11,8 +11,8 @@
         </div>
         @using (Html.BeginForm("SaveFile", "Project", FormMethod.Post, new { id = "ace-form" }))
         {
-            <input type="hidden" id="hiddencode" name="hiddencode" value="@Model.Files[0].Content" />
-            <input type="hidden" id="hiddenid" name="hiddenid" value="@Model.Files[0].ID" />
+            <input type="hidden" id="hiddencode" name="hiddencode"  />
+            <input type="hidden" id="hiddenid" name="hiddenid"  />
             <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID"/>
             <button type="submit">Save</button>
         }
@@ -37,7 +37,7 @@
                         @foreach (var file in @Model.Files)
                         {
                             <li data-jstree='{"icon":"//jstree.com/tree.png", "fileid":"@file.ID"}'>
-                                @file.Name
+                                @(file.Name + file.Extension)
                             </li>
                         }
                     </ul>

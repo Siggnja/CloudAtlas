@@ -137,13 +137,13 @@ namespace CloudAtlas.Controllers
             {
                 filename = "Main";
                 fileext = ".cs";
-                filecont = "public class Hello1\n{\npublic static void Main()\n{\nSystem.Console.WriteLine(\"Hello, World!\");\n}\n}";
+                filecont = "public class Hello1\n{\n\tpublic static void Main()\n\t{\n\t\tSystem.Console.WriteLine(\"Hello, World!\");\n\t}\n}";
             }
             else
             {
                 filename = "Main";
                 fileext = ".cpp";
-                filecont = "#include <iostream>\n\nint main()\n{\nstd::cout << \"Hello World!\";\n}";
+                filecont = "#include <iostream>\n\nint main()\n{\n\tstd::cout << \"Hello World!\";\n}";
             }
 
             File newfile = new File

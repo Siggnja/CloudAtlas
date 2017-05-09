@@ -157,7 +157,7 @@
                         $.ajax({
                             url: '/Project/SaveFileAuto',
                             dataType: 'json',
-                            data: { code: $('#hiddencode').val() , id: $('#hiddenid').val(), projectid: $('#hiddenproject').val()},
+                            data: { code: editor.getValue(), id: $('#hiddenid').val(), projectid: $('#hiddenproject').val() },
                             method: 'POST'
                         });
                         chat.server.updateEditor(obj, $('#hiddenid').val());

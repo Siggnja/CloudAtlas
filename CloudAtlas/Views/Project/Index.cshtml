@@ -13,6 +13,7 @@
             <input type="hidden" id="hiddenid" name="hiddenid" />
             <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
             <input type="hidden" id="hiddentype" name="hiddentype" />
+            <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme"/>
         </div>
     </div>
 
@@ -84,7 +85,7 @@
             <div class="message-box">
                 <input type="text" id="message" />
                 <input type="button" id="sendmessage" value="Send" />
-                <input type="hidden" id="displayname" value="@ViewData["UserEmail"]"/>
+                <input type="hidden" id="displayname" value="@Model.User.UserName"/>
             </div>
         </div>
     </div>
@@ -107,7 +108,8 @@
             // Ace functions
             var editor = ace.edit("editor");
             editor.setShowPrintMargin(false);
-            editor.setTheme("ace/theme/monokai");
+            var theme = "ace/theme/" + $('#hiddentheme').val();
+            editor.setTheme(theme);
             editor.getSession().setMode("ace/mode/c_cpp");
 
             $('#ace-form').on('submit', function () {

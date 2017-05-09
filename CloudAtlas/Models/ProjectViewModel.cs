@@ -11,6 +11,8 @@ namespace CloudAtlas.Models
 
         public Project Project { get; set; }
 
+        public ApplicationUser User { get; set; }
+
         public List<Folder> Folders { get; set; }
 
         public List<File> Files { get; set; }

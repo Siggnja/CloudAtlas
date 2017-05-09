@@ -16,6 +16,7 @@ namespace CloudAtlas.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private readonly ProjectsRepository projectsRepository;
         private readonly GroupsRepository groupsRepository;
+
         public DashboardController()
         {
             projectsRepository = new ProjectsRepository(db);
@@ -34,12 +35,35 @@ namespace CloudAtlas.Controllers
 
         public ActionResult Settings()
         {
-            return View();
+            string userid = User.Identity.GetUserId<string>();
+
+            var curruser = (from user in db.Users
+                            where user.Id == userid
+                            select user).FirstOrDefault();
+
+            return View(curruser);
         }
 
         public ActionResult Project()
         {
             return View();
+        }
+
+        public ActionResult SaveSettings(string UserName, string theme)
+        {
+            string userid = User.Identity.GetUserId<string>();
+
+            var curruser = (from user in db.Users
+                            where user.Id == userid
+                            select user).FirstOrDefault();
+
+            curruser.UserName = UserName;
+            curruser.Theme = theme;
+
+            db.SaveChanges();
+
+            return Json(new { status = "success" },
+                JsonRequestBehavior.AllowGet);
         }
     }
 }

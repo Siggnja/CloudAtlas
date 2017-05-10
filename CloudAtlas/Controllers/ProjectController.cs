@@ -244,10 +244,7 @@ namespace CloudAtlas.Controllers
             {
                 System.IO.File.Delete(archive);
             }
-
-
-            //return File("Hundur í horni", "text");
-
+            
 
             return File(Encoding.UTF8.GetBytes(currentfile.Content),
                  "text/plain",

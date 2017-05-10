@@ -55,6 +55,12 @@ table {
 
 /* Custom CSS */
 
+
+$white: #FFF8F0;
+$darkblue: #293241;
+$blue: #4EA5D9;
+$brown: #54494B;
+
 html, body {
     height: 100%;
     width: 100%;
@@ -68,6 +74,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    background-color: $white;
 }
 
 .bgimage {
@@ -205,8 +212,15 @@ body {
     Dashboard Container
 */
 
+
+
 .dashboard-container {
     height: 100%;
+
+
+    .my-groups {
+        margin-top: 50px;
+    }
 
     .my-projects {
         height: 100%;
@@ -217,9 +231,10 @@ body {
         align-items: center;
 
         h3 {
-            font-size: 55px;
+            font-size: 3em;
             text-transform: uppercase;
-            color: #4EA5D9;
+            font-weight: 600;
+            color: $darkblue;
             margin-bottom: 40px;
         }
 
@@ -229,38 +244,110 @@ body {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-        }
 
-        .box {
-            display: flex;
-            height: 125px;
-            width: 350px;
-            background-color: #293241;
-            padding: 20px;
-            color: #fff;
-            margin: 0 40px 40px 0;
-        }
+            .create-button-wrap {
 
-        .left {
-            flex: 1;
-        }
+                a {
+                    color: #293241;
+                }
 
-        .right {
-            margin: auto 0;
-            font-size: 50px;
+                .create-box {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: #fff;
+                    height: 100px;
+                    width: 300px;
+                    background-color: #293241;
+                    box-shadow: 0px 0px 0px 3px $darkblue;
+                    border: 3px solid #fff;
+                    -webkit-transition: all 0.3s ease;
+                    -moz-transition: all 0.3s ease;
+                    -o-transition: all 0.3s ease;
+                    -ms-transition: all 0.3s ease;
+                    font-size: 20px;
+                    text-transform: uppercase;
 
-            a {
-                color: #fff;
 
-                &:hover {
-                    color: #4ea5d9;
+                    &:hover {
+                        font-size: 27px;
+                    }
                 }
             }
         }
 
-        .title {
-            margin-bottom: 45px;
-            font-size: 20px;
+        .box {
+            display: flex;
+            height: 100px;
+            width: 280px;
+            background-color: $blue;
+            padding: 15px;
+            color: #fff;
+            margin: 0 40px 40px 0;
+            box-shadow: 0px 0px 0px 3px $darkblue;
+            border: 3px solid #fff;
+
+            .left {
+                display: flex;
+                justify-content: space-between;
+                flex-direction: column;
+                flex: 1;
+
+                a {
+                    text-decoration: none;
+                    color: #fff;
+                    font-size: 1.1em;
+
+                    &:hover {
+                        color: $brown;
+                    }
+                }
+
+                span {
+                    font-size: 15px;
+                }
+            }
+
+            .right {
+                margin: auto 0;
+                font-size: 45px;
+
+                a {
+                    color: #fff;
+
+                    &:hover {
+                        color: $darkblue;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .dashboard-container {
+
+        .my-projects {
+            
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+
+            h3 {
+                font-size: 2.2em;
+            }
+
+            .box-projects {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .box {
+                margin: 0 0 25px 0;
+                width: 300px;
+            }
         }
     }
 }
@@ -268,7 +355,6 @@ body {
 /*
     Settings CSS
 */
-
 .settings-container {
     display: flex;
     flex-direction: column;
@@ -277,7 +363,7 @@ body {
     width: 900px;
 
     h1 {
-        font-size: 55px;
+        font-size: 3em;
         text-transform: uppercase;
         color: #4EA5D9;
         margin-bottom: 10px;
@@ -288,7 +374,7 @@ body {
 
         .color-scheme {
             width: 100%;
-            height: 40px;
+            height: 35px;
             padding: 5px;
             font-size: 20px;
         }
@@ -307,7 +393,7 @@ body {
         input[type="password"] {
             padding: 5px 10px;
             outline: 0;
-            height: 40px;
+            height: 35px;
             color: #212121;
             font-size: .875rem;
             width: 100%;
@@ -338,7 +424,6 @@ body {
 /*
     PROJECT CSS
 */
-
 .project-container {
     display: flex;
     height: 100%;

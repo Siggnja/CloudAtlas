@@ -8,15 +8,15 @@
 <div class="settings-container">
     <h1>Settings</h1>
 
-    
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name" value="@Model.UserName">
+    <div class="settings-form">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" value="@Model.UserName">
 
-    <label for="colorScheme">Color Scheme</label>
-    @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem> ,new { @id = "colorScheme" })
-    <input type="hidden" id="hiddentheme" value="@Model.Theme"/>
-    <input type="button" id="save" value="Save Changes" />
-    
+        <label for="colorScheme">Color Scheme</label>
+        @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem>, new { @id = "colorScheme" })
+        <input type="hidden" id="hiddentheme" value="@Model.Theme" />
+        <input type="button" id="save" value="Save Changes" />
+    </div>
 </div>
 
 

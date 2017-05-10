@@ -4,6 +4,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <div class="project-container">
     <div class="main">
         <div id="editor" style="width: 100%; height:100%;">
@@ -21,28 +24,13 @@
 
     <div class="left-sidebar">
         <h3>@Model.Project.Name</h3>
-
         <div id="jstree">
             <!-- in this example the tree is populated from inline HTML -->
             <ul>
                 <li class="jstree-open" id="node_1" data-jstree='{"folderid":"@Model.Root.ID"}'>
-                    @Model.Root.Name
-                    <ul>
-                        @foreach(var fold in @Model.Folders)
-                        {
-                            <li data-jstree='{"folderid":"@fold.ID"}'>
-                                @fold.Name
-                            </li>
-                        }
-                        @foreach (var file in @Model.Files)
-                        {
-                            <li data-jstree='{"icon":"//jstree.com/tree.png", "fileid":"@file.ID"}'>
-                                @(file.Name + file.Extension)
-                            </li>
-                        }
-                    </ul>
                 </li>
             </ul>
+            <div id="CreateFileForm"></div>
         </div>
     </div>
 
@@ -85,8 +73,9 @@
     </div>
 </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
 <script src="~/Scripts/ace.js" type="text/javascript" charset="utf-8"></script>
+
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
@@ -98,15 +87,244 @@
                 $('#sendmessage').click();
         });
     });
-
     $(function () {
+        var tree = $('#jstree');
         // 6 create an instance when the DOM is ready
-        $('#jstree').jstree();
-        // 7 bind to events triggered on the tree
-        $('#jstree').on("changed.jstree", function (e, data) {
-            if($("#jstree").jstree("get_selected", true)[0].data.jstree.hasOwnProperty('fileid'))
+        tree.jstree({
+            "plugins": ["themes", "contextmenu", "dnd","types","state"],
+            "core": {
+                check_callback: true,
+                "data": {
+                    'url': "/Project/InitilizeTree/@Model.Project.ID",
+                    'data': function (node)
+                    {
+                    }
+                }
+            },
+            "types": {
+                "folder": {
+                    "icon": "fa fa-folder",
+                    "valid_children": ["default"]
+                },
+                "default": {
+                    "valid_children": ["default", "file"]
+                },
+                "file": {
+                    "icon": "fa fa-file-text-o",
+                    "valid_children": []
+                }
+            },
+            "contextmenu": {
+                "items": function (node) {
+                    return {
+                        "rename": {
+                            label: "Rename",
+                            action: function (obj) {
+                                tree.jstree(true).edit(node);
+                            }
+                        },
+                        "create": {
+                            action: false,
+                            label: "Create",
+                            action: false,
+                            submenu: {
+                                "create file":
+                                {
+                                    "seperator_before": false,
+                                    "seperator_after": false,
+                                    "label": "File",
+                                    action: function (obj)
+                                    {
+                                        window.confirm();
+                                        $("#CreateFileForm").dialog({
+                                            autoOpen: true,
+                                            position: { my: "center", at: "top+350", of: window },
+                                            width: 1000,
+                                            resizable: false,
+                                            title: 'Add File',
+                                            modal: true,
+                                            open: function () {
+                                                $(this).load('@Url.Action("CreateFileInput", "Project")');
+                                            },
+                                            buttons: {
+                                                "Add file": function () {
+                                                    CreateFileInfo();
+                                                },
+                                                Cancel: function () {
+                                                    $(this).dialog("close");
+                                                }
+                                            }
+                                    });
+                                    return false;
+                                    }
+                                },
+                                "create_folder": {
+                                    "seperator_before": false,
+                                    "seperator_after": false,
+                                    "label": "Folder",
+                                    action: function (obj) {
+                                        var fid = node.id;
+                                        tree.jstree(true).create_node(node, fid, "last", false, false);
+                                    }
+                                }
+                            }
+                        },
+                        "delete": {
+                            label: "Delete",
+                            action: function () {
+                                tree.jstree(true).delete_node(node);
+                            },
+                            separator_before: true
+                        }
+                    }
+                }
+            }
+        });
+
+        $("#jstree").on("create_node.jstree", function (event, data)
+        {
+            console.log("Event:");
+            console.log(event);
+            console.log("Data");
+            console.log(data);
+            if (data.node.type === "file")
             {
-                var fid = $("#jstree").jstree("get_selected", true)[0].data.jstree.fileid;
+                    $("#CreateFileForm").dialog({
+                    autoOpen: true,
+                    position: { my: "center", at: "top+350", of: window },
+                    width: 1000,
+                    resizable: false,
+                    title: 'Add File',
+                    modal: true,
+                    open: function () {
+                        $(this).load('@Url.Action("CreateFileInput", "Project")');
+                    },
+                    buttons: {
+                        "Add file": function () {
+                            CreateFileInfo();
+                        },
+                        Cancel: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                return false;
+
+            }
+            else {
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    cache: false,
+                    url: '/Project/CreateFolder',
+                    data: { parentId: data.parent, projectId: @Model.Project.ID},
+                    success: function (response) {
+                        console.log("in here");
+                        tree.jstree(true).settings.core.data = response;
+                        tree.jstree(true).refresh();
+                    },
+                    error: function (response) {
+                        tree.jstree(true).refresh();
+                    }
+                });
+            }
+        });
+
+        function CreateFileInfo(id)
+        {
+            $.ajax({
+                url: '@Url.Action("CreateFile", "Project")',
+                type: 'POST',
+                data: $("#myForm").serialize() + "&parentId=id&projectId=@Model.Project.ID",
+                success: function(data) {
+                    if (data) {
+                        $(':input', '#myForm')
+                          .not(':button, :submit, :reset, :hidden')
+                          .val('')
+                          .removeAttr('checked')
+                          .removeAttr('selected');
+                    }
+                    tree.jstree(true).refresh();
+                }
+            });
+        }
+        $("#jstree").on("rename_node.jstree", function (event, data)
+        {
+            var fid = data.node.id;
+            if (data.node.type === "file")
+            {
+                var name = data.node.text;
+                if (data.node.text.indexOf('.') != -1)
+                {
+                    name = data.node.text.substring(0, data.text.indexOf('.'));
+                }
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    cache: false,
+                    url: '/Project/RenameFile',
+                    data: { id: fid, newName: name, projectId: @Model.Project.ID},
+                    success: function (response)
+                    {
+                        tree.jstree(true).settings.core.data = response;
+                        tree.jstree(true).refresh();
+                    }
+
+                });
+            }
+            else
+            {
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    cache: false,
+                    url: '/Project/RenameFolder',
+                    data: { id: fid, newName: data.node.text, projectId: @Model.Project.ID}
+                });
+            }
+
+        });
+        $("#jstree").on("delete_node.jstree", function (event, data)
+        {
+            var fid = data.node.id;
+            if (data.node.type === "file")
+            {
+
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    cache: false,
+                    url: '/Project/RemoveFile',
+                    data: { id: fid,projectId: @Model.Project.ID}
+                });
+            }
+            else
+            {
+                $.ajax({
+                    type: 'post',
+                    dataType: 'json',
+                    cache: false,
+                    url: '/Project/RemoveFolder',
+                    data: { id: fid, projectId: @Model.Project.ID},
+                    success: function (response, textStatus, jqXHR)
+                    {
+
+                    }
+                });
+            }
+
+        });
+
+        // 7 bind to events triggered on the tree
+        $('#jstree').on("select_node.jstree", function (e, data)
+        {
+            if ("undefined" === typeof data)
+            {
+                return;
+            }
+            if (data.node.type === "file")
+            {
+                var fid = data.node.id;
                 $.ajax({
                     type: 'get',
                     dataType: 'json',
@@ -122,7 +340,7 @@
             }
             else
             {
-                console.log('folder');
+               // console.log('folder');
             }
 
         });

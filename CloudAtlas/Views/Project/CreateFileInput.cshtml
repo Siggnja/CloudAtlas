@@ -1,0 +1,10 @@
+﻿@model CloudAtlas.Models.File
+<div id="myForm">
+    @using (Html.BeginForm())
+    {
+        <label for="name">Name of file</label>
+        @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name" })
+        <label for="Type">Type</label>
+        @Html.DropDownListFor(x => x.Type, ViewData["Type"] as List<SelectListItem>)
+    }
+</div>

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO.Compression;
+using System.Text;
 
 namespace CloudAtlas.Controllers
 {
@@ -230,6 +232,23 @@ namespace CloudAtlas.Controllers
 
             return RedirectToAction("Index", "Project", new { id = newProject.ID });
 
+        }
+
+        public ActionResult Download(int fileID)
+        {
+
+            var archive = Server.MapPath("~/archive.zip");
+            var currentfile = filerepository.getFileById(fileID);
+
+            if (System.IO.File.Exists(archive))
+            {
+                System.IO.File.Delete(archive);
+            }
+            
+
+            return File(Encoding.UTF8.GetBytes(currentfile.Content),
+                 "text/plain",
+                  string.Format("{0}{1}", currentfile.Name, currentfile.Extension));
         }
 
 

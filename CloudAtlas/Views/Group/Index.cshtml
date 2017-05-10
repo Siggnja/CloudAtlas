@@ -1,0 +1,15 @@
+﻿@model CloudAtlas.Models.Group
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+@foreach (var user in Model.ApplicationUsers)
+{
+    <p>@user.UserName</p>
+}
+

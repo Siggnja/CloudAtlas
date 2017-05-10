@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CloudAtlas.Models;
+using CloudAtlas.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +10,23 @@ namespace CloudAtlas.Controllers
 {
     public class GroupController : Controller
     {
-        // GET: Group
-        public ActionResult Index()
+        ApplicationDbContext context = new ApplicationDbContext();
+        private readonly GroupsRepository groupsrepository;
+
+        public GroupController()
         {
-            return View();
+            groupsrepository = new GroupsRepository(context);
+        }
+
+        // GET: Group
+        public ActionResult Index(int id)
+        {
+            var group = groupsrepository.getGroupById(id);
+
+
+            
+
+            return View(group);
         }
 
         public ActionResult Create()

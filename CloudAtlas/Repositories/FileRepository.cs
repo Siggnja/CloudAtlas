@@ -27,6 +27,7 @@ namespace CloudAtlas.Repositories
         public void deleteFile(File file)
         {
             db.Files.Remove(file);
+            db.SaveChanges();
         }
     }
 }

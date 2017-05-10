@@ -20,7 +20,13 @@ namespace CloudAtlas.Models
 
         public int FolderID { get; set; }
 
+        private DateTime _date = DateTime.Now;
 
+        public DateTime DateCreated
+        {
+            get { return _date; }
+            set { _date = value;}
+        }
         public virtual Folder Folder { get; set; }
 
         private DateTime _date = DateTime.Now;

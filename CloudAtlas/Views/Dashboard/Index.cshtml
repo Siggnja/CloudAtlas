@@ -32,35 +32,30 @@
                     </div>
                 </a>
             </div>
-
-        </div>
-
-        <div class="my-groups">
-            <h3><i class="fa fa-users" aria-hidden="true"></i> My Groups</h3>
-
-            <div class="box-projects">
-                @foreach (var i in Model.Groups)
-                {
-                    <div class="box">
-                        <div class="left">
-                            <a href=@Url.Action("Index", "Group", new { id = i.ID })>
-                                <p class="title">@i.Name</p>
-                            </a>
-                        </div>
-                    </div>
-                }
-                <div class="box">
-                    <div class="left">
-                        <p class="title">Create new Group</p>
-                    </div>
-
-                    <div class="right">
-                        <a href=@Url.Action("Create", "Group", null)>
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+
+    <div class="my-groups">
+        <h3><i class="fa fa-folder-open" aria-hidden="true"></i> My Groups</h3>
+        <div class="box-groups">
+            @foreach (var i in Model.Groups)
+            {
+                <div class="box">
+                    <a href=@Url.Action("Index", "Group", new { id = i.ID })>
+                        @i.Name
+                    </a>
+                </div>
+            }
+
+            <div class="create-button-wrap">
+                <a href=@Url.Action("Create", "Project", null)>
+                    <div class="create-box">
+                        <h2>New group</h2>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
 </div>

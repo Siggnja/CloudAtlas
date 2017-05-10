@@ -7,17 +7,14 @@
 <div class="project-container">
     <div class="main">
         <div id="editor" style="width: 100%; height:100%;">
-
         </div>
-        @using (Html.BeginForm("SaveFile", "Project", FormMethod.Post, new { id = "ace-form" }))
-        {
+        <div>
             <input type="hidden" id="hiddencode" name="hiddencode" />
             <input type="hidden" id="hiddenid" name="hiddenid" />
-            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID"/>
-            <input type="hidden" id="hiddentype" name="hiddentype"/>
-            <button type="submit">Save</button>
-        }
-        <p id="saved" style="display: none;">Saved!</p>
+            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
+            <input type="hidden" id="hiddentype" name="hiddentype" />
+            <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme"/>
+        </div>
     </div>
 
     <div class="left-sidebar">
@@ -86,106 +83,50 @@
             <div class="message-box">
                 <input type="text" id="message" />
                 <input type="button" id="sendmessage" value="Send" />
-                <input type="hidden" id="displayname" value="@ViewData["UserEmail"]"/>
+                <input type="hidden" id="displayname" value="@Model.User.UserName"/>
             </div>
         </div>
     </div>
 </div>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-    $("#searchInvite").autocomplete({
-        source: '@Url.Action("Search", "Project")'
-    });
-</script>
 
-<!--<script src="~/Scripts/jquery-1.10.2.min.js"></script>-->
-<script src="~/Scripts/ace.js" type="text/javascript" charset="utf-8"></script>
-<script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/.cpp");
 
-    $(document).ready(function () {
-        $('#message').keypress(function (e) {
-            if (e.keyCode == 13)
-                $('#sendmessage').click();
-        });
-        $("#inviteForm").on('submit', function () {
-            var form = $(this);
-            $.ajax({
-                url: form.attr('action'),
-                data: form.serialize(),
-                method: 'POST'
-            });
-
-            return false;
-        });
-    });
-
-    $(function () {
-        // 6 create an instance when the DOM is ready
-        $('#jstree').jstree();
-        // 7 bind to events triggered on the tree
-        $('#jstree').on("changed.jstree", function (e, data) {
-            if($("#jstree").jstree("get_selected", true)[0].data.jstree.hasOwnProperty('fileid'))
-            {
-                var fid = $("#jstree").jstree("get_selected", true)[0].data.jstree.fileid;
-                $.ajax({
-                    type: 'get',
-                    dataType: 'json',
-                    cache: false,
-                    url: '/Project/OpenFile',
-                    data: { id: fid },
-                    success: function (response, textStatus, jqXHR) {
-                        editor.setValue(response.content, 1);
-                        $('#hiddenid').val(fid);
-                        $('#hiddencode').val(response.content);
-                        $('#hiddentype').val(response.type);
-                        var syntax = "ace/mode/" + $('#hiddentype').val();
-                        editor.getSession().setMode(syntax);
-                    }
-                });
-            }
-            else
-            {
-                console.log('folder');
-            }
-
-        });
-        // 8 interact with the tree - either way is OK
-        $('button').on('click', function () {
-            /*$('#jstree').jstree(true).select_node('child_node_1');
-            $('#jstree').jstree('select_node', 'child_node_1');
-            $.jstree.reference('#jstree').select_node('child_node_1');*/
-        });
-
-        $('#ace-form').on('submit', function () {
-            var form = $(this);
-            $.ajax({
-                url: form.attr('action'),
-                data: form.serialize(),
-                method: 'POST',
-                success: function (data) {
-                    $("#saved").show();
-                    setTimeout(function () { $("#saved").fadeOut(); }, 1500);
-                }
-            });
-            return false;
-        });
-
-    });
-</script>
 
 @section scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
     <script>
         $(function () {
-            // Reference the hub
+
+            // Ace functions
+            var editor = ace.edit("editor");
+            editor.setShowPrintMargin(false);
+            var theme = "ace/theme/" + $('#hiddentheme').val();
+            editor.setTheme(theme);
+            editor.getSession().setMode("ace/mode/c_cpp");
+
+            $('#ace-form').on('submit', function () {
+                var form = $(this);
+                $.ajax({
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    method: 'POST',
+                    success: function (data) {
+                        $("#saved").show();
+                        setTimeout(function () { $("#saved").fadeOut(); }, 1500);
+                    }
+                });
+                return false;
+            });
+
+            // Hub functions
             var chat = $.connection.chatHub;
+
             editor.$blockScrolling = Infinity;
 
             var ignore;
@@ -194,6 +135,9 @@
                 ignore = true;
                 editor.getSession().getDocument().applyDelta(changedata);
                 ignore = false;
+                var line = Number(changedata.start.row) + 1;
+                var userediting = "#editingline" + "Siggi";
+                $(userediting).stop(false).text("Line: " + line).show().animate({ opacity: '100' }).fadeOut(1000);
             };
 
             chat.client.chatMessage = function (name, message) {
@@ -202,19 +146,24 @@
                     + '</strong>: ' + htmlEncode(message) + '</li>');
             };
 
-            
+
             // Hub
             $.connection.hub.start().done(function () {
 
                 chat.server.joinChat($('#hiddenproject').val());
-                chat.server.joinFile($('#hiddenid').val());
 
                 // Change is detected and editor is updated.
                 editor.on("change", function (obj) {
-                    if (!ignore)
-                    {
-                        chat.server.updateEditor(obj, $('#hiddenid').val());
+                    if (!ignore) {
                         $('#hiddencode').val(editor.getValue());
+
+                        $.ajax({
+                            url: '/Project/SaveFileAuto',
+                            dataType: 'json',
+                            data: { code: editor.getValue(), id: $('#hiddenid').val(), projectid: $('#hiddenproject').val() },
+                            method: 'POST'
+                        });
+                        chat.server.updateEditor(obj, $('#hiddenid').val());
                     }
                 });
 
@@ -226,12 +175,67 @@
                 });
 
             });
-        });
 
-        function htmlEncode(value) {
-            var encodedValue = $('<div />').text(value).html();
-            return encodedValue;
-        }
+
+            function htmlEncode(value) {
+                var encodedValue = $('<div />').text(value).html();
+                return encodedValue;
+            }
+
+            $('#message').keypress(function (e) {
+                if (e.keyCode == 13)
+                    $('#sendmessage').click();
+            });
+
+            // JStree functions
+            $('#jstree').jstree();
+
+            $('#jstree').on("changed.jstree", function (e, data) {
+                if ($("#jstree").jstree("get_selected", true)[0].data.jstree.hasOwnProperty('fileid')) {
+                    var fid = $("#jstree").jstree("get_selected", true)[0].data.jstree.fileid;
+                    $.ajax({
+                        type: 'get',
+                        dataType: 'json',
+                        cache: false,
+                        url: '/Project/OpenFile',
+                        data: { id: fid },
+                        success: function (response, textStatus, jqXHR) {
+                            chat.server.switchFile($('#hiddenid').val(), fid);
+                            $('#hiddenid').val(fid);
+                            ignore = true;
+                            editor.setValue(response.content, 1);
+                            $('#hiddencode').val(response.content);
+                            $('#hiddentype').val(response.type);
+                            var syntax = "ace/mode/" + $('#hiddentype').val();
+                            editor.getSession().setMode(syntax);
+                            ignore = false;
+                        }
+                    });
+                }
+                else {
+                    console.log('folder');
+                }
+
+            });
+
+
+            $("#inviteForm").on('submit', function () {
+                var form = $(this);
+                $.ajax({
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    method: 'POST'
+                });
+
+                return false;
+            });
+            
+
+            $("#searchInvite").autocomplete({
+                source: '@Url.Action("Search", "Project")'
+            });
+
+        });
 
     </script>
 }

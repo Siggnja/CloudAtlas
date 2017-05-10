@@ -44,22 +44,22 @@ namespace CloudAtlas.Controllers
             var files = (from file in context.Files
                          where file.FolderID == root.ID
                          select file).ToList();
-            
+
+            string userid = User.Identity.GetUserId<string>();
+            var curruser = (from user in context.Users
+                            where user.Id == userid
+                            select user).FirstOrDefault();
+
             ProjectViewModel model = new ProjectViewModel
             {
                 Project = project,
                 Root = root,
+                User = curruser,
                 Folders = folders,
                 Files = files
             };
 
-
-            string userid = User.Identity.GetUserId<string>();
-            var useremail = (from user in context.Users
-                         where user.Id == userid
-                         select user.Email).FirstOrDefault();
-
-            ViewData["UserEmail"] = useremail;
+            
             return View(model);
         }
 
@@ -90,6 +90,21 @@ namespace CloudAtlas.Controllers
             var projectid = Int32.Parse(collection["hiddenproject"]);
 
             return RedirectToAction("Index", "Project", new { id = projectid});
+        }
+
+        public ActionResult SaveFileAuto(string code, int id, int projectid)
+        {
+
+            var thisfile = (from file in context.Files
+                            where file.ID == id
+                            select file).FirstOrDefault();
+
+            thisfile.Content = code;
+
+            context.SaveChanges();
+
+
+            return RedirectToAction("Index", "Project", new { id = projectid });
         }
 
         [HttpGet]

@@ -16,6 +16,7 @@ namespace CloudAtlas.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private readonly ProjectsRepository projectsRepository;
         private readonly GroupsRepository groupsRepository;
+
         public DashboardController()
         {
             projectsRepository = new ProjectsRepository(db);
@@ -34,12 +35,53 @@ namespace CloudAtlas.Controllers
 
         public ActionResult Settings()
         {
-            return View();
+            string userid = User.Identity.GetUserId<string>();
+
+            var curruser = (from user in db.Users
+                            where user.Id == userid
+                            select user).FirstOrDefault();
+
+            SelectTheme(curruser);
+
+
+            return View(curruser);
         }
 
         public ActionResult Project()
         {
             return View();
+        }
+
+        public ActionResult SaveSettings(string UserName, string theme)
+        {
+            string userid = User.Identity.GetUserId<string>();
+
+            var curruser = (from user in db.Users
+                            where user.Id == userid
+                            select user).FirstOrDefault();
+
+            curruser.UserName = UserName;
+            curruser.Theme = theme;
+
+            db.SaveChanges();
+
+            return Json(new { status = "success" },
+                JsonRequestBehavior.AllowGet);
+        }
+
+        public void SelectTheme(ApplicationUser user)
+        {
+            IEnumerable<SelectListItem> themes = new List<SelectListItem>() {
+
+                new SelectListItem { Text = "Light", Value = "dawn" },
+                new SelectListItem { Text = "Dark", Value = "chaos" },
+                new SelectListItem { Text = "Midnight", Value = "clouds_midnight" },
+                new SelectListItem { Text = "Sublime", Value = "monokai" },
+                new SelectListItem { Text = "Eclipse", Value = "eclipse" },
+                new SelectListItem { Text = "Github", Value = "github" },
+                new SelectListItem { Text = "Terminal", Value = "terminal" }
+            };
+            ViewData["Theme"] = themes;
         }
     }
 }

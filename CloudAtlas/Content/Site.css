@@ -56,7 +56,8 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  background-color: #FFF8F0; }
 
 .bgimage {
   width: 100%;
@@ -164,6 +165,8 @@ body {
 */
 .dashboard-container {
   height: 100%; }
+  .dashboard-container .my-groups {
+    margin-top: 50px; }
   .dashboard-container .my-projects {
     height: 100%;
     display: flex;
@@ -172,9 +175,10 @@ body {
     flex-direction: column;
     align-items: center; }
     .dashboard-container .my-projects h3 {
-      font-size: 55px;
+      font-size: 3em;
       text-transform: uppercase;
-      color: #4EA5D9;
+      font-weight: 600;
+      color: #293241;
       margin-bottom: 40px; }
     .dashboard-container .my-projects .box-projects {
       width: 100%;
@@ -182,26 +186,72 @@ body {
       display: flex;
       justify-content: center;
       flex-wrap: wrap; }
+      .dashboard-container .my-projects .box-projects .create-button-wrap a {
+        color: #293241; }
+      .dashboard-container .my-projects .box-projects .create-button-wrap .create-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        height: 100px;
+        width: 300px;
+        background-color: #293241;
+        box-shadow: 0px 0px 0px 3px #293241;
+        border: 3px solid #fff;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        font-size: 20px;
+        text-transform: uppercase; }
+        .dashboard-container .my-projects .box-projects .create-button-wrap .create-box:hover {
+          font-size: 27px; }
     .dashboard-container .my-projects .box {
       display: flex;
-      height: 125px;
-      width: 350px;
-      background-color: #293241;
-      padding: 20px;
+      height: 100px;
+      width: 280px;
+      background-color: #4EA5D9;
+      padding: 15px;
       color: #fff;
-      margin: 0 40px 40px 0; }
-    .dashboard-container .my-projects .left {
-      flex: 1; }
-    .dashboard-container .my-projects .right {
-      margin: auto 0;
-      font-size: 50px; }
-      .dashboard-container .my-projects .right a {
-        color: #fff; }
-        .dashboard-container .my-projects .right a:hover {
-          color: #4ea5d9; }
-    .dashboard-container .my-projects .title {
-      margin-bottom: 45px;
-      font-size: 20px; }
+      margin: 0 40px 40px 0;
+      box-shadow: 0px 0px 0px 3px #293241;
+      border: 3px solid #fff; }
+      .dashboard-container .my-projects .box .left {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        flex: 1; }
+        .dashboard-container .my-projects .box .left a {
+          text-decoration: none;
+          color: #fff;
+          font-size: 1.1em; }
+          .dashboard-container .my-projects .box .left a:hover {
+            color: #54494B; }
+        .dashboard-container .my-projects .box .left span {
+          font-size: 15px; }
+      .dashboard-container .my-projects .box .right {
+        margin: auto 0;
+        font-size: 45px; }
+        .dashboard-container .my-projects .box .right a {
+          color: #fff; }
+          .dashboard-container .my-projects .box .right a:hover {
+            color: #293241; }
+
+@media only screen and (max-width: 500px) {
+  .dashboard-container .my-projects {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; }
+    .dashboard-container .my-projects h3 {
+      font-size: 2.2em; }
+    .dashboard-container .my-projects .box-projects {
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+    .dashboard-container .my-projects .box {
+      margin: 0 0 25px 0;
+      width: 300px; } }
 
 /*
     Settings CSS
@@ -213,7 +263,7 @@ body {
   margin-top: 30px;
   width: 900px; }
   .settings-container h1 {
-    font-size: 55px;
+    font-size: 3em;
     text-transform: uppercase;
     color: #4EA5D9;
     margin-bottom: 10px; }
@@ -221,7 +271,7 @@ body {
     width: 500px; }
     .settings-container .settings-form .color-scheme {
       width: 100%;
-      height: 40px;
+      height: 35px;
       padding: 5px;
       font-size: 20px; }
     .settings-container .settings-form label {
@@ -236,7 +286,7 @@ body {
     .settings-container .settings-form input[type="password"] {
       padding: 5px 10px;
       outline: 0;
-      height: 40px;
+      height: 35px;
       color: #212121;
       font-size: .875rem;
       width: 100%;

@@ -22,7 +22,6 @@ namespace CloudAtlas.Models
 
         public string Theme { get; set; }
         
-        public string Theme { get; set; }
         
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         { 

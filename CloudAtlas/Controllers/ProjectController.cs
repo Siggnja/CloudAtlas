@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO.Compression;
 using System.Text;
-using CloudAtlas.Repositories;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -144,18 +143,24 @@ namespace CloudAtlas.Controllers
         }
         private void DeleteFolderHelper(Folder deleteMe)
         {
-            foreach (Folder fold in deleteMe.SubFolders)
+            if(deleteMe != null && deleteMe.SubFolders != null)
             {
-                DeleteFolderHelper(fold);
-                DeleteAllFiles(fold);
-                foldrepository.removeFolder(fold);
+                foreach (Folder fold in deleteMe.SubFolders)
+                {
+                    DeleteFolderHelper(fold);
+                    DeleteAllFiles(fold);
+                    foldrepository.removeFolder(fold);
+                }
             }
         }
         private void DeleteAllFiles(Folder fold)
         {
-            foreach (File file in fold.Files)
+            if(fold.Files != null)
             {
-                filerepository.deleteFile(file);
+                foreach (File file in fold.Files)
+                {
+                    filerepository.deleteFile(file);
+                }
             }
         }
         public ActionResult DeleteFile(int? idFile)
@@ -211,7 +216,7 @@ namespace CloudAtlas.Controllers
             return PartialView("CreateFileInput", new File());
         }
         [HttpPost]
-        public ActionResult CreateFile(FormCollection collection, int parentId, int projectId)
+        public ActionResult CreateFile(FormCollection collection, int? parentId, int projectId)
         {
 
             if (parentId == null)
@@ -237,20 +242,26 @@ namespace CloudAtlas.Controllers
         }
         public void addChildren(List<JsTreeModel> nodes, Folder root)
         {
-            foreach(Folder f in root.SubFolders)
+            if(root != null && root.SubFolders != null)
             {
-                nodes.Add(new JsTreeModel() { id = f.ID.ToString(), parent = root.ID.ToString(), text =f.Name ,type="folder"});
-                addChildren(nodes, f);
-                addChildrenFiles(nodes, f);
+                foreach (Folder f in root.SubFolders)
+                {
+                    nodes.Add(new JsTreeModel() { id = f.ID.ToString(), parent = root.ID.ToString(), text = f.Name, type = "folder" });
+                    addChildren(nodes, f);
+                    addChildrenFiles(nodes, f);
+                }
             }
         }
         private void addChildrenFiles(List<JsTreeModel> nodes,Folder fold)
         {
-            foreach(File f in fold.Files)
+            if(fold != null && fold.Files != null)
             {
-                var temp = new { fileid = f.ID.ToString()};
-                var json = JsonConvert.SerializeObject(temp);
-                nodes.Add(new JsTreeModel() { id = f.ID.ToString(), parent = fold.ID.ToString(), text = f.Name+f.Extension, li_attr = temp.ToString() ,type="file"});
+                foreach (File f in fold.Files)
+                {
+                    var temp = new { fileid = f.ID.ToString() };
+                    var json = JsonConvert.SerializeObject(temp);
+                    nodes.Add(new JsTreeModel() { id = f.ID.ToString(), parent = fold.ID.ToString(), text = f.Name + f.Extension, li_attr = temp.ToString(), type = "file" });
+                }
             }
         }
         [HttpPost]

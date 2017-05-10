@@ -234,11 +234,11 @@ namespace CloudAtlas.Controllers
 
         }
 
-        public ActionResult Download(FormCollection form)
+        public ActionResult Download(int fileID)
         {
 
             var archive = Server.MapPath("~/archive.zip");
-            var currentfile = filerepository.getFileById(int.Parse(form["dltest"]));
+            var currentfile = filerepository.getFileById(fileID);
 
             if (System.IO.File.Exists(archive))
             {

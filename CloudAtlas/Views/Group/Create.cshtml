@@ -75,8 +75,17 @@
             }
         });
 
-        $(document).on('click','.removeFromList', function (e) {
+        $(document).on('click', '.removeFromList', function (e) {
+            var s = $(this).parent().text();
             $(this).parent().remove();
+            alert(s);
+            for (i in invitedUser)
+            {
+                if (invitedUser[i] == s)
+                {
+                    invitedUser.splice(i, 1);
+                }
+            }
             if ($("#members").children().length == 0)
             {
                 $("#membersLabel").hide();

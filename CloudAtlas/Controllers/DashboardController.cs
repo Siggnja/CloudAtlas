@@ -41,6 +41,9 @@ namespace CloudAtlas.Controllers
                             where user.Id == userid
                             select user).FirstOrDefault();
 
+            SelectTheme(curruser);
+
+
             return View(curruser);
         }
 
@@ -64,6 +67,21 @@ namespace CloudAtlas.Controllers
 
             return Json(new { status = "success" },
                 JsonRequestBehavior.AllowGet);
+        }
+
+        public void SelectTheme(ApplicationUser user)
+        {
+            IEnumerable<SelectListItem> themes = new List<SelectListItem>() {
+
+                new SelectListItem { Text = "Light", Value = "dawn" },
+                new SelectListItem { Text = "Dark", Value = "chaos" },
+                new SelectListItem { Text = "Midnight", Value = "clouds_midnight" },
+                new SelectListItem { Text = "Sublime", Value = "monokai" },
+                new SelectListItem { Text = "Eclipse", Value = "eclipse" },
+                new SelectListItem { Text = "Github", Value = "github" },
+                new SelectListItem { Text = "Terminal", Value = "terminal" }
+            };
+            ViewData["Theme"] = themes;
         }
     }
 }

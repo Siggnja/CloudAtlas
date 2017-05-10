@@ -268,8 +268,13 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\theme-chaos.js" />
+    <Content Include="Scripts\theme-clouds_midnight.js" />
     <Content Include="Scripts\theme-dawn.js" />
+    <Content Include="Scripts\theme-eclipse.js" />
+    <Content Include="Scripts\theme-github.js" />
     <Content Include="Scripts\theme-monokai.js" />
+    <Content Include="Scripts\theme-terminal.js" />
+    <Content Include="Scripts\theme-xcode.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -289,7 +294,7 @@
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />

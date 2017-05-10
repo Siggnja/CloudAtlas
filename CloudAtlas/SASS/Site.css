@@ -175,7 +175,6 @@ body {
     flex-direction: column;
     align-items: center; }
     .dashboard-container .my-projects h3 {
-      text-align: center;
       font-size: 3em;
       text-transform: uppercase;
       font-weight: 600;
@@ -195,13 +194,14 @@ body {
         align-items: center;
         color: #fff;
         height: 100px;
-        width: 280px;
+        width: 300px;
         background-color: #293241;
         box-shadow: 0px 0px 0px 3px #293241;
         border: 3px solid #fff;
         -webkit-transition: all 0.3s ease;
         -moz-transition: all 0.3s ease;
         -o-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
         font-size: 20px;
         text-transform: uppercase; }
         .dashboard-container .my-projects .box-projects .create-button-wrap .create-box:hover {
@@ -312,116 +312,110 @@ body {
 */
 .project-container {
   display: flex;
-  min-height: 100vh;
+  height: 100%;
   width: 100%; }
-  .project-container .actions {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 40px;
-    border-bottom: 1px solid grey; }
-    .project-container .actions .filename {
-      flex: 1;
-      padding: 5px 10px;
-      color: #293241;
-      font-weight: 600; }
-    .project-container .actions .last-saved {
-      padding: 5px 10px;
-      color: #293241;
-      font-weight: 600;
-      font-size: 15px; }
-  .project-container .main {
-    flex: 1;
-    width: 80%; }
-  .project-container .left {
+  .project-container .left-sidebar {
     order: -1;
-    flex: 0 0 17em;
+    height: 100%;
+    background-color: #FFF;
+    border-right: 1px solid grey;
+    border-left: 1px solid grey;
+    border-bottom: 1px solid grey;
+    flex: 0 0 20em; }
+    .project-container .left-sidebar h3 {
+      text-align: center;
+      color: #000;
+      font-weight: 600;
+      font-size: 20px;
+      padding: 15px 0;
+      border-bottom: 1px solid grey; }
+    .project-container .left-sidebar #jstree {
+      margin: 0 10px; }
+  .project-container .main {
+    flex: 1; }
+  .project-container .right-sidebar {
+    height: 100%;
     background-color: #fff;
     border-right: 1px solid grey;
-    border-left: 1px solid grey; }
-    .project-container .left h3 {
+    border-left: 1px solid grey;
+    border-bottom: 1px solid grey;
+    flex: 0 0 20em; }
+    .project-container .right-sidebar .collaborators {
+      display: flex;
+      justify-content: center;
+      width: 100%; }
+      .project-container .right-sidebar .collaborators .user-img {
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        border-radius: 50%;
+        position: relative;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto; }
+        .project-container .right-sidebar .collaborators .user-img img {
+          width: 100%;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%); }
+          .project-container .right-sidebar .collaborators .user-img img .img-description {
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(29, 106, 154, 0.72);
+            color: #fff;
+            visibility: hidden;
+            opacity: 0; }
+            .project-container .right-sidebar .collaborators .user-img img .img-description:hover {
+              visibility: visible;
+              opacity: 1; }
+        .project-container .right-sidebar .collaborators .user-img .fa-plus-circle {
+          font-size: 50px;
+          color: #4EA5D9; }
+    .project-container .right-sidebar h3 {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #54494B;
-      color: #fff;
-      font-weight: 600;
-      height: 38px;
-      font-size: 20px;
-      border-bottom: 1px solid grey; }
-    .project-container .left #jstree {
-      margin: 0 10px; }
-  .project-container .right {
-    flex: 0 0 17em;
-    background-color: #fff;
-    border-left: 1px solid grey; }
-    .project-container .right .collaborators {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      width: 100%;
-      padding: 10px 15px; }
-      .project-container .right .collaborators .avatars {
-        display: flex;
-        width: 100%;
-        margin-bottom: 15px; }
-        .project-container .right .collaborators .avatars .user-img {
-          border: 4px solid #4EA5D9;
-          width: 45px;
-          height: 45px;
-          overflow: hidden;
-          border-radius: 50%;
-          position: relative;
-          margin-right: 15px; }
-          .project-container .right .collaborators .avatars .user-img img {
-            width: 100%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); }
-        .project-container .right .collaborators .avatars #inviteForm input[type=text] {
-          background-color: red; }
-    .project-container .right h3 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #54494B;
-      height: 38px;
+      margin-top: 20px;
+      background-color: #4EA5D9;
+      height: 45px;
       text-align: center;
       color: #fff;
       font-weight: 600;
-      font-size: 18px;
-      text-transform: uppercase; }
-    .project-container .right .messages .message-chat {
-      margin: auto 5px;
-      height: 500px;
-      padding: 10px;
-      overflow-y: auto; }
-      .project-container .right .messages .message-chat ul li {
-        font-size: 15px;
-        padding: 5px; }
-    .project-container .right .messages .message-box {
-      width: 100%; }
-      .project-container .right .messages .message-box input[type=text] {
+      font-size: 18px; }
+    .project-container .right-sidebar .messages {
+      display: flex;
+      flex-direction: column; }
+      .project-container .right-sidebar .messages .message-chat {
+        flex: 1;
+        padding: 10px;
+        height: 500px;
+        overflow-y: auto; }
+        .project-container .right-sidebar .messages .message-chat ul li {
+          font-size: 15px;
+          padding: 5px; }
+      .project-container .right-sidebar .messages .message-box input[type=text] {
         height: 50px;
         width: 100%;
-        padding: 5px 10px;
         border-left: 0;
         border-right: 0; }
-  .project-container .http-error-box {
-    margin-top: 45px; }
-    .project-container .http-error-box h2 {
-      font-size: 10em;
+
+.http-error-box {
+  margin-top: 45px; }
+  .http-error-box h2 {
+    font-size: 10em;
+    color: #4EA5D9;
+    font-weight: 600; }
+  .http-error-box h3 {
+    font-size: 4em;
+    color: #4EA5D9; }
+  .http-error-box .error-buttons {
+    margin-top: 15px; }
+    .http-error-box .error-buttons a:hover {
       color: #4EA5D9;
-      font-weight: 600; }
-    .project-container .http-error-box h3 {
-      font-size: 4em;
-      color: #4EA5D9; }
-    .project-container .http-error-box .error-buttons {
-      margin-top: 15px; }
-      .project-container .http-error-box .error-buttons a:hover {
-        color: #4EA5D9;
-        cursor: pointer; }
+      cursor: pointer; }
 
 /*
     Settings CSS

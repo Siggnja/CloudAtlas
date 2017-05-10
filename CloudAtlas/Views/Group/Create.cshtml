@@ -7,14 +7,14 @@
 <div class="create-project-container">
     <h2>New group</h2>
 
-    @using (Html.BeginForm("Create", "Group", FormMethod.Post, htmlAttributes: new { @class = "create-project-form", id = "createForm" }))
+    @using (Html.BeginForm("Create", "Group", FormMethod.Post, htmlAttributes: new { @class = "create-project-form", id = "createForm", name = "creategroup",onsubmit = "return validateForm()" }))
     {
         <label for= "name" > Name of group </label>
-        @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name" })
+        @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name", id = "name" })
         <label for="invite"> Invite Users </label>
         @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite", name = "invite" })
         @Html.TextBox("HiddenUsers", null, htmlAttributes: new { id = "hiddenUsers", style = "display:none;" })
-        <input type="submit" name="submit" value="Create">
+        <input type="submit" name="submit" id="submit" value="Create">
         
     }
 
@@ -33,6 +33,22 @@
 <script>
     $(document).ready(function () {
 
+        $('#createForm').submit(function (e) {
+            if ($('#name').val() == "") {
+                $("#searchInvite").val('');
+                $('#submit').val('Groups needs a name!')
+                setTimeout(function () {
+                    $('#submit').val('Create')
+                }, 1000);
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false
+            }
+            else {
+                return true;
+            }
+        });
+
         var userList = [];
         var invitedUser = [];
         GetUsers();
@@ -48,13 +64,17 @@
                 var first = false;
                 var second = false;
                 for (i in userList) {
-                    if (userList[i] == email) { 
+                    if (userList[i] == email) {
                         first = true;
                     }
                 }
                 if (first == false)
                 {
-                    $("#searchInvite").val("");
+                    $("#searchInvite").val('');
+                    $('#submit').val('User not found!')
+                    setTimeout(function () {
+                        $('#submit').val('Create')
+                    }, 1000);
                     return false;
                 }
                 for (i in invitedUser) {
@@ -64,13 +84,21 @@
                 }
                 if (second == true)
                 {
-                    $("#searchInvite").val("");
+                    $("#searchInvite").val('');
+                    $('#submit').val('Already in group!')
+                    setTimeout(function () {
+                        $('#submit').val('Create')
+                    }, 1000);
                     return false;
                 }
                 $("#members").append("<li><span>" + email + "</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>");
                 $("#membersLabel").show();
                 invitedUser.push(email);
-                $("#searchInvite").val("");
+                $("#searchInvite").val('');
+                $('#submit').val('Added!')
+                setTimeout(function () {
+                    $('#submit').val('Create')
+                }, 1000);
                 return false;
             }
         });
@@ -78,7 +106,6 @@
         $(document).on('click', '.removeFromList', function (e) {
             var s = $(this).parent().text();
             $(this).parent().remove();
-            alert(s);
             for (i in invitedUser)
             {
                 if (invitedUser[i] == s)

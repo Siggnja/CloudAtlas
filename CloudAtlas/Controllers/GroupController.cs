@@ -18,6 +18,7 @@ namespace CloudAtlas.Controllers
         public GroupController()
         {
             context = new ApplicationDbContext();
+
             groupsrepository = new GroupsRepository(context);
         }
 
@@ -105,6 +106,56 @@ namespace CloudAtlas.Controllers
         {
             return View();
         }
-    
+
+
+
+        [HttpPost]
+        public ActionResult AddUser(string email, int groupID)
+        {
+            var group = groupsrepository.getGroupById(groupID);
+
+            var curruser = (from user in context.Users
+                            where user.Email == email
+                            select user).FirstOrDefault();
+
+            if(curruser == null)
+            {
+                return Json(new { status = 3 },
+                JsonRequestBehavior.AllowGet);
+            }
+
+            if(groupsrepository.UserInGroup(curruser, group))
+            {
+                return Json(new { status = 2 },
+                JsonRequestBehavior.AllowGet);
+            }
+
+            groupsrepository.AddUserToGroup(curruser, group);
+
+            return Json(new { status = 1 },
+                JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveUser(string email, int groupID)
+        {
+            var group = groupsrepository.getGroupById(groupID);
+
+            var curruser = (from user in context.Users
+                            where user.Email == email
+                            select user).FirstOrDefault();
+
+            if(!groupsrepository.UserInGroup(curruser, group))
+            {
+                return Json(new { status = "notingroup" },
+                JsonRequestBehavior.AllowGet);
+            }
+
+            groupsrepository.RemoveUserFromGroup(curruser, group);
+
+            return Json(new { status = "success" },
+                JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

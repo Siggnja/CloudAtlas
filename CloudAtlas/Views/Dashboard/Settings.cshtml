@@ -13,32 +13,34 @@
     <input type="text" name="name" id="name" value="@Model.UserName">
 
     <label for="colorScheme">Color Scheme</label>
-
-    @Html.DropDownList("Color Scheme", ViewData["Theme"] as List<SelectListItem>  ,new { @id = "colorScheme" })
-
-
+    @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem> ,new { @id = "colorScheme" })
+    <input type="hidden" id="hiddentheme" value="@Model.Theme"/>
     <input type="button" id="save" value="Save Changes" />
     
 </div>
 
 
 @section scripts {
+
     <script>
-        $('#save').click(function () {
-            $.ajax({
-                url: '/Dashboard/SaveSettings',
-                dataType: 'json',
-                data: { UserName: $('#name').val(), theme: $('#colorScheme').find(":selected").val() },
-                method: 'POST',
-                success: function (data) {
-                    $('#save').val('Saved!')
-                    setTimeout(function () {
-                        $('#save').val('Save Changes')}, 1500);
-                }
+        $(function () {
+            $('#colorScheme').val($('#hiddentheme').val());
+
+            $('#save').click(function () {
+                $.ajax({
+                    url: '/Dashboard/SaveSettings',
+                    dataType: 'json',
+                    data: { UserName: $('#name').val(), theme: $('#colorScheme').find(":selected").val() },
+                    method: 'POST',
+                    success: function (data) {
+                        $('#save').val('Saved!')
+                        setTimeout(function () {
+                            $('#save').val('Save Changes')
+                        }, 1500);
+                    }
+                });
             });
         });
-
-
 
     </script>
     

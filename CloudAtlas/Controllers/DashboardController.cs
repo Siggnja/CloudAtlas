@@ -75,7 +75,11 @@ namespace CloudAtlas.Controllers
 
                 new SelectListItem { Text = "Light", Value = "dawn" },
                 new SelectListItem { Text = "Dark", Value = "chaos" },
-                new SelectListItem { Text = "Sublime", Value = "monokai" }
+                new SelectListItem { Text = "Midnight", Value = "clouds_midnight" },
+                new SelectListItem { Text = "Sublime", Value = "monokai" },
+                new SelectListItem { Text = "Eclipse", Value = "eclipse" },
+                new SelectListItem { Text = "Github", Value = "github" },
+                new SelectListItem { Text = "Terminal", Value = "terminal" }
             };
             ViewData["Theme"] = themes;
         }

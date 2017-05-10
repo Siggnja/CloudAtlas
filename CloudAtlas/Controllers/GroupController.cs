@@ -13,19 +13,14 @@ namespace CloudAtlas.Controllers
     public class GroupController : Controller
     {
         private readonly ApplicationDbContext context;
-
-        public GroupController()
-        {
-            context = new ApplicationDbContext();
-        }
-
-        ApplicationDbContext context = new ApplicationDbContext();
         private readonly GroupsRepository groupsrepository;
 
         public GroupController()
         {
+            context = new ApplicationDbContext();
             groupsrepository = new GroupsRepository(context);
         }
+
 
         // GET: Group
         public ActionResult Index(int id)

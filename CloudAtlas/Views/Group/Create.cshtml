@@ -1,4 +1,4 @@
-﻿
+﻿@model CloudAtlas.Models.Group
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,10 +7,111 @@
 <div class="create-project-container">
     <h2>New group</h2>
 
-    <form class="create-project-form">
-        <label for="name">Name of group</label>
-        <input type="text" name="name">
-
+    @using (Html.BeginForm("Create", "Group", FormMethod.Post, htmlAttributes: new { @class = "create-project-form", id = "createForm" }))
+    {
+        <label for= "name" > Name of group </label>
+        @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name" })
+        <label for="invite"> Invite Users </label>
+        @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite", name = "invite" })
+        @Html.TextBox("HiddenUsers", null, htmlAttributes: new { id = "hiddenUsers", style = "display:none;" })
         <input type="submit" name="submit" value="Create">
-    </form>
+        
+    }
+
+        <div class="create-project-form">
+            <label for="members" id="membersLabel" style="display:none;">Invited members</label>
+            <ul id="members">
+            </ul>
+        </div>
 </div>
+
+@section scripts
+{    
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var userList = [];
+        var invitedUser = [];
+        GetUsers();
+
+        $('#searchInvite').autocomplete({
+            autoFocus: true,
+            source: '@Url.Action("Search", "Group")'
+        })
+
+        $("#searchInvite").keypress(function (event) {
+            if (event.keyCode == 13) {
+                var email = $("#searchInvite").val();
+                var first = false;
+                var second = false;
+                for (i in userList) {
+                    if (userList[i] == email) { 
+                        first = true;
+                    }
+                }
+                if (first == false)
+                {
+                    $("#searchInvite").val("");
+                    return false;
+                }
+                for (i in invitedUser) {
+                    if (invitedUser[i] == email) {
+                        second = true;
+                    }
+                }
+                if (second == true)
+                {
+                    $("#searchInvite").val("");
+                    return false;
+                }
+                $("#members").append("<li><span>" + email + "</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>");
+                $("#membersLabel").show();
+                invitedUser.push(email);
+                $("#searchInvite").val("");
+                return false;
+            }
+        });
+
+        $(document).on('click', '.removeFromList', function (e) {
+            var s = $(this).parent().text();
+            $(this).parent().remove();
+            alert(s);
+            for (i in invitedUser)
+            {
+                if (invitedUser[i] == s)
+                {
+                    invitedUser.splice(i, 1);
+                }
+            }
+            if ($("#members").children().length == 0)
+            {
+                $("#membersLabel").hide();
+            }
+
+        });
+
+        $("#createForm").on('submit', function () {
+            var list = $("#members").children();
+            var str = "";
+            list.each(function (index) {
+                str += $(this).text() + " ";
+            });
+            $("#hiddenUsers").val(str);
+
+        });
+
+        function GetUsers() {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Search", "Group")',
+                success: function (result) {
+                    userList = result;
+                }
+            });
+        }
+    });
+</script>
+}

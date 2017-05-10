@@ -229,6 +229,7 @@
     <Compile Include="Utilities\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\Avatars\DefaultAvatar.png" />
     <Content Include="Content\images\bg.jpg" />
     <Content Include="Content\images\facebook-social.png" />
     <Content Include="Content\images\github-social.png" />

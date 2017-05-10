@@ -51,21 +51,19 @@
         <h3>Collaborators</h3>
 
         <div class="collaborators">
-            <div class="user-img">
-                <img src="https://scontent-lhr3-1.xx.fbcdn.net/v/t1.0-9/1554494_10202480640245651_7477605474618443507_n.jpg?oh=32dfb7eb5346ac6762711cd7ed1c32af&oe=5980ABF8" alt="" />
-            </div>
 
-            <div class="user-img">
-                <img src="https://scontent-lhr3-1.xx.fbcdn.net/v/t1.0-9/1554494_10202480640245651_7477605474618443507_n.jpg?oh=32dfb7eb5346ac6762711cd7ed1c32af&oe=5980ABF8" alt="" />
-            </div>
-
-            <div class="user-img">
-                <img src="https://scontent-lhr3-1.xx.fbcdn.net/v/t1.0-9/1554494_10202480640245651_7477605474618443507_n.jpg?oh=32dfb7eb5346ac6762711cd7ed1c32af&oe=5980ABF8" alt="" />
-            </div>
-
-            <div class="user-img">
-                <i class="fa fa-plus-circle fa-5x" aria-hidden="true"></i>
-            </div>
+            @foreach (var item in Model.Project.ApplicationUsers)
+            {
+                <div class="user-img">
+                    <img src="@Url.Content(item.AvatarPath)" />
+                
+                    <p class="img-description">
+                        KOlli ER EFATALADUR
+                    </p>
+                </div>
+            }
+            
+            
         </div>
 
         @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))

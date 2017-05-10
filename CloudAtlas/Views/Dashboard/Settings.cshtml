@@ -13,10 +13,20 @@
     <input type="text" name="name" id="name" value="@Model.UserName">
 
     <label for="colorScheme">Color Scheme</label>
-    @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem> ,new { @id = "colorScheme" })
+    @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem>, new { @id = "colorScheme" })
     <input type="hidden" id="hiddentheme" value="@Model.Theme"/>
-    <input type="button" id="save" value="Save Changes" />
+   
+
+    @using (Html.BeginForm("UploadImage", "DashBoard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data"}))
+    {
+
+        <input type=file id=File name=File />
+
+        <input type="submit" id="Submit" value="Upload"/>
+    }
     
+    <input type="button" id="save" value="Save Changes" />
+
 </div>
 
 
@@ -40,7 +50,25 @@
                     }
                 });
             });
+
+            $("#imageForm").on('submit', function () {
+                var form = $(this);
+                $.ajax({
+                    url: form.attr('action'),
+                    url: form.serialize(),
+                    method: 'Post'
+
+                })
+            }
+
+
+
         });
+
+
+
+
+
 
     </script>
     

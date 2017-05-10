@@ -359,19 +359,8 @@ body {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%); }
-          .project-container .right-sidebar .collaborators .user-img img .img-description {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(29, 106, 154, 0.72);
-            color: #fff;
-            visibility: hidden;
-            opacity: 0; }
-            .project-container .right-sidebar .collaborators .user-img img .img-description:hover {
-              visibility: visible;
-              opacity: 1; }
+          .project-container .right-sidebar .collaborators .user-img img:hover {
+            opacity: 0.5; }
         .project-container .right-sidebar .collaborators .user-img .fa-plus-circle {
           font-size: 50px;
           color: #4EA5D9; }

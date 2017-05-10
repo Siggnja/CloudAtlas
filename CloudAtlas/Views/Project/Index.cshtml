@@ -51,14 +51,17 @@
             <div class="user-img">
                 <img src="https://scontent-lhr3-1.xx.fbcdn.net/v/t1.0-9/1554494_10202480640245651_7477605474618443507_n.jpg?oh=32dfb7eb5346ac6762711cd7ed1c32af&oe=5980ABF8" alt="" />
             </div>
+            <p id="editinglineKolli">Kolli</p>
 
             <div class="user-img">
                 <img src="https://scontent-lhr3-1.xx.fbcdn.net/v/t1.0-9/1554494_10202480640245651_7477605474618443507_n.jpg?oh=32dfb7eb5346ac6762711cd7ed1c32af&oe=5980ABF8" alt="" />
             </div>
+            <p id="editinglineSiggi">Siggi</p>
 
             <div class="user-img">
                 <img src="https://scontent-lhr3-1.xx.fbcdn.net/v/t1.0-9/1554494_10202480640245651_7477605474618443507_n.jpg?oh=32dfb7eb5346ac6762711cd7ed1c32af&oe=5980ABF8" alt="" />
             </div>
+            <p id="editinglineSvessi">Svessi</p>
 
             <div class="user-img">
                 <i class="fa fa-plus-circle fa-5x" aria-hidden="true"></i>
@@ -137,6 +140,9 @@
                 ignore = true;
                 editor.getSession().getDocument().applyDelta(changedata);
                 ignore = false;
+                var line = Number(changedata.start.row) + 1;
+                var userediting = "#editingline" + "Siggi";
+                $(userediting).stop(false).text("Line: " + line).show().animate({ opacity: '100' }).fadeOut(1000);
             };
 
             chat.client.chatMessage = function (name, message) {

@@ -1,4 +1,5 @@
-﻿
+﻿@model CloudAtlas.Models.ApplicationUser
+
 @{
     ViewBag.Title = "Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,16 +8,40 @@
 <div class="settings-container">
     <h1>Settings</h1>
 
-    <form class="settings-form">
-        <label for="name">Name</label>
-        <input type="text" name="name">
+    
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" value="@Model.UserName">
 
-        <label for="colorScheme">Color Scheme</label>
-        <select name="colorScheme" class="color-scheme">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-        </select>
+    <label for="colorScheme">Color Scheme</label>
+    <select name="colorScheme" id="colorScheme" class="color-scheme">
+        <option value="dawn">Light</option>
+        <option value="chaos">Dark</option>
+        <option value="monokai">Sublime</option>
+    </select>
 
-        <input type="submit" name="submit" value="Save Changes">
-    </form>
+    <input type="button" id="save" value="Save Changes" />
+    
 </div>
+
+
+@section scripts {
+    <script>
+        $('#save').click(function () {
+            $.ajax({
+                url: '/Dashboard/SaveSettings',
+                dataType: 'json',
+                data: { UserName: $('#name').val(), theme: $('#colorScheme').find(":selected").val() },
+                method: 'POST',
+                success: function (data) {
+                    $('#save').val('Saved!')
+                    setTimeout(function () {
+                        $('#save').val('Save Changes')}, 1500);
+                }
+            });
+        });
+
+
+
+    </script>
+    
+}

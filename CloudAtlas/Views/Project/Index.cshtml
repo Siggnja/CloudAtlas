@@ -15,6 +15,16 @@
             <input type="hidden" id="hiddentype" name="hiddentype" />
             <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme"/>
         </div>
+        @using (Html.BeginForm("Download", "Project"))
+        {
+            <label for="dltest">FileID</label>
+            <input id="dltest" name="dltest" type="number" />
+
+            <div>
+                <button class="btn btn-default">Submit</button>
+            </div>
+        }
+
     </div>
 
     <div class="left-sidebar">
@@ -49,16 +59,6 @@
 
         <div class="collaborators">
 
-            @foreach (var item in Model.Project.ApplicationUsers)
-            {
-                <div class="user-img">
-                    <img src="@Url.Content(item.AvatarPath)" />
-                
-                    <p class="img-description">
-                        KOlli ER EFATALADUR
-                    </p>
-                </div>
-            }
             
             
         </div>

@@ -326,37 +326,61 @@ namespace CloudAtlas.Controllers
 
         public JsonResult Search(string term)
         {
-            var p = (from item in context.Users
-                     where item.Email.StartsWith(term)
-                     select item.Email).ToList();
+            var users = (from user in context.Users
+                            where user.Email.StartsWith(term)
+                            select user.Email).ToList();
 
-            return Json(p, JsonRequestBehavior.AllowGet);
+            var groups = (from grou in context.Groups
+                            where grou.Name.StartsWith(term)
+                            select grou.Name).ToList();
+
+
+            var listName = users.Union(groups);
+                
+            
+
+            return Json(listName, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Invite(FormCollection collection)
         {
-            var UserEmail = collection["UserEmail"];
+            var stringToCheck = collection["UserEmail"];
             var hidden = collection["hiddenproject"];
             int projectID = Int32.Parse(hidden);
-
-            var thisUser = (from item in context.Users
-                            where item.Email == UserEmail
-                            select item).FirstOrDefault();
-
-            if(thisUser == null)
-            {
-                return RedirectToAction("Index", "Project", new { id = projectID });
-            }
+            string loggedInUser = User.Identity.GetUserId<string>();
 
             var project = (from i in context.Projects
                            where i.ID == projectID
                            select i).FirstOrDefault();
 
+            var user = (from item in context.Users
+                        where item.Id == loggedInUser
+                        select item).FirstOrDefault();
 
-            if (!thisUser.Projects.Contains(project))
+            var checkGroup = (from g in user.Groups
+                              where g.Name == stringToCheck
+                              select g).FirstOrDefault();
+
+            if(checkGroup != null)
             {
-                projrepository.AddProjectToUser(project, thisUser);
+                foreach(var item in checkGroup.ApplicationUsers)
+                {
+                    projrepository.AddProjectToUser(project, item);
+                }
             }
+
+            var checkUser = (from item in context.Users
+                             where item.Email == stringToCheck
+                             select item).FirstOrDefault();
+
+            if(checkUser != null)
+            {
+                if (!checkUser.Projects.Contains(project))
+                {
+                    projrepository.AddProjectToUser(project, checkUser);
+                }
+            }
+
             return RedirectToAction("Index", "Project", new { id = projectID });
 
         }

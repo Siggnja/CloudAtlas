@@ -73,7 +73,7 @@ namespace CloudAtlas.Controllers
                             where file.ID == id
                             select file).FirstOrDefault();
 
-            return Json(new { content = thisfile.Content, type = thisfile.Type },
+            return Json(new { content = thisfile.Content, type = thisfile.Type, name = thisfile.Name },
                 JsonRequestBehavior.AllowGet);
         }
         [HttpPost]

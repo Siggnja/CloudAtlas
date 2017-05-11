@@ -9,12 +9,12 @@
 <div class="project-container">
     <div class="main">
         <div class="actions">
-            <div class="filename">
-                index.js
+            <div id="openfile" class="filename">
+                No file open
             </div>
 
-            <div class="last-saved">
-                saved 5 mins ago
+            <div id="filesavedtime" class="last-saved">
+                
             </div>
         </div>
         <div id="editor" style="width: 100%; height:100%;"></div>
@@ -128,6 +128,8 @@
                             method: 'POST'
                         });
                         chat.server.updateEditor(obj, $('#hiddenid').val());
+                        var d = new Date();
+                        $('#filesavedtime').text("Saved by you at " + d.getHours() + ":" + d.getMinutes());
                     }
                 });
 
@@ -414,6 +416,8 @@
                         success: function (response, textStatus, jqXHR) {
                             chat.server.switchFile($('#hiddenid').val(), fid);
                             $('#hiddenid').val(fid);
+                            $('#openfile').text(response.name);
+                            $('#filesavedtime').text('');
                             ignore = true;
                             editor.setValue(response.content, 1);
                             $('#hiddencode').val(response.content);

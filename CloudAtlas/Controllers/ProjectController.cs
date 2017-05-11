@@ -325,14 +325,19 @@ namespace CloudAtlas.Controllers
 
         public JsonResult Search(string term)
         {
+            string loggedInUser = User.Identity.GetUserId<string>();
+
             var users = (from user in context.Users
                             where user.Email.StartsWith(term)
                             select user.Email).ToList();
 
-            var groups = (from grou in context.Groups
-                            where grou.Name.StartsWith(term)
-                            select grou.Name).ToList();
+            var userGroup = (from user in context.Users
+                             where user.Id == loggedInUser
+                             select user.Groups).FirstOrDefault();
 
+            var groups = (from gr in userGroup
+                          where gr.Name.StartsWith(term)
+                          select gr.Name).ToList();
 
             var listName = users.Union(groups);
                 
@@ -364,7 +369,10 @@ namespace CloudAtlas.Controllers
             {
                 foreach(var item in checkGroup.ApplicationUsers)
                 {
-                    projrepository.AddProjectToUser(project, item);
+                    if (!item.Projects.Contains(project))
+                    {
+                        projrepository.AddProjectToUser(project, item);
+                    }
                 }
             }
 

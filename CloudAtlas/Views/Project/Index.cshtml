@@ -46,9 +46,7 @@
                 <div class="user-img">
                     @foreach (var item in Model.Project.ApplicationUsers)
                     {
-                        <div class="user-img">
-                            <img alt="@item.UserName" title="@item.UserName" src="@Url.Content(item.AvatarPath)" />
-                        </div>
+                        <img alt="@item.UserName" title="@item.UserName" src="@Url.Content(item.AvatarPath)" />
                     }
                 </div>
             </div>

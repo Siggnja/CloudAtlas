@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CloudinaryDotNet, Version=1.0.30.0, Culture=neutral, PublicKeyToken=c8234dc617ae7841, processorArchitecture=MSIL">
+      <HintPath>..\packages\CloudinaryDotNet.1.0.30\lib\net40\CloudinaryDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
@@ -232,7 +235,6 @@
     <Compile Include="Utilities\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\Avatars\DefaultAvatar.png" />
     <Content Include="Content\images\bg.jpg" />
     <Content Include="Content\images\facebook-social.png" />
     <Content Include="Content\images\github-social.png" />
@@ -334,6 +336,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\Avatars\" />
     <Folder Include="DAL\" />
   </ItemGroup>
   <ItemGroup>

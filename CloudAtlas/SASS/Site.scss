@@ -173,7 +173,7 @@ body {
         color: #fff;
         width: 250px;
         font-size: 25px;
-    
+
         a {
             text-decoration: none;
             color: #fff;
@@ -184,10 +184,11 @@ body {
 .header .actions {
     color: #fff;
     font-size: 18px;
-    #logoutForm
-    {
-        display:inline;
+
+    #logoutForm {
+        display: inline;
     }
+
     a {
         text-decoration: none;
         color: #fff;
@@ -408,7 +409,6 @@ body {
     .dashboard-container {
 
         .my-projects {
-            
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -665,6 +665,7 @@ body {
         }
     }
 }
+
 .http-error-box {
     margin-top: 45px;
 
@@ -779,5 +780,5 @@ body {
 }
 
 .vakata-context ul {
-    z-index:100;
+    z-index: 100;
 }

@@ -36,9 +36,11 @@
         $('#createForm').submit(function (e) {
             if ($('#name').val() == "") {
                 $("#searchInvite").val('');
-                $('#submit').val('Groups needs a name!')
+                $("#submit").css({ 'background-color': 'indianred' });
+                $('#submit').val('Groups needs a name!');
                 setTimeout(function () {
-                    $('#submit').val('Create')
+                    $('#submit').val('Create');
+                    $("#submit").css({ 'background-color': '#293241' });
                 }, 1000);
                 e.preventDefault();
                 e.stopImmediatePropagation();
@@ -71,9 +73,11 @@
                 if (first == false)
                 {
                     $("#searchInvite").val('');
-                    $('#submit').val('User not found!')
+                    $("#submit").css({ 'background-color': 'indianred' });
+                    $('#submit').val('User not found!');
                     setTimeout(function () {
-                        $('#submit').val('Create')
+                        $('#submit').val('Create');
+                        $("#submit").css({ 'background-color': '#293241' });
                     }, 1000);
                     return false;
                 }
@@ -85,9 +89,11 @@
                 if (second == true)
                 {
                     $("#searchInvite").val('');
-                    $('#submit').val('Already in group!')
+                    $("#submit").css({ 'background-color': 'indianred' });
+                    $('#submit').val('Already in group!');
                     setTimeout(function () {
-                        $('#submit').val('Create')
+                        $('#submit').val('Create');
+                        $("#submit").css({ 'background-color': '#293241' });
                     }, 1000);
                     return false;
                 }
@@ -95,9 +101,11 @@
                 $("#membersLabel").show();
                 invitedUser.push(email);
                 $("#searchInvite").val('');
-                $('#submit').val('Added!')
+                $("#submit").css({ 'background-color': '#27ae60' });
+                $('#submit').val('Added!');
                 setTimeout(function () {
-                    $('#submit').val('Create')
+                    $('#submit').val('Create');
+                    $("#submit").css({ 'background-color': '#293241' });
                 }, 1000);
                 return false;
             }

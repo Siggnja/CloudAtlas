@@ -44,26 +44,23 @@
         <div class="collaborators">
             <div class="avatars">
                 <div class="user-img">
-                    <img src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/250x250/p37265.png" />
-                </div>
-                <div class="user-img">
-                    <img src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/250x250/p37265.png" />
-                </div>
-                <div class="user-img">
-                    <img src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/250x250/p37265.png" />
-                </div>
-                <div class="user-img">
-                    <img src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/250x250/p37265.png" />
+                    @foreach (var item in Model.Project.ApplicationUsers)
+                    {
+                        <img alt="@item.UserName" title="@item.UserName" src="@Url.Content(item.AvatarPath)" />
+                    }
                 </div>
             </div>
 
             @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))
             {
                 @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite" })
-                <!--<input type="submit" id="submitInvite" />-->
+            <!--<input type="submit" id="submitInvite" />-->
                 <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
-                <input type="submit" value="Invite" />
+                <input type="submit" />
             }
+
+           
+            
         </div>
         <h3>Chat</h3>
         <div class="messages">

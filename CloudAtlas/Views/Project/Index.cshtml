@@ -21,6 +21,11 @@
             <input type="hidden" id="hiddenid" name="hiddenid" />
             <input type="hidden" id="hiddentype" name="hiddentype" />
             <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme" />
+            @using (Html.BeginForm("Download", "Project", FormMethod.Post))
+            {
+                <input type="hidden" id="downloadfileid" name="fileid" />
+                <input type="submit" id="downloadbutton" hidden="hidden" />
+            }
         </div>
     </div>
 
@@ -234,15 +239,9 @@
                             },
                             "download": {
                                 label: "Download",
-                                action: function ()
-
-                                {
-                                    console.log(node.id);
-                                    $.ajax({
-                                        url: '@Url.Action("Download", "Project")',
-                                        type: 'POST',
-                                        data: { fileID: node.id},
-                                    })
+                                action: function (){
+                                    $('#downloadfileid').val(node.id);
+                                    $('#downloadbutton').click();
                                 },
                                 separator_before: true
                             }

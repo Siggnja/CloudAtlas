@@ -173,7 +173,7 @@ body {
         color: #fff;
         width: 250px;
         font-size: 25px;
-    
+
         a {
             text-decoration: none;
             color: #fff;
@@ -184,10 +184,11 @@ body {
 .header .actions {
     color: #fff;
     font-size: 18px;
-    #logoutForm
-    {
-        display:inline;
+
+    #logoutForm {
+        display: inline;
     }
+
     a {
         text-decoration: none;
         color: #fff;
@@ -400,7 +401,6 @@ body {
     .dashboard-container {
 
         .my-projects {
-            
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -582,27 +582,6 @@ body {
             width: 100%;
             padding: 10px 15px;
 
-<<<<<<< HEAD
-            .user-img {
-                width: 50px;
-                height: 50px;
-                overflow: hidden;
-                border-radius: 50%;
-                position: relative;
-                margin-top: 20px;
-                margin-left: auto;
-                margin-right: auto;
-
-                img {
-                    width: 100%;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%,-50%);
-
-                    &:hover {
-                        opacity: 0.5;
-=======
             .avatars {
                 display: flex;
                 width: 100%;
@@ -623,7 +602,6 @@ body {
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%,-50%);
->>>>>>> develop
                     }
                 }
 
@@ -679,6 +657,7 @@ body {
         }
     }
 }
+
 .http-error-box {
     margin-top: 45px;
 
@@ -793,5 +772,5 @@ body {
 }
 
 .vakata-context ul {
-    z-index:100;
+    z-index: 100;
 }

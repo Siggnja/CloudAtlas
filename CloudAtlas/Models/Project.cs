@@ -10,6 +10,7 @@ namespace CloudAtlas.Models
     {
         public int ID { get; set; }
         [Required]
+        //[StringLength(30,ErrorMessage = "Name can not be longer then 30 characters")]
         public string Name { get; set; }
         [Required]
         public string Type { get; set; }

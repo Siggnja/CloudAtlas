@@ -22,6 +22,7 @@ namespace CloudAtlas.Repositories
         public void DeleteProject(Project proj, ApplicationUser user)
         {
             user.Projects.Remove(proj);
+            db.SaveChanges();
         }
         public List<Project> GetProjectsByUserId(string id)
         {

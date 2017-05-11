@@ -330,6 +330,7 @@
     <Content Include="Views\Project\Create.cshtml" />
     <Content Include="Views\Group\Create.cshtml" />
     <Content Include="Views\Project\CreateFileInput.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

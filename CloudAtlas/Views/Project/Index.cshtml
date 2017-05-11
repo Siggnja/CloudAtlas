@@ -4,9 +4,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 <div class="project-container">
     <div class="main">
         <div id="editor" style="width: 100%; height:100%;">
@@ -76,10 +75,94 @@
 
 <script src="~/Scripts/ace.js" type="text/javascript" charset="utf-8"></script>
 
+<<<<<<< HEAD
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/c_cpp");
+=======
+@section scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+    <script>
+        $(function () {
+
+            // Ace functions
+            var editor = ace.edit("editor");
+            editor.setShowPrintMargin(false);
+            var theme = "ace/theme/" + $('#hiddentheme').val();
+            editor.setTheme(theme);
+            editor.getSession().setMode("ace/mode/c_cpp");
+
+
+            // Hub functions
+            var chat = $.connection.chatHub;
+
+            editor.$blockScrolling = Infinity;
+
+            var ignore;
+
+            chat.client.updateEditor = function (changedata) {
+                ignore = true;
+                editor.getSession().getDocument().applyDelta(changedata);
+                ignore = false;
+                var line = Number(changedata.start.row) + 1;
+                var userediting = "#editingline" + "Siggi";
+                $(userediting).stop(false).text("Line: " + line).show().animate({ opacity: '100' }).fadeOut(1000);
+            };
+
+            chat.client.chatMessage = function (name, message) {
+                // Add the message to the page.
+                $('#discussion').append('<li><strong>' + htmlEncode(name)
+                    + '</strong>: ' + htmlEncode(message) + '</li>');
+            };
+
+
+            // Hub
+            $.connection.hub.start().done(function () {
+
+                chat.server.joinChat($('#hiddenproject').val());
+
+                // Change is detected and editor is updated.
+                editor.on("change", function (obj) {
+                    if (!ignore) {
+                        console.log("Skepni");
+                        $.ajax({
+                            url: '/Project/SaveFileAuto',
+                            dataType: 'json',
+                            data: { code: editor.getValue(), id: $('#hiddenid').val(), projectid: $('#hiddenproject').val() },
+                            method: 'POST'
+                        });
+                        chat.server.updateEditor(obj, $('#hiddenid').val());
+                    }
+                });
+
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    chat.server.chatMessage($('#displayname').val(), $('#message').val(), $('#hiddenproject').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+
+            });
+
+
+            function htmlEncode(value) {
+                var encodedValue = $('<div />').text(value).html();
+                return encodedValue;
+            }
+
+            $('#message').keypress(function (e) {
+                if (e.keyCode == 13)
+                    $('#sendmessage').click();
+            });
+>>>>>>> 8179ac8e8a8c40de49e7b09c4689c2d0af839ecc
 
     $(document).ready(function () {
         $('#message').keypress(function (e) {
@@ -135,19 +218,38 @@
                                     "label": "File",
                                     action: function (obj)
                                     {
-                                       $("#CreateFileForm").dialog({
-                                            autoOpen: true,
-                                            position: { my: "center", at: "top+350", of: window },
-                                            width: 1000,
-                                            resizable: false,
-                                            title: 'Add File',
-                                            modal: true,
-                                            open: function () {
-                                                $(this).load('@Url.Action("CreateFileInput", "Project")');
-                                            },
-                                            buttons: {
-                                                "Add file": function () {
-                                                    CreateFileInfo();
+                                        "seperator_before": false,
+                                        "seperator_after": false,
+                                        "label": "File",
+                                        action: function (obj) {
+
+                                            console.log("CREATE FILE ACTION")
+
+                                            // Ask user for fileName
+                                            var fileName = prompt("Enter File NAme:", "index.js");
+                                            //window.confirm();
+
+
+                                            console.log(fileName);
+
+                                            console.log(this);
+
+                                            if (fileName == null || fileName == "") {
+                                                console.log("EMPTY");
+                                            } else {
+                                                CreateFileInfo(1);
+                                            }
+
+
+                                            @*$("#CreateFileForm").dialog({
+                                                autoOpen: true,
+                                                position: { my: "center", at: "top+350", of: window },
+                                                width: 1000,
+                                                resizable: false,
+                                                title: 'Add File',
+                                                modal: true,
+                                                open: function () {
+                                                    $(this).load('@Url.Action("CreateFileInput", "Project")');
                                                 },
                                                 Cancel: function () {
                                                     $(this).dialog("close");
@@ -164,6 +266,18 @@
                                     action: function (obj) {
                                         var fid = node.id;
                                         tree.jstree(true).create_node(node, fid, "last", false, false);
+                                            });
+                                            return false;*@
+                                        }
+                                    },
+                                    "create_folder": {
+                                        "seperator_before": false,
+                                        "seperator_after": false,
+                                        "label": "Folder",
+                                        action: function (obj) {
+                                            var fid = node.id;
+                                            tree.jstree(true).create_node(node, fid, "last", false, false);
+                                        }
                                     }
                                 }
                             }
@@ -266,9 +380,7 @@
                     success: function (response)
                     {
                         tree.jstree(true).settings.core.data = response;
-                        tree.jstree(true).refresh();
                     }
-
                 });
             }
             else

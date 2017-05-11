@@ -300,6 +300,7 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Project", new { id = projectid});
         }
 
+        [ValidateInput(false)]
         public ActionResult SaveFileAuto(string code, int id, int projectid)
         {
 
@@ -438,6 +439,20 @@ namespace CloudAtlas.Controllers
 
             return RedirectToAction("Index", "Project", new { id = newProject.ID });
 
+        }
+
+        public ActionResult Delete(int projectid)
+        {
+            string userid = User.Identity.GetUserId<string>();
+            var curruser = (from user in context.Users
+                            where user.Id == userid
+                            select user).FirstOrDefault();
+
+            var project = projrepository.GetProjectById(projectid);
+
+            projrepository.DeleteProject(project, curruser);
+
+            return RedirectToAction("Index", "Dashboard");
         }
 
         public ActionResult Download(int fileID)

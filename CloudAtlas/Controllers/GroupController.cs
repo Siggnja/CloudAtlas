@@ -157,5 +157,12 @@ namespace CloudAtlas.Controllers
                 JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Delete(int groupID)
+        {
+            groupsrepository.deleteGroupById(groupID);
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
     }
 }

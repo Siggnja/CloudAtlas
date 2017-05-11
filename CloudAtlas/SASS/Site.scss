@@ -590,6 +590,25 @@ body {
             width: 100%;
             padding: 10px 15px;
 
+            .colab-form {
+
+                input[type=text] {
+                    height: 25px;
+                }
+
+                input[type=submit] {
+                    border: 0;
+                    height: 25px;
+                    width: 60px;
+                    color: #fff;
+                    background-color: $brown;
+
+                    &:hover {
+                        color: $blue;
+                        cursor: pointer;
+                    }
+                }
+            }
             .avatars {
                 display: flex;
                 width: 100%;
@@ -610,6 +629,15 @@ body {
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%,-50%);
+                    }
+                }
+
+                a {
+                    color: $blue;
+                    font-size: 50px;
+
+                    &:hover {
+                        color: $brown;
                     }
                 }
 
@@ -781,4 +809,13 @@ body {
 
 .vakata-context ul {
     z-index: 100;
+}
+
+
+.hidden {
+    display: none;
+}
+
+.show {
+    display: block;
 }

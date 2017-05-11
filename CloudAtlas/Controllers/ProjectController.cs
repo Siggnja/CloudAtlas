@@ -88,7 +88,6 @@ namespace CloudAtlas.Controllers
             file.Name = newName.Trim();
             context.SaveChanges();
             return InitilizeTree(projectId);
-
         }
         [HttpPost]
         public ActionResult RenameFolder(int? id, string newName, int projectId)
@@ -364,7 +363,6 @@ namespace CloudAtlas.Controllers
         [HttpPost]
         public ActionResult Create(Project project)
         {
-            
             Folder newfold = new Folder { Name = "Root", IsRoot = true };
 
             foldrepository.addFolder(newfold);
@@ -417,14 +415,17 @@ namespace CloudAtlas.Controllers
 
             filerepository.addFile(newfile);
 
+            string userid = User.Identity.GetUserId<string>();
+
             Project newProject = new Project()
             {
                 Name = project.Name,
                 Type = project.Type,
                 IsGroupProject = false,
-                FolderID = foldid
+                FolderID = foldid,
+                OwnerID = userid
             };
-            string userid = User.Identity.GetUserId<string>();
+            
 
             var curruser = (from user in context.Users
                             where user.Id == userid

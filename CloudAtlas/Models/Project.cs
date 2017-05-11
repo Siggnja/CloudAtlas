@@ -20,6 +20,8 @@ namespace CloudAtlas.Models
 
         public int FolderID { get; set; }
 
+
+
         private DateTime _date = DateTime.Now;
 
         public DateTime DateCreated
@@ -28,6 +30,10 @@ namespace CloudAtlas.Models
             set { _date = value;}
         }
         public virtual Folder Folder { get; set; }
+
+        public string OwnerID { get; set; }
+
+        public virtual ApplicationUser Owner { get; set; }
 
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }

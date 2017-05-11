@@ -45,16 +45,16 @@
                 @Html.Partial("Avatars", Model)
             </div>
 
-            @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))
-            {
-                @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite" })
-            <!--<input type="submit" id="submitInvite" />-->
-                <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
-                <input type="submit" id="invitebutton" value="Invite"/>
-            }
-
+            <div class="colab-form hidden">
+                @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))
+                {
+                    @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite" })
+                <!--<input type="submit" id="submitInvite" />-->
+                    <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
+                    <input type="submit" id="invitebutton" value="Invite" />
+                }
+            </div>
            
-            
         </div>
         <h3>Chat</h3>
         <div class="messages">
@@ -79,6 +79,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <script>
         $(function () {
+
+            $(".add-colab").click(function () {
+                $(".colab-form").removeClass("hidden");
+                $(".colab-form").addClass("show");
+            });
+
             // Ace functions
             var editor = ace.edit("editor");
             editor.setShowPrintMargin(false);
@@ -444,6 +450,9 @@
                             $("#invitebutton").css({ 'background-color': '#293241' });
                         }, 1000);
                         $("#partial").html(result);
+
+                        $(".colab-form").removeClass("show");
+                        $(".colab-form").addClass("hidden");
                     }
                 });
 
@@ -456,6 +465,8 @@
             });
 
         });
+
+
 
     </script>
 }

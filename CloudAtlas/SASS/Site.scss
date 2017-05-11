@@ -646,6 +646,10 @@ body {
                         left: 50%;
                         transform: translate(-50%,-50%);
                     }
+
+                    &:hover {
+                        opacity:0.5;
+                    }
                 }
 
                 .new-user {
@@ -762,6 +766,9 @@ body {
         text-align: center;
     }
 
+    img {
+        border-radius: 50%;
+    }
 
     .create-project-form {
         width: 500px;

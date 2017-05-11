@@ -544,6 +544,8 @@ body {
     padding: 5px;
     font-size: 17px;
     text-align: center; }
+  .create-project-container img {
+    border-radius: 50%; }
   .create-project-container .create-project-form {
     width: 500px; }
     .create-project-container .create-project-form select {

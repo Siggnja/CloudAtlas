@@ -67,8 +67,7 @@
             $("#imageForm").on('submit', function () {
                 var form = $(this);
                 var fileInput = $("#File").val();
-                if (fileInput == '')
-                {
+                if (fileInput == '') {
                     $("#Submit").css({ 'background-color': 'indianred' });
                     $('#Submit').val('No image detected');
                     setTimeout(function () {
@@ -78,14 +77,14 @@
 
                     return false;
                 }
-                $.ajax({
-                    url: form.attr('action'),
-                    url: form.serialize(),
-                    method: 'Post'
+                else {
+                    $.ajax({
+                        url: form.attr('action'),
+                        url: form.serialize(),
+                        method: 'Post'
 
-                })
-
-                return false;
+                    });
+                }
             });
 
 

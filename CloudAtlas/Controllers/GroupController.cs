@@ -28,8 +28,8 @@ namespace CloudAtlas.Controllers
         {
             var group = groupsrepository.getGroupById(id);
 
+            ViewData["userid"] = User.Identity.GetUserId<string>();
 
-            
 
             return View(group);
         }
@@ -160,6 +160,21 @@ namespace CloudAtlas.Controllers
         public ActionResult Delete(int groupID)
         {
             groupsrepository.deleteGroupById(groupID);
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        public ActionResult Leave(int groupID)
+        {
+            string userid = User.Identity.GetUserId<string>();
+            var curruser = (from user in context.Users
+                            where user.Id == userid
+                            select user).FirstOrDefault();
+
+            var group = groupsrepository.getGroupById(groupID);
+
+            groupsrepository.RemoveUserFromGroup(curruser, group);
+
 
             return RedirectToAction("Index", "Dashboard");
         }

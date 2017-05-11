@@ -143,6 +143,7 @@
                 // Change is detected and editor is updated.
                 editor.on("change", function (obj) {
                     if (!ignore) {
+                        console.log("Skepni");
                         $.ajax({
                             url: '/Project/SaveFileAuto',
                             dataType: 'json',

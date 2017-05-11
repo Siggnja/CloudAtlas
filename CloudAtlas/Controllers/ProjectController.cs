@@ -300,6 +300,7 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Project", new { id = projectid});
         }
 
+        [ValidateInput(false)]
         public ActionResult SaveFileAuto(string code, int id, int projectid)
         {
 

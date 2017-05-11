@@ -24,10 +24,21 @@
         </ul>
     </div>
 
-    <a href=@Url.Action("Delete", "Group", new { groupID = Model.ID })>
-        <h2>Delete group</h2>
-    </a>
-    
+    @if (Model.OwnerID.Equals(ViewData["userid"]))
+    {
+        <a href=@Url.Action("Delete", "Group", new { groupID = Model.ID })>
+            <h2>Delete group</h2>
+        </a>
+    }
+    else
+    {
+        <a href=@Url.Action("Leave", "Group", new { groupID = Model.ID })>
+            <h2>Leave group</h2>
+        </a>
+    }
+
+
+
 </div>
 
 

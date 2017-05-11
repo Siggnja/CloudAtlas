@@ -9,16 +9,17 @@
 <div class="create-project-container">
     <h1>Lets create something new</h1>
 
-    <form class="create-project-form">
+        @using (Html.BeginForm("Create", "Project", FormMethod.Post, htmlAttributes: new { @class = "create-project-form" }))
+        {
+            <label for="name">Name of project</label>
+            @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name" })
 
-        <label for="name">Name of project</label>
-        @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name" })
+            <label for="colorScheme">Programming language</label>
 
-        <label for="colorScheme">Programming language</label>
-
-        @Html.DropDownListFor(x => x.Type, ViewData["Type"] as List<SelectListItem>)         
-        <input type="submit" name="submit" value="Create">
-    </form>
+            @Html.DropDownListFor(x => x.Type, ViewData["Type"] as List<SelectListItem>)
+            <input type="submit" name="submit" value="Create">
+        }
+    
 </div>
 
 

@@ -218,8 +218,26 @@
                                         "seperator_after": false,
                                         "label": "File",
                                         action: function (obj) {
-                                            window.confirm();
-                                            $("#CreateFileForm").dialog({
+
+                                            console.log("CREATE FILE ACTION")
+
+                                            // Ask user for fileName
+                                            var fileName = prompt("Enter File NAme:", "index.js");
+                                            //window.confirm();
+
+
+                                            console.log(fileName);
+
+                                            console.log(this);
+
+                                            if (fileName == null || fileName == "") {
+                                                console.log("EMPTY");
+                                            } else {
+                                                CreateFileInfo(1);
+                                            }
+
+
+                                            @*$("#CreateFileForm").dialog({
                                                 autoOpen: true,
                                                 position: { my: "center", at: "top+350", of: window },
                                                 width: 1000,
@@ -238,7 +256,7 @@
                                                     }
                                                 }
                                             });
-                                            return false;
+                                            return false;*@
                                         }
                                     },
                                     "create_folder": {
@@ -319,7 +337,8 @@
                     url: '@Url.Action("CreateFile", "Project")',
                     type: 'POST',
                     data: $("#myForm").serialize() + "&parentId=id&projectId=@Model.Project.ID",
-                    success: function(data) {
+                    success: function (data) {
+                        console.log("SUCCESS!!")
                         if (data) {
                             $(':input', '#myForm')
                               .not(':button, :submit, :reset, :hidden')

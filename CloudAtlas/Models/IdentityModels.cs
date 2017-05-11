@@ -22,9 +22,11 @@ namespace CloudAtlas.Models
         public virtual ICollection<Group> Groups { get; set; }
         [InverseProperty("Owner")]
         public virtual ICollection<Group> OwnedGroups { get; set; }
+
         public string AvatarPath { get; set; }
-        
+
         public string Theme { get; set; }
+        
         
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         { 

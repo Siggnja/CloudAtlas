@@ -44,6 +44,21 @@ namespace CloudAtlas.Repositories
             group.Projects.Remove(project);
             db.SaveChanges();
         }
+        public void AddUserToGroup(ApplicationUser user, Group group)
+        {
+            group.ApplicationUsers.Add(user);
+            db.SaveChanges();
+        }
+        public void RemoveUserFromGroup(ApplicationUser user, Group group)
+        {
+            group.ApplicationUsers.Remove(user);
+            db.SaveChanges();
+        }
+        public bool UserInGroup(ApplicationUser user, Group group)
+        {
+            return group.ApplicationUsers.Contains(user);
+        }
+
         public List<Group> getAllGroupsByUserId(string id)
         {
             /*

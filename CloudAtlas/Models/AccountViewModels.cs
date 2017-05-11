@@ -6,8 +6,10 @@ namespace CloudAtlas.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        public string UserName { get; set; }
     }
 
     public class ExternalLoginListViewModel

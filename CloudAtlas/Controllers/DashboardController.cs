@@ -91,52 +91,53 @@ namespace CloudAtlas.Controllers
         [HttpPost]
         public ActionResult UploadImage(HttpPostedFileBase file)
         {
-
-            Account account = new Account(
-                "cloudatlas",
-                "215256475133816",
-                "E6XXbAvQXKM05K9FqQpgxJ6ggQI");
-
-            Cloudinary cloudinary = new Cloudinary(account);
-
-            string userid = User.Identity.GetUserId<string>();
-
-            var fileName = userid;
-            var path = Path.Combine(Server.MapPath("~/Content/images/Avatars/"), fileName);
-
-            file.SaveAs(path);
-
-            var uploadParams = new ImageUploadParams()
+            if (file != null)
             {
-                File = new FileDescription(Server.MapPath("~/Content/images/Avatars/" + fileName)),
-                PublicId = fileName
-            };
 
-            var uploadResult = cloudinary.Upload(uploadParams);
+                Account account = new Account(
+                    "cloudatlas",
+                    "215256475133816",
+                    "E6XXbAvQXKM05K9FqQpgxJ6ggQI");
 
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
+                Cloudinary cloudinary = new Cloudinary(account);
+
+                string userid = User.Identity.GetUserId<string>();
+
+                var fileName = userid;
+                var path = Path.Combine(Server.MapPath("~/Content/images/Avatars/"), fileName);
+
+                file.SaveAs(path);
+
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(Server.MapPath("~/Content/images/Avatars/" + fileName)),
+                    PublicId = fileName,
+                   Transformation = new Transformation().Width(200).Height(200).Crop("thumb").Gravity("face")
+                };
+
+                var uploadResult = cloudinary.Upload(uploadParams);
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
+                var curruser = (from user in db.Users
+                                where user.Id == userid
+                                select user).FirstOrDefault();
+
+
+                curruser.AvatarPath = uploadResult.JsonObj["secure_url"].ToString();
+
+
+
+                db.SaveChanges();
+
+                return RedirectToAction("Settings", "Dashboard");
+
             }
 
-            var curruser = (from user in db.Users
-                            where user.Id == userid
-                            select user).FirstOrDefault();
-
-
-            curruser.AvatarPath = uploadResult.JsonObj["secure_url"].ToString();
-
-
-
-            db.SaveChanges();
-
-            return Json(new { status = "success" },
-                JsonRequestBehavior.AllowGet);
-
-
-            // Vista urli[ i db
-
-            // Redirecta user til baka e[a eitthvaert
+            return View();
 
 
 

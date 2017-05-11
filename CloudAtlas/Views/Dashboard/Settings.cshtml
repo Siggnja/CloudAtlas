@@ -8,7 +8,12 @@
 <div class="settings-container">
     <h1>Settings</h1>
 
-    
+
+    <div class="settings-img">
+        <img alt="@Model.UserName" title="@Model.UserName" src="@Url.Content(Model.AvatarPath)" />
+    </div>
+
+
     <label for="name">Name</label>
     <input type="text" name="name" id="name" value="@Model.UserName">
 

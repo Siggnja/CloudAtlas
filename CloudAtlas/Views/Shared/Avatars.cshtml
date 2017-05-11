@@ -1,9 +1,9 @@
 ﻿@model CloudAtlas.Models.ProjectViewModel
 
-<div class="user-img">
-    @foreach (var item in Model.Project.ApplicationUsers)
-    {
-        <img alt="@item.UserName" title="@item.UserName" src="@Url.Content(item.AvatarPath)" />
-    }
-</div>
+
+@foreach (var item in Model.Project.ApplicationUsers)
+{
+    <img alt="@item.UserName" title="@item.UserName" src="@Url.Content(item.AvatarPath)" />
+}
+
 

@@ -42,7 +42,9 @@
         <h3>Collaborators</h3>
         <div class="collaborators">
             <div class="avatars" id="partial">
-                @Html.Partial("Avatars", Model)
+                <div class="user-img">
+                    @Html.Partial("Avatars", Model)
+                </div>
             </div>
 
             @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))

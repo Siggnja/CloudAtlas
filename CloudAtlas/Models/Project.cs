@@ -33,9 +33,6 @@ namespace CloudAtlas.Models
 
         public string OwnerID { get; set; }
 
-        public virtual ApplicationUser Owner { get; set; }
-
-
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

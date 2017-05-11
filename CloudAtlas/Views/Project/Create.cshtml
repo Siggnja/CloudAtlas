@@ -5,32 +5,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+@Html.AntiForgeryToken()
+<div class="create-project-container">
+    <h1>Lets create something new</h1>
+    @Html.ActionLink( "Index", "Dashboard", new {@class ="fa fa-arrow-left"))
 
-    <div class="create-project-container">
-        <h2>Lets create something new</h2>
+    <form class="create-project-form">
 
-        <form class="create-project-form">
+        <label for="name">Name of project</label>
+        @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name" })
 
-            <label for="name">Name of project</label>
-            @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name" })
+        <label for="colorScheme">Programming language</label>
 
+        @Html.DropDownListFor(x => x.Type, ViewData["Type"] as List<SelectListItem>)         
+        <input type="submit" name="submit" value="Create">
+    </form>
+</div>
 
-            <label for="colorScheme">Programming language</label>
-
-            @Html.DropDownListFor(x => x.Type, ViewData["Type"] as List<SelectListItem>)
-
-            
-
-
-            
-
-            <input type="submit" name="submit" value="Create">
-        </form>
-    </div>
-}
 
 
 <div>

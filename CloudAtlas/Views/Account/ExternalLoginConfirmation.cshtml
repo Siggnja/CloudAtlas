@@ -5,7 +5,7 @@
 
 <div class="settings-container">
     <h1>Register</h1>
-    @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id ="settings-form"}))
+    @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id ="settings-form", @name = "settings-form" }))
     {
         @Html.AntiForgeryToken()
     
@@ -17,17 +17,58 @@
         <div class="settings-container">
             <div class="settings-form">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id = "emailfield" })
                 @Html.ValidationMessageFor(m => m.Email, "")
                 @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "namefield" })
                 @Html.ValidationMessageFor(m => m.UserName, "")
-                <input type="submit" id="save" value="Register" />
+                <input type="submit" id="save" name="save" value="Register" />
 
             </div>
         </div>
             }
         </div>
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('#settings-form').submit(function (e) {
+                var email = $('#emailfield').val();
+                var name = $('#namefield').val();
+                if (email === null || email.match(/^ *$/) !== null) {
+                    $('#save').css({ 'background-color': 'indianred' });
+                    $('#save').val('No email entered!');
+                    $('#emailfield').val("");
+                    setTimeout(function () {
+                        $('#save').val('Register');
+                        $('#save').css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+                else if (name === null || name.match(/^ *$/) !== null)
+                {
+                    $('#save').css({ 'background-color': 'indianred' });
+                    $('#save').val('No name entered!');
+                    $('#namefield').val("");
+                    setTimeout(function () {
+                        $('#save').val('Register');
+                        $('#save').css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+                else {
+                    $('#save').val('Registering...');
+                    $('#save').css({ 'background-color': '#27ae60' });
+                    return true;
+                }
+
+            });
+        });
+    </script>
+}

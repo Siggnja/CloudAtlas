@@ -645,12 +645,13 @@ body {
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%,-50%);
+
+                        &:hover {
+                            opacity: 0.5;
+                        }
                     }
 
-                    &:hover {
-                        opacity:0.5;
-                    }
-                }
+                                  }
 
                 .new-user {
                     color: $blue;

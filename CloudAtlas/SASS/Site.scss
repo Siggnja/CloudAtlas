@@ -237,6 +237,10 @@ body {
             justify-content: center;
             flex-wrap: wrap;
 
+            .is-owner {
+                background-color: indianred;
+            }
+
             .create-button-wrap {
 
                 a {
@@ -266,6 +270,8 @@ body {
                 }
             }
         }
+
+
 
         .box {
             display: flex;
@@ -298,6 +304,8 @@ body {
                     font-size: 15px;
                 }
             }
+
+
 
             .right {
                 margin: auto 0;

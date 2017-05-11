@@ -185,6 +185,8 @@ body {
       display: flex;
       justify-content: center;
       flex-wrap: wrap; }
+      .dashboard-container .my-projects .box-projects .is-owner {
+        background-color: indianred; }
       .dashboard-container .my-projects .box-projects .create-button-wrap a {
         color: #293241; }
       .dashboard-container .my-projects .box-projects .create-button-wrap .create-box {

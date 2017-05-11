@@ -324,6 +324,12 @@ body {
     text-transform: uppercase;
     color: #4EA5D9;
     margin-bottom: 10px; }
+  .settings-container p {
+    width: 100%;
+    height: 35px;
+    padding: 5px;
+    font-size: 17px;
+    text-align: center; }
   .settings-container .settings-form {
     width: 500px; }
     .settings-container .settings-form select {
@@ -338,6 +344,12 @@ body {
       letter-spacing: .2px;
       font-size: 15px;
       color: #212121; }
+    .settings-container .settings-form span {
+      width: 100%;
+      height: 35px;
+      font-size: 14px;
+      color: red;
+      font-style: italic; }
     .settings-container .settings-form input[type="text"],
     .settings-container .settings-form input[type="email"],
     .settings-container .settings-form input[type="password"] {
@@ -348,7 +360,7 @@ body {
       font-size: 17px;
       width: 100%;
       border: 0.063rem solid #b0bec5; }
-    .settings-container .settings-form input[type="button"] {
+    .settings-container .settings-form input[type="button"], .settings-container .settings-form input[type="submit"] {
       padding: 5px;
       height: 40px;
       margin: 15px 0 0;
@@ -360,7 +372,7 @@ body {
       font-size: .875rem;
       letter-spacing: .25px;
       width: 100%; }
-      .settings-container .settings-form input[type="button"]:hover {
+      .settings-container .settings-form input[type="button"]:hover, .settings-container .settings-form input[type="submit"]:hover {
         color: #4EA5D9;
         cursor: pointer; }
 
@@ -490,18 +502,24 @@ body {
   align-items: center;
   margin-top: 30px;
   width: 900px; }
-  .create-project-container h2 {
+  .create-project-container h1 {
     font-size: 3em;
     text-transform: uppercase;
     color: #4EA5D9;
     margin-bottom: 10px; }
+  .create-project-container p {
+    width: 100%;
+    height: 35px;
+    padding: 5px;
+    font-size: 17px;
+    text-align: center; }
   .create-project-container .create-project-form {
     width: 500px; }
-    .create-project-container .create-project-form .color-scheme {
+    .create-project-container .create-project-form select {
       width: 100%;
-      height: 40px;
+      height: 35px;
       padding: 5px;
-      font-size: 15px; }
+      font-size: 17px; }
     .create-project-container .create-project-form label {
       display: block;
       margin: 15px 0 5px 0;
@@ -509,21 +527,23 @@ body {
       letter-spacing: .2px;
       font-size: 15px;
       color: #212121; }
-    .create-project-container .create-project-form textarea {
+    .create-project-container .create-project-form span {
       width: 100%;
-      height: 100px;
-      padding: 5px; }
+      height: 35px;
+      font-size: 14px;
+      color: red;
+      font-style: italic; }
     .create-project-container .create-project-form input[type="text"],
     .create-project-container .create-project-form input[type="email"],
     .create-project-container .create-project-form input[type="password"] {
       padding: 5px 10px;
       outline: 0;
-      height: 40px;
+      height: 35px;
       color: #212121;
-      font-size: 1em;
+      font-size: 17px;
       width: 100%;
       border: 0.063rem solid #b0bec5; }
-    .create-project-container .create-project-form input[type="submit"] {
+    .create-project-container .create-project-form input[type="button"], .create-project-container .create-project-form input[type="submit"] {
       padding: 5px;
       height: 40px;
       margin: 15px 0 0;
@@ -535,7 +555,7 @@ body {
       font-size: .875rem;
       letter-spacing: .25px;
       width: 100%; }
-      .create-project-container .create-project-form input[type="submit"]:hover {
+      .create-project-container .create-project-form input[type="button"]:hover, .create-project-container .create-project-form input[type="submit"]:hover {
         color: #4EA5D9;
         cursor: pointer; }
 

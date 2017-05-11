@@ -17,18 +17,18 @@
                 saved 5 mins ago
             </div>
         </div>
-        <div id="editor" style="width: 100%; height:100%;"></div> 
-        <div> 
+        <div id="editor" style="width: 100%; height:100%;"></div>
+        <div>
             <input type="hidden" id="hiddencode" name="hiddencode" />
-            <input type="hidden" id="hiddenid" name="hiddenid" /> 
-            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" /> 
-            <input type="hidden" id="hiddentype" name="hiddentype" /> 
-            <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme"/> 
+            <input type="hidden" id="hiddenid" name="hiddenid" />
+            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
+            <input type="hidden" id="hiddentype" name="hiddentype" />
+            <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme" />
         </div>
     </div>
 
     <div class="left">
-        
+
         <h3>@Model.Project.Name</h3>
         <div id="jstree">
             <!-- in this example the tree is populated from inline HTML -->
@@ -39,31 +39,23 @@
             <div id="CreateFileForm"></div>
         </div>
     </div>
-
-
     <div class="right">
         <h3>Collaborators</h3>
-
         <div class="collaborators">
-
             <div class="avatars">
                 <div class="user-img">
                     <img src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/250x250/p37265.png" />
                 </div>
-
                 <div class="user-img">
                     <img src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/250x250/p37265.png" />
                 </div>
-
                 <div class="user-img">
                     <img src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/250x250/p37265.png" />
                 </div>
-
                 <div class="user-img">
                     <img src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/250x250/p37265.png" />
                 </div>
             </div>
-            
 
             @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))
             {
@@ -73,14 +65,11 @@
                 <input type="submit" value="Invite" />
             }
         </div>
-
         <h3>Chat</h3>
-
         <div class="messages">
             <div class="message-chat">
                 <ul id="discussion"></ul>
             </div>
-
             <div class="message-box">
                 <input type="text" id="message" />
                 <input style="visibility: hidden" type="button" id="sendmessage" value="Send" />
@@ -89,9 +78,6 @@
         </div>
     </div>
 </div>
-
-
-
 @section scripts {
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -100,10 +86,8 @@
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-
     <script>
         $(function () {
-
             // Ace functions
             var editor = ace.edit("editor");
             editor.setShowPrintMargin(false);

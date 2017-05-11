@@ -9,33 +9,55 @@
 
 <div class="create-project-container">
     <h2>@Model.Name</h2>
-    <input type="hidden" id="hiddenid" value="@Model.ID"/>
+
+@if (Model.OwnerID.Equals(ViewData["userid"]))
+{
+    <input type="hidden" id="hiddenid" value="@Model.ID" />
     <div class="create-project-form">
         <label for="invite"> Invite Users </label>
         @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite", name = "invite" })
         <input type="submit" name="submit" id="submit" value="Invite">
-        
+
+        <h3>Group owner</h3>
+        <p>@Model.Owner.Email</p>
+
         <label for="members" id="membersLabel">Group members</label>
         <ul id="members">
             @foreach (var user in Model.ApplicationUsers)
             {
+                if (user == Model.Owner) { continue; }
                 <li><span>@user.Email</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>
             }
         </ul>
     </div>
 
-    @if (Model.OwnerID.Equals(ViewData["userid"]))
-    {
         <a href=@Url.Action("Delete", "Group", new { groupID = Model.ID })>
             <h2>Delete group</h2>
         </a>
-    }
-    else
-    {
-        <a href=@Url.Action("Leave", "Group", new { groupID = Model.ID })>
-            <h2>Leave group</h2>
-        </a>
-    }
+}
+else
+{
+    <h3>Group owner</h3>
+    <p>@Model.Owner.Email</p>
+
+    <label for="members" id="membersLabel">Group members</label>
+    <ul id="members">
+        @foreach (var user in Model.ApplicationUsers)
+        {
+            if (user == Model.Owner) { continue; }
+
+            <li>
+                <span>@user.Email</span>
+            </li>
+        }
+    </ul>
+
+    <a href=@Url.Action("Leave", "Group", new { groupID = Model.ID })>
+        <h2>Leave group</h2>
+    </a>
+}
+
+
 
 
 

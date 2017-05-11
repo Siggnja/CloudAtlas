@@ -14,9 +14,18 @@
                         <a href=@Url.Action("Index", "Project", new { id = i.ID })>
                             @i.Name
                         </a>
-                        <a href=@Url.Action("Delete", "Project", new { projectid = i.ID })>
-                            Delete
-                        </a>
+                        @if (ViewData["userid"].Equals(i.OwnerID))
+                        {
+                            <a href=@Url.Action("Delete", "Project", new { projectid = i.ID })>
+                                Delete
+                            </a>
+                        }
+                        else
+                        {
+                            <a href=@Url.Action("Leave", "Project", new { projectid = i.ID })>
+                                Leave
+                            </a>
+                        }
                         <span>@i.DateCreated</span>
                     </div>
 

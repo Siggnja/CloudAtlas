@@ -19,7 +19,7 @@ namespace CloudAtlas.Repositories
             user.Projects.Add(proj);
             db.SaveChanges();
         }
-        public void DeleteProject(Project proj, ApplicationUser user)
+        public void DeleteFromProject(Project proj, ApplicationUser user)
         {
             user.Projects.Remove(proj);
             db.SaveChanges();

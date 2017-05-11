@@ -29,6 +29,7 @@ namespace CloudAtlas.Models
         }
         public virtual Folder Folder { get; set; }
 
+        public string OwnerID { get; set; }
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }

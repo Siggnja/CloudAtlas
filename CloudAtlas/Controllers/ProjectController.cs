@@ -14,7 +14,6 @@ using System.Diagnostics;
 
 namespace CloudAtlas.Controllers
 {
-
     [Authorize]
     public class ProjectController : Controller
     {
@@ -33,7 +32,6 @@ namespace CloudAtlas.Controllers
         // GET: Project
         public ActionResult Index(int id)
         {
-
             var project = (from proj in context.Projects
                            where proj.ID == id
                            select proj).FirstOrDefault();
@@ -54,6 +52,8 @@ namespace CloudAtlas.Controllers
             var curruser = (from user in context.Users
                             where user.Id == userid
                             select user).FirstOrDefault();
+            ViewData["userId"] = userid;
+
 
             ProjectViewModel model = new ProjectViewModel
             {
@@ -63,7 +63,6 @@ namespace CloudAtlas.Controllers
                 Folders = folders,
                 Files = files
             };
-
             
             return View(model);
         }

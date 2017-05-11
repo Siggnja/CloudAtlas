@@ -535,8 +535,8 @@ body {
     min-height: 100vh;
     width: 100%;
 
-      
-        .actions {
+
+    .actions {
         display: flex;
         align-items: center;
         width: 100%;
@@ -618,6 +618,7 @@ body {
                     }
                 }
             }
+
             .avatars {
                 display: flex;
                 width: 100%;
@@ -638,6 +639,10 @@ body {
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%,-50%);
+                    }
+
+                    &:hover {
+                        opacity:0.5;
                     }
                 }
 
@@ -756,6 +761,9 @@ body {
         text-align: center;
     }
 
+    img {
+        border-radius: 50%;
+    }
 
     .create-project-form {
         width: 500px;

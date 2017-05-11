@@ -469,6 +469,8 @@ body {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%); }
+          .project-container .right .collaborators .avatars .user-img:hover {
+            opacity: 0.5; }
         .project-container .right .collaborators .avatars a {
           color: #4EA5D9;
           font-size: 50px; }
@@ -539,6 +541,8 @@ body {
     padding: 5px;
     font-size: 17px;
     text-align: center; }
+  .create-project-container img {
+    border-radius: 50%; }
   .create-project-container .create-project-form {
     width: 500px; }
     .create-project-container .create-project-form select {

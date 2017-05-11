@@ -427,6 +427,7 @@
                             var syntax = "ace/mode/" + $('#hiddentype').val();
                             editor.getSession().setMode(syntax);
                             ignore = false;
+                            editor.focus();
                         }
                     });
                 }

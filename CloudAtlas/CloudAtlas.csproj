@@ -290,6 +290,9 @@
     <Content Include="Scripts\theme-monokai.js" />
     <Content Include="Scripts\theme-terminal.js" />
     <Content Include="Scripts\theme-xcode.js" />
+    <Content Include="Scripts\worker-css.js" />
+    <Content Include="Scripts\worker-html.js" />
+    <Content Include="Scripts\worker-javascript.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

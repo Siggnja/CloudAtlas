@@ -290,6 +290,9 @@
     <Content Include="Scripts\theme-monokai.js" />
     <Content Include="Scripts\theme-terminal.js" />
     <Content Include="Scripts\theme-xcode.js" />
+    <Content Include="Scripts\worker-css.js" />
+    <Content Include="Scripts\worker-html.js" />
+    <Content Include="Scripts\worker-javascript.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -332,6 +335,7 @@
     <Content Include="Views\Project\Create.cshtml" />
     <Content Include="Views\Group\Create.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
+    <Content Include="Views\Shared\Avatars.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -20,11 +20,18 @@ namespace CloudAtlas.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private readonly ProjectsRepository projectsRepository;
         private readonly GroupsRepository groupsRepository;
+        private readonly Account account;
+        private readonly Cloudinary cloudinary;
 
         public DashboardController()
         {
             projectsRepository = new ProjectsRepository(db);
             groupsRepository = new GroupsRepository(db);
+            account = new Account(
+                    "cloudatlas",
+                    "215256475133816",
+                    "E6XXbAvQXKM05K9FqQpgxJ6ggQI");
+            cloudinary = new Cloudinary(account);
         }
         // GET: Dashboard
         public ActionResult Index()
@@ -93,18 +100,10 @@ namespace CloudAtlas.Controllers
         [HttpPost]
         public ActionResult UploadImage(HttpPostedFileBase file)
         {
+            string userid = User.Identity.GetUserId<string>();
+
             if (file != null)
             {
-
-                Account account = new Account(
-                    "cloudatlas",
-                    "215256475133816",
-                    "E6XXbAvQXKM05K9FqQpgxJ6ggQI");
-
-                Cloudinary cloudinary = new Cloudinary(account);
-
-                string userid = User.Identity.GetUserId<string>();
-
                 var fileName = userid;
                 var path = Path.Combine(Server.MapPath("~/Content/images/Avatars/"), fileName);
 
@@ -114,7 +113,7 @@ namespace CloudAtlas.Controllers
                 {
                     File = new FileDescription(Server.MapPath("~/Content/images/Avatars/" + fileName)),
                     PublicId = fileName,
-                   Transformation = new Transformation().Width(200).Height(200).Crop("thumb").Gravity("face")
+                    Transformation = new Transformation().Width(200).Height(200).Crop("thumb").Gravity("face")
                 };
 
                 var uploadResult = cloudinary.Upload(uploadParams);
@@ -138,10 +137,14 @@ namespace CloudAtlas.Controllers
                 return RedirectToAction("Settings", "Dashboard");
 
             }
+            var userCurr = (from u in db.Users
+                            where u.Id == userid
+                            select u).FirstOrDefault();
 
-            return View();
+            SelectTheme(userCurr);
 
 
+            return View("Settings", userCurr);
 
         }
 

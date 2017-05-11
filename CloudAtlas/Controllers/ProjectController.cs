@@ -14,7 +14,6 @@ using System.Diagnostics;
 
 namespace CloudAtlas.Controllers
 {
-
     [Authorize]
     public class ProjectController : Controller
     {
@@ -33,7 +32,6 @@ namespace CloudAtlas.Controllers
         // GET: Project
         public ActionResult Index(int id)
         {
-
             var project = (from proj in context.Projects
                            where proj.ID == id
                            select proj).FirstOrDefault();
@@ -54,6 +52,8 @@ namespace CloudAtlas.Controllers
             var curruser = (from user in context.Users
                             where user.Id == userid
                             select user).FirstOrDefault();
+            ViewData["userId"] = userid;
+
 
             ProjectViewModel model = new ProjectViewModel
             {
@@ -75,7 +75,7 @@ namespace CloudAtlas.Controllers
                             where file.ID == id
                             select file).FirstOrDefault();
 
-            return Json(new { content = thisfile.Content, type = thisfile.Type },
+            return Json(new { content = thisfile.Content, type = thisfile.Type, name = thisfile.Name },
                 JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -329,39 +329,75 @@ namespace CloudAtlas.Controllers
 
         public JsonResult Search(string term)
         {
-            var p = (from item in context.Users
-                     where item.Email.StartsWith(term)
-                     select item.Email).ToList();
+            string loggedInUser = User.Identity.GetUserId<string>();
 
-            return Json(p, JsonRequestBehavior.AllowGet);
+            var users = (from user in context.Users
+                            where user.Email.StartsWith(term)
+                            select user.Email).ToList();
+
+            var userGroup = (from user in context.Users
+                             where user.Id == loggedInUser
+                             select user.Groups).FirstOrDefault();
+
+            var groups = (from gr in userGroup
+                          where gr.Name.ToLower().StartsWith(term.ToLower())
+                          select gr.Name).ToList();
+
+            var listName = users.Union(groups);
+                
+            
+
+            return Json(listName, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Invite(FormCollection collection)
         {
-            var UserEmail = collection["UserEmail"];
+            var stringToCheck = collection["UserEmail"];
             var hidden = collection["hiddenproject"];
             int projectID = Int32.Parse(hidden);
-
-            var thisUser = (from item in context.Users
-                            where item.Email == UserEmail
-                            select item).FirstOrDefault();
-
-            if(thisUser == null)
-            {
-                return RedirectToAction("Index", "Project", new { id = projectID });
-            }
+            string loggedInUser = User.Identity.GetUserId<string>();
 
             var project = (from i in context.Projects
                            where i.ID == projectID
                            select i).FirstOrDefault();
 
+            var user = (from item in context.Users
+                        where item.Id == loggedInUser
+                        select item).FirstOrDefault();
 
-            if (!thisUser.Projects.Contains(project))
+            var checkGroup = (from g in user.Groups
+                              where g.Name == stringToCheck
+                              select g).FirstOrDefault();
+
+            if(checkGroup != null)
             {
-                projrepository.AddProjectToUser(project, thisUser);
+                foreach(var item in checkGroup.ApplicationUsers)
+                {
+                    if (!item.Projects.Contains(project))
+                    {
+                        projrepository.AddProjectToUser(project, item);
+                    }
+                }
             }
-            return RedirectToAction("Index", "Project", new { id = projectID });
 
+            var checkUser = (from item in context.Users
+                             where item.Email == stringToCheck
+                             select item).FirstOrDefault();
+
+            if(checkUser != null)
+            {
+                if (!checkUser.Projects.Contains(project))
+                {
+                    projrepository.AddProjectToUser(project, checkUser);
+                }
+            }
+
+            ProjectViewModel model = new ProjectViewModel
+            {
+                Project = project
+            };
+
+            return PartialView("Avatars", model);
         }
 
         [HttpPost]

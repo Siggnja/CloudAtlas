@@ -8,40 +8,48 @@
 <div class="settings-container">
     <h1>Settings</h1>
 
-
     <div class="settings-img">
         <img alt="@Model.UserName" title="@Model.UserName" src="@Url.Content(Model.AvatarPath)" />
     </div>
 
+    <div class="settings-form">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" value="@Model.UserName">
 
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name" value="@Model.UserName">
+        <label for="colorScheme">Color Scheme</label>
+        @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem>, new { @id = "colorScheme" })
+        <input type="hidden" id="hiddentheme" value="@Model.Theme" />
 
-    <label for="colorScheme">Color Scheme</label>
-    @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem>, new { @id = "colorScheme" })
-    <input type="hidden" id="hiddentheme" value="@Model.Theme"/>
-   
 
-    @using (Html.BeginForm("UploadImage", "DashBoard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data"}))
-    {
+        @using (Html.BeginForm("UploadImage", "DashBoard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data" }))
+        {
 
-        <input type=file id=File name=File />
+            <input type=file id=File name=File />
 
-        <input type="submit" id="Submit" value="Upload"/>
-    }
-    
-    <input type="button" id="save" value="Save Changes" />
+            <input type="submit" id="Submit" value="Upload" />
+        }
 
+        <input type="button" id="save" value="Save Changes" />
+    </div>
 </div>
 
-
 @section scripts {
-
     <script>
         $(function () {
             $('#colorScheme').val($('#hiddentheme').val());
 
             $('#save').click(function () {
+                var name = $("#name").val();
+                if (name === null || name.match(/^ *$/) !== null) {
+                    $("#save").css({ 'background-color': 'indianred' });
+                    $('#save').val('Name can not be empty');
+                    setTimeout(function () {
+                        $('#save').val('Save Changes');
+                        $("#save").css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    return false;
+                }
                 $.ajax({
                     url: '/Dashboard/SaveSettings',
                     dataType: 'json',
@@ -58,23 +66,32 @@
 
             $("#imageForm").on('submit', function () {
                 var form = $(this);
-                $.ajax({
-                    url: form.attr('action'),
-                    url: form.serialize(),
-                    method: 'Post'
+                var fileInput = $("#File").val();
+                if (fileInput == '') {
+                    $("#Submit").css({ 'background-color': 'indianred' });
+                    $('#Submit').val('No image detected');
+                    setTimeout(function () {
+                        $('#Submit').val('Upload');
+                        $("#Submit").css({ 'background-color': '#293241' });
+                    }, 1000);
 
-                })
-            }
-
-
-
+                    return false;
+                }
+                else {
+                    $("#Submit").css({ 'background-color': '#27ae60' });
+                    $('#Submit').val('Uploading...');
+                    setTimeout(function () {
+                        $('#Submit').val('Upload');
+                        $("#Submit").css({ 'background-color': '#293241' });
+                    }, 1000);
+                    $.ajax({
+                        url: form.attr('action'),
+                        url: form.serialize(),
+                        method: 'POST'
+                    });
+                }
+            });
         });
 
-
-
-
-
-
-    </script>
-    
+    </script>    
 }

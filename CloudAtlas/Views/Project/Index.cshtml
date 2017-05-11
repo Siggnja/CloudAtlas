@@ -7,19 +7,18 @@
 <div class="project-container">
     <div class="main">
         <div class="actions">
-            <div class="filename">
-                index.js
+            <div id="openfile" class="filename">
+                No file open
             </div>
 
-            <div class="last-saved">
-                saved 5 mins ago
+            <div id="filesavedtime" class="last-saved">
+                
             </div>
         </div>
         <div id="editor" style="width: 100%; height:100%;"></div>
         <div>
             <input type="hidden" id="hiddencode" name="hiddencode" />
             <input type="hidden" id="hiddenid" name="hiddenid" />
-            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
             <input type="hidden" id="hiddentype" name="hiddentype" />
             <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme" />
         </div>
@@ -49,16 +48,19 @@
     <div class="right">
         <h3>Collaborators</h3>
         <div class="collaborators">
-            <div class="avatars">
+            <div class="avatars" id="partial">
                 <div class="user-img">
-                    @foreach (var item in Model.Project.ApplicationUsers)
-                    {
-                        <img alt="@item.UserName" title="@item.UserName" src="@Url.Content(item.AvatarPath)" />
-                    }
+                    @Html.Partial("Avatars", Model)
                 </div>
             </div>
 
-           <div id="myForm"></div>
+            @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))
+            {
+                @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite" })
+            <!--<input type="submit" id="submitInvite" />-->
+                <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
+                <input type="submit" id="invitebutton" value="Invite"/>
+            }
 
            
             
@@ -92,6 +94,7 @@
             var theme = "ace/theme/" + $('#hiddentheme').val();
             editor.setTheme(theme);
             editor.getSession().setMode("ace/mode/c_cpp");
+            editor.setReadOnly(true);
 
 
             // Hub functions
@@ -133,6 +136,8 @@
                             method: 'POST'
                         });
                         chat.server.updateEditor(obj, $('#hiddenid').val());
+                        var d = new Date();
+                        $('#filesavedtime').text("Saved by you at " + d.getHours() + ":" + d.getMinutes());
                     }
                 });
 
@@ -370,7 +375,10 @@
                         data: { id: fid },
                         success: function (response, textStatus, jqXHR) {
                             chat.server.switchFile($('#hiddenid').val(), fid);
+                            editor.setReadOnly(false);
                             $('#hiddenid').val(fid);
+                            $('#openfile').text(response.name);
+                            $('#filesavedtime').text('');
                             ignore = true;
                             editor.setValue(response.content, 1);
                             $('#hiddencode').val(response.content);
@@ -378,6 +386,7 @@
                             var syntax = "ace/mode/" + $('#hiddentype').val();
                             editor.getSession().setMode(syntax);
                             ignore = false;
+                            editor.focus();
                         }
                     });
                 }
@@ -392,7 +401,17 @@
                 $.ajax({
                     url: form.attr('action'),
                     data: form.serialize(),
-                    method: 'POST'
+                    method: 'POST',
+                    success: function (result) {
+                        $("#searchInvite").val('');
+                        $("#invitebutton").css({ 'background-color': '#27ae60' });
+                        $('#invitebutton').val('Added!');
+                        setTimeout(function () {
+                            $('#invitebutton').val('Invite');
+                            $("#invitebutton").css({ 'background-color': '#293241' });
+                        }, 1000);
+                        $("#partial").html(result);
+                    }
                 });
 
                 return false;

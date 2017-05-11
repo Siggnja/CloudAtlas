@@ -376,6 +376,12 @@ body {
         color: #4EA5D9;
         cursor: pointer; }
 
+.hiddenClass {
+  display: none; }
+
+.showClass {
+  display: block; }
+
 /*
     PROJECT CSS
 */

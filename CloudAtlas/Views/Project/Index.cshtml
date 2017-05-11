@@ -4,8 +4,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 <div class="project-container">
     <div class="main">
         <div class="actions">
@@ -36,9 +34,18 @@
                 <li class="jstree-open" id="node_1" data-jstree='{"folderid":"@Model.Root.ID"}'>
                 </li>
             </ul>
-            <div id="CreateFileForm"></div>
         </div>
-    </div>
+            @using (Html.BeginForm("CreateFile", "Project", FormMethod.Post, htmlAttributes: new { id = "CreateFileForm", @class = "hiddenClass" }))
+            {
+                <label for="name">Name of file</label>
+                @Html.TextBox("Name", null, htmlAttributes: new { name = "name" })
+                <label for="Type">Type</label>
+                @Html.DropDownList("Type", ViewData["Type"] as List<SelectListItem>)
+                <input type="submit" name="submit" value="Create" id="createFileButton">
+                <input type="hidden" id="hiddenparent" name="hiddenparent" value="" />
+                <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
+            }
+        </div>
     <div class="right">
         <h3>Collaborators</h3>
         <div class="collaborators">
@@ -51,13 +58,7 @@
                 </div>
             </div>
 
-            @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))
-            {
-                @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite" })
-            <!--<input type="submit" id="submitInvite" />-->
-                <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
-                <input type="submit" />
-            }
+           <div id="myForm"></div>
 
            
             
@@ -200,45 +201,8 @@
                                         "seperator_after": false,
                                         "label": "File",
                                         action: function (obj) {
-
-                                            console.log("CREATE FILE ACTION")
-
-                                            // Ask user for fileName
-                                            var fileName = prompt("Enter File NAme:", "index.js");
-                                            //window.confirm();
-
-
-                                            console.log(fileName);
-
-                                            console.log(this);
-
-                                            if (fileName == null || fileName == "") {
-                                                console.log("EMPTY");
-                                            } else {
-                                                CreateFileInfo(1);
-                                            }
-
-
-                                            @*$("#CreateFileForm").dialog({
-                                                autoOpen: true,
-                                                position: { my: "center", at: "top+350", of: window },
-                                                width: 1000,
-                                                resizable: false,
-                                                title: 'Add File',
-                                                modal: true,
-                                                open: function () {
-                                                    $(this).load('@Url.Action("CreateFileInput", "Project")');
-                                                },
-                                                buttons: {
-                                                    "Add file": function () {
-                                                        CreateFileInfo();
-                                                    },
-                                                    Cancel: function () {
-                                                        $(this).dialog("close");
-                                                    }
-                                                }
-                                            });
-                                            return false;*@
+                                            var fid = node.id;
+                                            tree.jstree(true).create_node(node, "file", "last", false, false);
                                         }
                                     },
                                     "create_folder": {
@@ -247,7 +211,7 @@
                                         "label": "Folder",
                                         action: function (obj) {
                                             var fid = node.id;
-                                            tree.jstree(true).create_node(node, fid, "last", false, false);
+                                            tree.jstree(true).create_node(node, "folder", "last", false, false);
                                         }
                                     }
                                 }
@@ -258,6 +222,20 @@
                                     tree.jstree(true).delete_node(node);
                                 },
                                 separator_before: true
+                            },
+                            "download": {
+                                label: "Download",
+                                action: function ()
+
+                                {
+                                    console.log(node.id);
+                                    $.ajax({
+                                        url: '@Url.Action("Download", "Project")',
+                                        type: 'POST',
+                                        data: { fileID: node.id},
+                                    })
+                                },
+                                separator_before: true
                             }
                         }
                     }
@@ -266,32 +244,27 @@
 
             $("#jstree").on("create_node.jstree", function (event, data)
             {
-                console.log("Event:");
-                console.log(event);
-                console.log("Data");
-                console.log(data);
-                if (data.node.type === "file")
+                $("#hiddenparent").val(data.node.parent);
+                if (data.node.text === "file")
                 {
-                        $("#CreateFileForm").dialog({
-                        autoOpen: true,
-                        position: { my: "center", at: "top+350", of: window },
-                        width: 1000,
-                        resizable: false,
-                        title: 'Add File',
-                        modal: true,
-                        open: function () {
-                            $(this).load('@Url.Action("CreateFileInput", "Project")');
-                        },
-                        buttons: {
-                            "Add file": function () {
-                                CreateFileInfo();
+                    $("#CreateFileForm").dialog({
+                            autoOpen: true,
+                            position: { my: "center", at: "top+150", of: window },
+                            width: 750,
+                            resizable: false,
+                            title: 'Add File',
+                            modal: true,
+                            close: function () {
+                                tree.jstree(true).refresh();
                             },
-                            Cancel: function () {
-                                $(this).dialog("close");
+                            buttons: {
+                                Cancel: function () {
+                                    $(this).dialog("close");
+                                }
                             }
-                        }
                     });
-                    return false;
+
+
 
                 }
                 else {
@@ -312,26 +285,6 @@
                     });
                 }
             });
-
-            function CreateFileInfo(id)
-            {
-                $.ajax({
-                    url: '@Url.Action("CreateFile", "Project")',
-                    type: 'POST',
-                    data: $("#myForm").serialize() + "&parentId=id&projectId=@Model.Project.ID",
-                    success: function (data) {
-                        console.log("SUCCESS!!")
-                        if (data) {
-                            $(':input', '#myForm')
-                              .not(':button, :submit, :reset, :hidden')
-                              .val('')
-                              .removeAttr('checked')
-                              .removeAttr('selected');
-                        }
-                        tree.jstree(true).refresh();
-                    }
-                });
-            }
             $("#jstree").on("rename_node.jstree", function (event, data)
             {
                 var fid = data.node.id;
@@ -430,7 +383,6 @@
                 }
                 else
                 {
-                   // console.log('folder');
                 }
             });
 
@@ -450,7 +402,6 @@
             $("#searchInvite").autocomplete({
                 source: '@Url.Action("Search", "Project")'
             });
-
         });
 
     </script>

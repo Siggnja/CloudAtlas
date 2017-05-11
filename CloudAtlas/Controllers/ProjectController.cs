@@ -388,8 +388,12 @@ namespace CloudAtlas.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Project", new { id = projectID });
+            ProjectViewModel model = new ProjectViewModel
+            {
+                Project = project
+            };
 
+            return PartialView("Avatars", model);
         }
 
         [HttpPost]

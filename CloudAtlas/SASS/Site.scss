@@ -684,14 +684,27 @@ body {
 }
 
 /*
-    Settings CSS
+    Create Project CSS
 */
+
 .create-project-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
     width: 900px;
+        .BackIcon {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 30px;
+        width: 750px;
+
+            .fa-arrow-left {
+                color: green;
+                align-items: flex-start;
+            }
+    }
 
     h1 {
         font-size: 3em;

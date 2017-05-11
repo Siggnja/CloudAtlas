@@ -87,6 +87,7 @@
             var theme = "ace/theme/" + $('#hiddentheme').val();
             editor.setTheme(theme);
             editor.getSession().setMode("ace/mode/c_cpp");
+            editor.setReadOnly(true);
 
 
             // Hub functions
@@ -415,6 +416,7 @@
                         data: { id: fid },
                         success: function (response, textStatus, jqXHR) {
                             chat.server.switchFile($('#hiddenid').val(), fid);
+                            editor.setReadOnly(false);
                             $('#hiddenid').val(fid);
                             $('#openfile').text(response.name);
                             $('#filesavedtime').text('');

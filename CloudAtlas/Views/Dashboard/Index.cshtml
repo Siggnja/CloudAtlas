@@ -14,6 +14,9 @@
                         <a href=@Url.Action("Index", "Project", new { id = i.ID })>
                             @i.Name
                         </a>
+                        <a href=@Url.Action("Delete", "Project", new { projectid = i.ID })>
+                            Delete
+                        </a>
                         <span>@i.DateCreated</span>
                     </div>
 

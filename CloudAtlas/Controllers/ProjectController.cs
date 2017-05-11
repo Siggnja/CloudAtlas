@@ -440,6 +440,20 @@ namespace CloudAtlas.Controllers
 
         }
 
+        public ActionResult Delete(int projectid)
+        {
+            string userid = User.Identity.GetUserId<string>();
+            var curruser = (from user in context.Users
+                            where user.Id == userid
+                            select user).FirstOrDefault();
+
+            var project = projrepository.GetProjectById(projectid);
+
+            projrepository.DeleteProject(project, curruser);
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
         public ActionResult Download(int fileID)
         {
 

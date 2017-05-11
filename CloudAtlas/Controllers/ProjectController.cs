@@ -157,9 +157,9 @@ namespace CloudAtlas.Controllers
         {
             if(fold.Files != null)
             {
-                foreach (File file in fold.Files)
+                for(int i=0;i<fold.Files.Count;i++)
                 {
-                    filerepository.deleteFile(file);
+                    filerepository.deleteFile(fold.Files.ElementAt(i));
                 }
             }
         }

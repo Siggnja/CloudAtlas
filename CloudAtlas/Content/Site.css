@@ -326,6 +326,8 @@ body {
     text-transform: uppercase;
     color: #4EA5D9;
     margin-bottom: 10px; }
+  .settings-container img {
+    border-radius: 50%; }
   .settings-container p {
     width: 100%;
     height: 35px;

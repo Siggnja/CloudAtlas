@@ -11,13 +11,18 @@ namespace CloudAtlas.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
-    {
+    { 
+
         public virtual ICollection<Project> Projects { get; set; }
         [InverseProperty("ApplicationUsers")]
         public virtual ICollection<Group> Groups { get; set; }
         [InverseProperty("Owner")]
         public virtual ICollection<Group> OwnedGroups { get; set; }
 
+        public string AvatarPath { get; set; }
+
+        public string Theme { get; set; }
+        
         
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         { 

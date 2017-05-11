@@ -8,6 +8,23 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <style>
+        .ui-autocomplete {
+            background: #4a4a4a;
+        }
+
+        .ui-autocomplete.source:hover {
+            background: #454545;
+        }
+
+        .ui-menu .ui-menu-item a {
+            background: gray;
+            height: 10px;
+            font-size: 8px;
+        }
+    </style>
 </head>
 <body>
     <div class="header">
@@ -17,7 +34,14 @@
 
         <div class="actions">
             <a href="/Dashboard/Settings">Settings</a>
-            <a href="/">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            @using (Html.BeginForm("Log Out", "Account/LogOff", FormMethod.Post,
+            new { id = "logoutForm" }))
+            {
+
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+
+            }
         </div>
     </div>
 
@@ -25,23 +49,23 @@
         @RenderBody()
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
-    <script>
-        $(function () {
-            // 6 create an instance when the DOM is ready
-            $('#jstree').jstree();
-            // 7 bind to events triggered on the tree
-            $('#jstree').on("changed.jstree", function (e, data) {
-                console.log(data.selected);
-            });
-            // 8 interact with the tree - either way is OK
-            $('button').on('click', function () {
-                $('#jstree').jstree(true).select_node('child_node_1');
-                $('#jstree').jstree('select_node', 'child_node_1');
-                $.jstree.reference('#jstree').select_node('child_node_1');
-            });
-        });
+    <script type="text/javascript">
+        if (window.location.hash && window.location.hash == '#_=_') {
+            if (window.history && history.pushState) {
+                window.history.pushState("", document.title, window.location.pathname);
+            } else {
+                // Prevent scrolling by storing the page's current scroll offset
+                var scroll = {
+                    top: document.body.scrollTop,
+                    left: document.body.scrollLeft
+                };
+                window.location.hash = '';
+                // Restore the scroll offset, should be flicker free
+                document.body.scrollTop = scroll.top;
+                document.body.scrollLeft = scroll.left;
+            }
+        }
     </script>
 
     @Scripts.Render("~/bundles/jquery")

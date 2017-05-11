@@ -336,7 +336,7 @@ namespace CloudAtlas.Controllers
                              select user.Groups).FirstOrDefault();
 
             var groups = (from gr in userGroup
-                          where gr.Name.StartsWith(term)
+                          where gr.Name.ToLower().StartsWith(term.ToLower())
                           select gr.Name).ToList();
 
             var listName = users.Union(groups);

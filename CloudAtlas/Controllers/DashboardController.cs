@@ -29,7 +29,9 @@ namespace CloudAtlas.Controllers
             var proj = projectsRepository.GetProjectsByUserId(id);
             var grou = groupsRepository.getAllGroupsByUserId(id);
             DashboardViewModel model = new DashboardViewModel{ Projects = proj.ToList<Project>(), Groups = grou};
-           
+
+            ViewData["userid"] = id;
+
             return View(model);
         }
 

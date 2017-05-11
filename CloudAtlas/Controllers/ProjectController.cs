@@ -444,6 +444,15 @@ namespace CloudAtlas.Controllers
 
         public ActionResult Delete(int projectid)
         {
+            var project = projrepository.GetProjectById(projectid);
+
+            projrepository.RemoveProject(project);
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        public ActionResult Leave(int projectid)
+        {
             string userid = User.Identity.GetUserId<string>();
             var curruser = (from user in context.Users
                             where user.Id == userid
@@ -451,7 +460,7 @@ namespace CloudAtlas.Controllers
 
             var project = projrepository.GetProjectById(projectid);
 
-            projrepository.DeleteProject(project, curruser);
+            projrepository.DeleteFromProject(project, curruser);
 
             return RedirectToAction("Index", "Dashboard");
         }

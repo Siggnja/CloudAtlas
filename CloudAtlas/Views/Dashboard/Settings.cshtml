@@ -39,6 +39,17 @@
             $('#colorScheme').val($('#hiddentheme').val());
 
             $('#save').click(function () {
+                var name = $("#name").val();
+                if (name === null || name.match(/^ *$/) !== null) {
+                    $("#save").css({ 'background-color': 'indianred' });
+                    $('#save').val('Name can not be empty');
+                    setTimeout(function () {
+                        $('#save').val('Save Changes');
+                        $("#save").css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    return false;
+                }
                 $.ajax({
                     url: '/Dashboard/SaveSettings',
                     dataType: 'json',
@@ -55,13 +66,27 @@
 
             $("#imageForm").on('submit', function () {
                 var form = $(this);
+                var fileInput = $("#File").val();
+                if (fileInput == '')
+                {
+                    $("#Submit").css({ 'background-color': 'indianred' });
+                    $('#Submit').val('No image detected');
+                    setTimeout(function () {
+                        $('#Submit').val('Upload');
+                        $("#Submit").css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    return false;
+                }
                 $.ajax({
                     url: form.attr('action'),
                     url: form.serialize(),
                     method: 'Post'
 
                 })
-            }
+
+                return false;
+            });
 
 
 

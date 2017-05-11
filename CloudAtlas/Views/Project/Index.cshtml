@@ -21,7 +21,6 @@
         <div>
             <input type="hidden" id="hiddencode" name="hiddencode" />
             <input type="hidden" id="hiddenid" name="hiddenid" />
-            <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
             <input type="hidden" id="hiddentype" name="hiddentype" />
             <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme" />
         </div>
@@ -42,12 +41,9 @@
     <div class="right">
         <h3>Collaborators</h3>
         <div class="collaborators">
-            <div class="avatars">
+            <div class="avatars" id="partial">
                 <div class="user-img">
-                    @foreach (var item in Model.Project.ApplicationUsers)
-                    {
-                        <img alt="@item.UserName" title="@item.UserName" src="@Url.Content(item.AvatarPath)" />
-                    }
+                    @Html.Partial("Avatars", Model)
                 </div>
             </div>
 
@@ -56,7 +52,7 @@
                 @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite" })
             <!--<input type="submit" id="submitInvite" />-->
                 <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
-                <input type="submit" />
+                <input type="submit" id="invitebutton" value="Invite"/>
             }
 
            
@@ -440,7 +436,17 @@
                 $.ajax({
                     url: form.attr('action'),
                     data: form.serialize(),
-                    method: 'POST'
+                    method: 'POST',
+                    success: function (result) {
+                        $("#searchInvite").val('');
+                        $("#invitebutton").css({ 'background-color': '#27ae60' });
+                        $('#invitebutton').val('Added!');
+                        setTimeout(function () {
+                            $('#invitebutton').val('Invite');
+                            $("#invitebutton").css({ 'background-color': '#293241' });
+                        }, 1000);
+                        $("#partial").html(result);
+                    }
                 });
 
                 return false;

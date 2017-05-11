@@ -9,7 +9,7 @@
         <div class="box-projects">
             @foreach (var i in Model.Projects)
             {
-                <div class="box">
+                <div class="box @(ViewData["userid"].Equals(i.OwnerID) ? "is-owner" : "not-owner" )">
                     <div class="left">
                         <a href=@Url.Action("Index", "Project", new { id = i.ID })>
                             @i.Name
@@ -17,13 +17,13 @@
                         @if (ViewData["userid"].Equals(i.OwnerID))
                         {
                             <a href=@Url.Action("Delete", "Project", new { projectid = i.ID })>
-                                Delete
+                                <i class="fa fa-trash" aria-hidden="true"></i>
                             </a>
                         }
                         else
                         {
                             <a href=@Url.Action("Leave", "Project", new { projectid = i.ID })>
-                                Leave
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
                             </a>
                         }
                         <span>@i.DateCreated</span>
@@ -36,7 +36,6 @@
                     </div>
                 </div>
             }
-
             <div class="create-button-wrap">
                 <a href=@Url.Action("Create", "Project", null)>
                     <div class="create-box">

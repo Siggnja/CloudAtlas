@@ -8,35 +8,32 @@
 <div class="settings-container">
     <h1>Settings</h1>
 
-
     <div class="settings-img">
         <img alt="@Model.UserName" title="@Model.UserName" src="@Url.Content(Model.AvatarPath)" />
     </div>
 
+    <div class="settings-form">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" value="@Model.UserName">
 
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name" value="@Model.UserName">
+        <label for="colorScheme">Color Scheme</label>
+        @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem>, new { @id = "colorScheme" })
+        <input type="hidden" id="hiddentheme" value="@Model.Theme" />
 
-    <label for="colorScheme">Color Scheme</label>
-    @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem>, new { @id = "colorScheme" })
-    <input type="hidden" id="hiddentheme" value="@Model.Theme"/>
-   
 
-    @using (Html.BeginForm("UploadImage", "DashBoard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data"}))
-    {
+        @using (Html.BeginForm("UploadImage", "DashBoard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data" }))
+        {
 
-        <input type=file id=File name=File />
+            <input type=file id=File name=File />
 
-        <input type="submit" id="Submit" value="Upload"/>
-    }
-    
-    <input type="button" id="save" value="Save Changes" />
+            <input type="submit" id="Submit" value="Upload" />
+        }
 
+        <input type="button" id="save" value="Save Changes" />
+    </div>
 </div>
 
-
 @section scripts {
-
     <script>
         $(function () {
             $('#colorScheme').val($('#hiddentheme').val());

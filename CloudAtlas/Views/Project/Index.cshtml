@@ -21,6 +21,7 @@
             <input type="hidden" id="hiddenid" name="hiddenid" />
             <input type="hidden" id="hiddentype" name="hiddentype" />
             <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme" />
+            <input type="hidden" id="hiddenuserid" value="@Model.User.Id" />
             @using (Html.BeginForm("Download", "Project", FormMethod.Post))
             {
                 <input type="hidden" id="downloadfileid" name="fileid" />
@@ -113,13 +114,13 @@
 
             var ignore;
 
-            chat.client.updateEditor = function (changedata) {
+            chat.client.updateEditor = function (changedata, userid) {
                 ignore = true;
                 editor.getSession().getDocument().applyDelta(changedata);
                 ignore = false;
                 var line = Number(changedata.start.row) + 1;
-                var userediting = "#editingline" + "Siggi";
-                $(userediting).stop(false).text("Line: " + line).show().animate({ opacity: '100' }).fadeOut(1000);
+                var userediting = "#" + userid;
+                $(userediting).stop(true,true).text(line).show().animate({ opacity: '100' }).fadeOut(1000);
             };
 
             chat.client.chatMessage = function (name, message) {
@@ -137,14 +138,13 @@
                 // Change is detected and editor is updated.
                 editor.on("change", function (obj) {
                     if (!ignore) {
-                        console.log("Skepni");
                         $.ajax({
                             url: '/Project/SaveFileAuto',
                             dataType: 'json',
                             data: { code: editor.getValue(), id: $('#hiddenid').val(), projectid: $('#hiddenproject').val() },
                             method: 'POST'
                         });
-                        chat.server.updateEditor(obj, $('#hiddenid').val());
+                        chat.server.updateEditor(obj, $('#hiddenid').val(), $('#hiddenuserid').val());
                         var d = new Date();
                         var h = d.getHours();
                         var m = d.getMinutes();

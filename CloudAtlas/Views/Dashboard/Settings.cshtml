@@ -36,6 +36,12 @@
 @section scripts {
     <script>
         $(function () {
+            $("#name").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $('#save').click();
+                }
+            });
+
             $('#colorScheme').val($('#hiddentheme').val());
 
             $('#save').click(function () {
@@ -82,10 +88,6 @@
                 else {
                     $("#Submit").css({ 'background-color': '#27ae60' });
                     $('#Submit').val('Uploading...');
-                    setTimeout(function () {
-                        $('#Submit').val('Upload');
-                        $("#Submit").css({ 'background-color': '#293241' });
-                    }, 1000);
                     $.ajax({
                         url: form.attr('action'),
                         url: form.serialize(),

@@ -78,25 +78,20 @@
                     return false;
                 }
                 else {
+                    $("#Submit").css({ 'background-color': '#27ae60' });
+                    $('#Submit').val('Uploading...');
+                    setTimeout(function () {
+                        $('#Submit').val('Upload');
+                        $("#Submit").css({ 'background-color': '#293241' });
+                    }, 1000);
                     $.ajax({
                         url: form.attr('action'),
                         url: form.serialize(),
-                        method: 'Post'
-
-                })
-
-                
+                        method: 'POST'
+                    });
+                }
             });
-
-
-
         });
 
-
-
-
-
-
-    </script>
-    
+    </script>    
 }

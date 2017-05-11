@@ -63,7 +63,9 @@ namespace CloudAtlas.Controllers
                 Folders = folders,
                 Files = files
             };
-            
+            SelectLanguage();
+
+
             return View(model);
         }
 
@@ -155,9 +157,9 @@ namespace CloudAtlas.Controllers
         {
             if(fold.Files != null)
             {
-                foreach (File file in fold.Files)
+                for(int i=0;i<fold.Files.Count;i++)
                 {
-                    filerepository.deleteFile(file);
+                    filerepository.deleteFile(fold.Files.ElementAt(i));
                 }
             }
         }
@@ -209,33 +211,36 @@ namespace CloudAtlas.Controllers
 
             return Json(nodes, JsonRequestBehavior.AllowGet);
         }
-        public PartialViewResult CreateFileInput()
+        public ActionResult CreateFileInput()
         {
+            SelectLanguage();
             return PartialView("CreateFileInput", new File());
         }
         [HttpPost]
-        public ActionResult CreateFile(FormCollection collection, int? parentId, int projectId)
+        public ActionResult CreateFile(FormCollection collection)
         {
-
+            var temp = collection["hiddenparent"];
+            int? parentId = int.Parse(temp.ToString());
+            int projectId = int.Parse(collection["hiddenproject"]);
             if (parentId == null)
             {
                 return View();
             }
-            string extension = getExtension(collection["file.type"]);
+            string extension = getExtension(collection["Type"].ToString());
             Folder par = foldrepository.GetFolderByID((int)parentId);
-            File newFile = new Models.File { Name = collection["name"], Content = "", FolderID = par.ID, Type = collection["file.type"], Extension = extension };
+            File newFile = new Models.File { Name = collection["name"], Content = "", FolderID = par.ID, Type = collection["Type"], Extension = extension };
             filerepository.addFile(newFile);
 
-            context.SaveChanges();
-            return InitilizeTree(projectId);
+           return RedirectToAction("Index", "Project", new { id = projectId });
 
         }
         private string getExtension(string type)
         {
-            if (type == "Javascript") return ".js";
-            if (type == "CSS") return ".css";
-            if (type == "C#") return ".cs";
-            if (type == "C++") return ".cpp";
+            if (type == "javascript") return ".js";
+            if (type == "css") return ".css";
+            if (type == "csharp") return ".cs";
+            if (type == "c_cpp") return ".cpp";
+            if (type == "html" ) return ".html";
             return "";
         }
         public void addChildren(List<JsTreeModel> nodes, Folder root)

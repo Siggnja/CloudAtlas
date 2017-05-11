@@ -35,16 +35,16 @@
 
         $('#createForm').submit(function (e) {
             if ($('#name').val() == "") {
-                $("#searchInvite").val('');
-                $("#submit").css({ 'background-color': 'indianred' });
-                $('#submit').val('Groups needs a name!');
+                $('#searchInvite').val('');
+                $('#submit').css({ 'background-color': 'indianred' });
+                $('#submit').val('Group needs a name!');
                 setTimeout(function () {
                     $('#submit').val('Create');
-                    $("#submit").css({ 'background-color': '#293241' });
+                    $('#submit').css({ 'background-color': '#293241' });
                 }, 1000);
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                return false
+                return false;
             }
             else {
                 return true;

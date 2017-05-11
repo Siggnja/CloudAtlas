@@ -380,6 +380,12 @@ body {
         color: #4EA5D9;
         cursor: pointer; }
 
+.hiddenClass {
+  display: none; }
+
+.showClass {
+  display: block; }
+
 /*
     PROJECT CSS
 */
@@ -434,6 +440,17 @@ body {
       align-items: flex-start;
       width: 100%;
       padding: 10px 15px; }
+      .project-container .right .collaborators .colab-form input[type=text] {
+        height: 25px; }
+      .project-container .right .collaborators .colab-form input[type=submit] {
+        border: 0;
+        height: 25px;
+        width: 60px;
+        color: #fff;
+        background-color: #54494B; }
+        .project-container .right .collaborators .colab-form input[type=submit]:hover {
+          color: #4EA5D9;
+          cursor: pointer; }
       .project-container .right .collaborators .avatars {
         display: flex;
         width: 100%;
@@ -452,6 +469,11 @@ body {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%); }
+        .project-container .right .collaborators .avatars a {
+          color: #4EA5D9;
+          font-size: 50px; }
+          .project-container .right .collaborators .avatars a:hover {
+            color: #54494B; }
         .project-container .right .collaborators .avatars #inviteForm input[type=text] {
           background-color: red; }
     .project-container .right h3 {
@@ -565,4 +587,10 @@ body {
 
 .vakata-context ul {
   z-index: 100; }
+
+.hidden {
+  display: none; }
+
+.show {
+  display: block; }
 

@@ -521,7 +521,12 @@ body {
         }
     }
 }
-
+.hiddenClass {
+    display: none;
+}
+.showClass {
+    display: block;
+}
 /*
     PROJECT CSS
 */
@@ -530,7 +535,8 @@ body {
     min-height: 100vh;
     width: 100%;
 
-    .actions {
+      
+        .actions {
         display: flex;
         align-items: center;
         width: 100%;

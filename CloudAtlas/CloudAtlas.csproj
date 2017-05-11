@@ -334,7 +334,6 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\Create.cshtml" />
     <Content Include="Views\Group\Create.cshtml" />
-    <Content Include="Views\Project\CreateFileInput.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\Shared\Avatars.cshtml" />
   </ItemGroup>

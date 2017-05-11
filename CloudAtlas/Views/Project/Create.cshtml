@@ -19,13 +19,9 @@
             @Html.DropDownListFor(x => x.Type, ViewData["Type"] as List<SelectListItem>)
             <input type="submit" name="submit" value="Create">
         }
-    
+    <div>
+        @Html.ActionLink("Back to List", "Index", "Dashboard")
+    </div>
+
 </div>
-
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index","Dashboard")
-</div>
-
 

@@ -144,11 +144,11 @@ namespace CloudAtlas.Controllers
         {
             if(deleteMe != null && deleteMe.SubFolders != null)
             {
-                foreach (Folder fold in deleteMe.SubFolders)
+                for(int i = 0;i<deleteMe.SubFolders.Count;i++)
                 {
-                    DeleteFolderHelper(fold);
-                    DeleteAllFiles(fold);
-                    foldrepository.removeFolder(fold);
+                    DeleteFolderHelper(deleteMe.SubFolders.ElementAt(i));
+                    DeleteAllFiles(deleteMe.SubFolders.ElementAt(i));
+                    foldrepository.removeFolder(deleteMe.SubFolders.ElementAt(i));
                 }
             }
         }

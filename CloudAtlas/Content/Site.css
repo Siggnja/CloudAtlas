@@ -539,3 +539,6 @@ body {
         color: #4EA5D9;
         cursor: pointer; }
 
+.vakata-context ul {
+  z-index: 100; }
+

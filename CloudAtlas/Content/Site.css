@@ -509,8 +509,7 @@ body {
             width: 100%;
             position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); }
+            left: 50%; }
             .project-container .right .collaborators .avatars .user-img img:hover {
               opacity: 0.5; }
         .project-container .right .collaborators .avatars .new-user {

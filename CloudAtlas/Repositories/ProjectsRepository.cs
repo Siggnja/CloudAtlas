@@ -9,7 +9,10 @@ namespace CloudAtlas.Repositories
 {
     public class ProjectsRepository : BaseRepository
     {
-        
+        public ProjectsRepository(IAppDataContext context) : base(context)
+        {
+        }
+
         public void AddProjectToUser(Project proj, ApplicationUser user)
         {
             user.Projects.Add(proj);
@@ -22,10 +25,19 @@ namespace CloudAtlas.Repositories
         }
         public List<Project> GetProjectsByUserId(string id)
         {
-            return (from item in db.Users
-                    where item.Id == id
-                    select item.Projects).FirstOrDefault().ToList();
 
+            var projects = (from item in db.Users
+                           where item.Id == id
+                           select item.Projects).FirstOrDefault();
+
+            if(projects != null)
+            {
+                return projects.ToList();
+            }
+            else
+            {
+                return new List<Project>();
+            }
         }
         public Project GetProjectById(int id)
         {
@@ -42,10 +54,6 @@ namespace CloudAtlas.Repositories
         {
             db.Projects.Remove(project);
             db.SaveChanges();
-        }
-        public void UpdateProject(EntityState state,Project project)
-        {
-            db.Entry(project).State = state;
         }
     }
 }

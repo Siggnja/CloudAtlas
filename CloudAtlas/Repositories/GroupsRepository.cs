@@ -8,6 +8,10 @@ namespace CloudAtlas.Repositories
 {
     public class GroupsRepository : BaseRepository
     {
+        public GroupsRepository(IAppDataContext context) : base(context)
+        {
+        }
+
         public void AddGroup(Group group)
         {
             db.Groups.Add(group);
@@ -50,32 +54,18 @@ namespace CloudAtlas.Repositories
 
         public List<Group> getAllGroupsByUserId(string id)
         {
-            /*
-            List<Group> result = new List<Group>();
-            var allGroups = (from i in db.Groups
-                             select i);
-*/
-            return (from item in db.Users
-                    where item.Id == id
-                    select item.Groups).FirstOrDefault().ToList();
-            /*
-            foreach(var grou in allGroups)
+            var groups = (from item in db.Users
+                          where item.Id == id
+                          select item.Groups).FirstOrDefault();
+
+            if(groups != null)
             {
-                foreach(var user in grou.ApplicationUsers)
-                {
-                    if(user == null)
-                    {
-                        break;
-                    }
-                    if(user.Id == id)
-                    {
-                        result.Add(grou);
-                        break;
-                    }
-                }
+                return groups.ToList();
             }
-            return result;
-            */
+            else
+            {
+                return new List<Group>();
+            }
         }
         
     }

@@ -17,15 +17,16 @@ namespace CloudAtlas.Controllers
     [Authorize]
     public class ProjectController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private readonly ProjectsRepository projrepository;
         private readonly FolderRepository folderrepository;
         private readonly FileRepository filerepository;
 
         public ProjectController()
         {
-            projrepository = new ProjectsRepository();
-            folderrepository = new FolderRepository();
-            filerepository = new FileRepository();
+            projrepository = new ProjectsRepository(db);
+            folderrepository = new FolderRepository(db);
+            filerepository = new FileRepository(db);
         }
 
         // GET: Project
@@ -377,7 +378,6 @@ namespace CloudAtlas.Controllers
             {
                 Name = project.Name,
                 Type = project.Type,
-                IsGroupProject = false,
                 FolderID = foldid,
                 OwnerID = userid
             };

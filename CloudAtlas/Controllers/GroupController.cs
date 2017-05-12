@@ -13,10 +13,11 @@ namespace CloudAtlas.Controllers
     public class GroupController : Controller
     {
         private readonly GroupsRepository groupsrepository;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public GroupController()
         {
-            groupsrepository = new GroupsRepository();
+            groupsrepository = new GroupsRepository(db);
         }
 
 

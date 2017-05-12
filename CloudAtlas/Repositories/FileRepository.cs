@@ -8,6 +8,11 @@ namespace CloudAtlas.Repositories
 {
     public class FileRepository : BaseRepository
     {
+        public FileRepository(IAppDataContext context) : base(context)
+        {
+
+        }
+
         public File GetFileById(int id)
         {
             return (from i in db.Files

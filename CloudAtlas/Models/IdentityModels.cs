@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 namespace CloudAtlas.Models
 {
@@ -32,21 +33,32 @@ namespace CloudAtlas.Models
             return userIdentity;
         }
     }
+    public interface IAppDataContext
+    {
+        IDbSet<Project> Projects { get; set; }
+        IDbSet<Folder> Folders { get; set; }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+        IDbSet<File> Files { get; set; }
+
+        IDbSet<Group> Groups { get; set; }
+        IDbSet<ApplicationUser> Users { get; set; }
+
+        int SaveChanges();
+    }
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IAppDataContext
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
-        public DbSet<Project> Projects { get; set; }
+        public IDbSet<Project> Projects { get; set; }
 
-        public DbSet<Folder> Folders { get; set; }
+        public IDbSet<Folder> Folders { get; set; }
 
-        public DbSet<File> Files { get; set; }
+        public IDbSet<File> Files { get; set; }
 
-        public DbSet<Group> Groups { get; set; }
+        public IDbSet<Group> Groups { get; set; }
         
         public static ApplicationDbContext Create()
         {

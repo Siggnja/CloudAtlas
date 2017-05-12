@@ -201,7 +201,7 @@ namespace CloudAtlas.Controllers
         /// <summary>
         /// Adds SubFolders and Files to a folder
         /// </summary>
-        public void addChildren(List<JsTreeModel> nodes, Folder root)
+        public void AddChildren(List<JsTreeModel> nodes, Folder root)
         {
             if(root != null && root.SubFolders != null)
             {
@@ -216,7 +216,7 @@ namespace CloudAtlas.Controllers
         /// <summary>
         /// Add Files to a folder
         /// </summary>
-        private void addChildrenFiles(List<JsTreeModel> nodes,Folder fold)
+        private void AddChildrenFiles(List<JsTreeModel> nodes,Folder fold)
         {
             if(fold != null && fold.Files != null)
             {
@@ -370,46 +370,6 @@ namespace CloudAtlas.Controllers
             var foldid = newfold.ID;
 
             File newfile = CreateInitialFile(foldid, project);
-
-            if(project.Type == "javascript")
-            {
-                filename = "Index";
-                fileext = ".js";
-                filecont = "function toScreen(hello)\n{\n\tdocument.write(hello);\n}\nvar text = \"Hello World\";\ntoScreen(text);";
-            }
-            else if(project.Type == "html")
-            {
-                filename = "Index";
-                fileext = ".html";
-                filecont = "<!DOCTYPE html>\n<html lang=\"en\">\n\n\t<head>\n\t\t<meta charset=\"UTF-8\">\n\t\t<title>Hello!</title>\n\t</head>\n\n\t<body>\n\t\t<h1>Hello World!</h1>\n\t\t<p>You can edit me, and so can your friends!</p>\n\t</body>\n\n</html>";
-            }
-            else if(project.Type == "css")
-            {
-                filename = "Index";
-                fileext = ".css";
-                filecont = "#id\n{\n\tcolor: DeepSkyBlue;\n}";
-            }
-            else if(project.Type == "csharp")
-            {
-                filename = "Main";
-                fileext = ".cs";
-                filecont = "public class Hello\n{\n\tpublic static void Main()\n\t{\n\t\tSystem.Console.WriteLine(\"Hello, World!\");\n\t}\n}";
-            }
-            else
-            {
-                filename = "Main";
-                fileext = ".cpp";
-                filecont = "#include <iostream>\n\nusing namespace std;\n\nint main()\n{\n\tcout << \"Hello World!\";\n}";
-            }
-
-            File newfile = new File
-            {
-                FolderID = foldid,
-                Name = filename,
-                Extension = fileext,
-                Type = project.Type,
-                Content = filecont
-            };
 
             filerepository.AddFile(newfile);
 

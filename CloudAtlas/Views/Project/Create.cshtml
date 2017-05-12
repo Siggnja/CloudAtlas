@@ -19,9 +19,6 @@
             @Html.DropDownListFor(x => x.Type, ViewData["Type"] as List<SelectListItem>)
             <input type="submit" id="submit" name="submit" value="Create">
         }
-    <div class="go-back">
-        @Html.ActionLink("Back to List", "Index", "Dashboard")
-    </div>
 
 </div>
 
@@ -35,6 +32,20 @@
                 if (name === null || name.match(/^ *$/) !== null) {
                     $('#submit').css({ 'background-color': 'indianred' });
                     $('#submit').val('Project needs a name!');
+                    $('#name').val("");
+                    setTimeout(function () {
+                        $('#submit').val('Create');
+                        $('#submit').css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+                else if (name.length > 30)
+                {
+                    $('#submit').css({ 'background-color': 'indianred' });
+                    $('#submit').val('Name longer than 30 characters!');
                     $('#name').val("");
                     setTimeout(function () {
                         $('#submit').val('Create');

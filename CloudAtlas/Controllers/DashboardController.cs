@@ -27,6 +27,8 @@ namespace CloudAtlas.Controllers
         {
             projectsRepository = new ProjectsRepository(db);
             groupsRepository = new GroupsRepository(db);
+
+            //Creates the connection to cloudinary, an online image host
             account = new Account(
                     "cloudatlas",
                     "215256475133816",

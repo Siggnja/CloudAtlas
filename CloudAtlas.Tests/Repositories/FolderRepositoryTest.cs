@@ -83,7 +83,7 @@ namespace CloudAtlas.Tests.Repositories
         public void TestRemoveFolder()
         {
             //Arrange
-            var newFolder = new Folder() { ID = 6, Name = "Folder1", IsRoot = true, SubFolders = new List<Folder>(), Files = new List<File>() };
+            var newFolder = new Folder() { ID = 6, Name = "Folder6", IsRoot = false, SubFolders = new List<Folder>(), Files = new List<File>() };
             _folder.AddFolder(newFolder);
             //Act
             _folder.RemoveFolderByID(newFolder.ID);

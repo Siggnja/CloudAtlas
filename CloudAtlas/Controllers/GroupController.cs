@@ -39,7 +39,7 @@ namespace CloudAtlas.Controllers
         }
 
         /// <summary>
-        /// Takes in formCollection,
+        /// Takes in formCollection, checks if the user exist and adds him to the group
         /// </summary>
        
         [HttpPost]
@@ -56,7 +56,7 @@ namespace CloudAtlas.Controllers
                 return View(new Group());
             }
             
-            //Creates array of users from userString
+            //Creates array of users from userString seperated by whitespace
             string[] users = usersString.Split(' ');
             List<ApplicationUser> applicationUsers = new List<ApplicationUser>();
 
@@ -73,7 +73,7 @@ namespace CloudAtlas.Controllers
 
             applicationUsers.Add(groupsrepository.GetUserByID(loggedInUser));
 
-
+            //Creates the group and defines who the owner is and adds it to the database
             Group newGroup = new Group { Name = name, OwnerID = loggedInUser, ApplicationUsers = applicationUsers };
 
             groupsrepository.AddGroup(newGroup);
@@ -138,7 +138,8 @@ namespace CloudAtlas.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Removes the user from database, returns success if the user was removed
+        /// else returns notingroup
         /// </summary>
        
         [HttpPost]
@@ -160,6 +161,9 @@ namespace CloudAtlas.Controllers
                 JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Deletes group from database
+        /// </summary>
         public ActionResult Delete(int groupID)
         {
             groupsrepository.DeleteGroupById(groupID);
@@ -167,6 +171,11 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
+
+        /// <summary>
+        /// Removes the user from the specified group 
+        /// </summary>
+        
         public ActionResult Leave(int groupID)
         {
             string userid = User.Identity.GetUserId<string>();

@@ -30,6 +30,9 @@ namespace CloudAtlas.Controllers
         }
 
         // GET: Project
+        /// <summary>
+        /// Gets all the folders and files associated with the project and sends it to the view 
+        /// </summary>
         public ActionResult Index(int id)
         {
             var project = projrepository.GetProjectById(id);
@@ -38,7 +41,7 @@ namespace CloudAtlas.Controllers
 
             var folders = folderrepository.GetFoldersFromRootID(id);
 
-           var files = filerepository.GetFilesByFolderID(root.ID);
+            var files = filerepository.GetFilesByFolderID(root.ID);
 
             string userId = User.Identity.GetUserId<string>();
 
@@ -61,9 +64,7 @@ namespace CloudAtlas.Controllers
 
             return View(model);
         }
-        /// <summary>
-        /// Opens a file   
-        /// </summary>
+        
 
         public ActionResult OpenFile(int id)
         {
@@ -72,8 +73,7 @@ namespace CloudAtlas.Controllers
             return Json(new { content = thisfile.Content, type = thisfile.Type, name = thisfile.Name },
                 JsonRequestBehavior.AllowGet);
         }
-        
-      
+
         [HttpPost]
         public ActionResult RenameFile(int? id, string newName, int projectId)
         {
@@ -95,6 +95,7 @@ namespace CloudAtlas.Controllers
             return InitilizeTree(projectId);
         }
         [HttpPost]
+       
         public ActionResult RenameFolder(int? id, string newName, int projectId)
         {
             if (id == null)
@@ -114,6 +115,7 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Project", new { id = projectId });
 
         }
+        
         [HttpPost]
         public ActionResult RemoveFile(int? id, int projectId)
         {
@@ -126,6 +128,7 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Project", new { id = projectId });
 
         }
+        
         [HttpPost]
         public ActionResult RemoveFolder(int? id, int projectId)
         {
@@ -137,35 +140,9 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Project", new { id = projectId });
 
         }
- 
-        public ActionResult DeleteFile(int? idFile)
-        {
-            if (idFile == null)
-            {
-                return View();
-            }
-            filerepository.RemoveFileByID((int)idFile);
-            return View();
-        }
-        public ActionResult TreeView(int id)
-        {
-            var project = projrepository.GetProjectById(id);
-
-            var root = folderrepository.GetFolderByID(project.FolderID);
-
-            var folders = folderrepository.GetFoldersFromRootID(id);
-
-            var files = filerepository.GetFilesByFolderID(root.ID);
-
-            ProjectViewModel model = new ProjectViewModel
-            {
-                Project = project,
-                Root = root,
-                Folders = folders,
-                Files = files
-            };
-            return PartialView("TreeView", model);
-        }
+        /// <summary>
+        /// Initializes a Jstree with appropriate folder and files in the project and returns a json string
+        /// </summary>
         public ActionResult InitilizeTree(int id)
         {
             var nodes = new List<JsTreeModel>();
@@ -182,6 +159,9 @@ namespace CloudAtlas.Controllers
             SelectLanguage();
             return PartialView("CreateFileInput", new File());
         }
+        /// <summary>
+        /// Creates a new file with a information from a input form and saves it to the database
+        /// </summary>
         [HttpPost]
         public ActionResult AddFile(FormCollection collection)
         {
@@ -218,6 +198,9 @@ namespace CloudAtlas.Controllers
             if (type == "html" ) return ".html";
             return "";
         }
+        /// <summary>
+        /// Adds SubFolders and Files to a folder
+        /// </summary>
         public void AddChildren(List<JsTreeModel> nodes, Folder root)
         {
             if(root != null && root.SubFolders != null)
@@ -230,6 +213,9 @@ namespace CloudAtlas.Controllers
                 }
             }
         }
+        /// <summary>
+        /// Add Files to a folder
+        /// </summary>
         private void AddChildrenFiles(List<JsTreeModel> nodes,Folder fold)
         {
             if(fold != null && fold.Files != null)
@@ -242,6 +228,9 @@ namespace CloudAtlas.Controllers
                 }
             }
         }
+        /// <summary>
+        /// Removes a file and updates the database  
+        /// </summary>
         [HttpPost]
         public ActionResult AddFolder(int? parentId, int projectId)
         {
@@ -293,6 +282,10 @@ namespace CloudAtlas.Controllers
             return View(new Project());
         }
 
+        /// <summary>
+        /// Takes in search string, and searches both users and groups
+        /// returns a list of users and groups
+        /// </summary>
         public JsonResult Search(string term)
         {
             string loggedInUser = User.Identity.GetUserId<string>();
@@ -306,9 +299,14 @@ namespace CloudAtlas.Controllers
             return Json(listName, JsonRequestBehavior.AllowGet);
         }
 
+
+        /// <summary>
+        ///  Invites a user to the current project
+        /// </summary>
         public ActionResult Invite(FormCollection collection)
         {
             var stringToCheck = collection["UserEmail"];
+            //gets the ID of the project wich is stored in a hidden input in the form
             var hidden = collection["hiddenproject"];
             int projectID = Int32.Parse(hidden);
             string loggedInUser = User.Identity.GetUserId<string>();
@@ -321,6 +319,9 @@ namespace CloudAtlas.Controllers
                               where g.Name == stringToCheck
                               select g).FirstOrDefault();
 
+
+            //Checks if groups exist, if so adds all the users to the project
+            //from the group that aren't in the project
             if(checkGroup != null)
             {
                 foreach(var item in checkGroup.ApplicationUsers)
@@ -337,7 +338,7 @@ namespace CloudAtlas.Controllers
             var checkUser = (from item in users
                              where item.Email == stringToCheck
                              select item).FirstOrDefault();
-
+            
             if(checkUser != null)
             {
                 if (!checkUser.Projects.Contains(project))
@@ -354,6 +355,11 @@ namespace CloudAtlas.Controllers
             return PartialView("Avatars", model);
         }
 
+
+        /// <summary>
+        /// Creates a project with a root folder and an initial file
+        /// </summary>
+       
         [HttpPost]
         public ActionResult Create(Project project)
         {
@@ -363,49 +369,7 @@ namespace CloudAtlas.Controllers
 
             var foldid = newfold.ID;
 
-            var filecont = "";
-            var fileext = "";
-            var filename = "";
-
-            if(project.Type == "javascript")
-            {
-                filename = "Index";
-                fileext = ".js";
-                filecont = "function toScreen(hello)\n{\n\tdocument.write(hello);\n}\nvar text = \"Hello World\";\ntoScreen(text);";
-            }
-            else if(project.Type == "html")
-            {
-                filename = "Index";
-                fileext = ".html";
-                filecont = "<!DOCTYPE html>\n<html lang=\"en\">\n\n\t<head>\n\t\t<meta charset=\"UTF-8\">\n\t\t<title>Hello!</title>\n\t</head>\n\n\t<body>\n\t\t<h1>Hello World!</h1>\n\t\t<p>You can edit me, and so can your friends!</p>\n\t</body>\n\n</html>";
-            }
-            else if(project.Type == "css")
-            {
-                filename = "Index";
-                fileext = ".css";
-                filecont = "#id\n{\n\tcolor: DeepSkyBlue;\n}";
-            }
-            else if(project.Type == "csharp")
-            {
-                filename = "Main";
-                fileext = ".cs";
-                filecont = "public class Hello\n{\n\tpublic static void Main()\n\t{\n\t\tSystem.Console.WriteLine(\"Hello, World!\");\n\t}\n}";
-            }
-            else
-            {
-                filename = "Main";
-                fileext = ".cpp";
-                filecont = "#include <iostream>\n\nusing namespace std;\n\nint main()\n{\n\tcout << \"Hello World!\";\n}";
-            }
-
-            File newfile = new File
-            {
-                FolderID = foldid,
-                Name = filename,
-                Extension = fileext,
-                Type = project.Type,
-                Content = filecont
-            };
+            File newfile = CreateInitialFile(foldid, project);
 
             filerepository.AddFile(newfile);
 
@@ -454,24 +418,23 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
+        /// <summary>
+        /// Downloads a single file of the file type
+        /// </summary>
+
         public ActionResult Download(int fileID)
         {
-
-            var archive = Server.MapPath("~/archive.zip");
             var currentfile = filerepository.GetFileById(fileID);
-
-            if (System.IO.File.Exists(archive))
-            {
-                System.IO.File.Delete(archive);
-            }
-            
+         
 
             return File(Encoding.UTF8.GetBytes(currentfile.Content),
                  "text/plain",
                   string.Format("{0}{1}", currentfile.Name, currentfile.Extension));
         }
 
-
+        /// <summary>
+        /// Populates type dropdown list in create view
+        /// </summary>
         public void SelectLanguage()
         {
             IEnumerable<SelectListItem> items = new List<SelectListItem>() {
@@ -488,6 +451,59 @@ namespace CloudAtlas.Controllers
             };
             ViewData["Type"] = items;
 
+        }
+
+        /// <summary>
+        /// Takes in the project, and folder id, and creates the initial file
+        /// of the correspondant type
+        /// </summary>
+        private File CreateInitialFile(int foldid, Project project)
+        {
+            var filecont = "";
+            var fileext = "";
+            var filename = "";
+
+            if (project.Type == "javascript")
+            {
+                filename = "Index";
+                fileext = ".js";
+                filecont = "var x = \"Hello World\";";
+            }
+            else if (project.Type == "html")
+            {
+                filename = "Index";
+                fileext = ".html";
+                filecont = "<html>\n< header >< title > This is title </ title ></ header >\n< body >\nHello world\n</ body >\n</ html > ";
+            }
+            else if (project.Type == "css")
+            {
+                filename = "Index";
+                fileext = ".css";
+                filecont = "#id{\n color: DeepSkyBlue;}";
+            }
+            else if (project.Type == "csharp")
+            {
+                filename = "Main";
+                fileext = ".cs";
+                filecont = "public class Hello1\n{\n\tpublic static void Main()\n\t{\n\t\tSystem.Console.WriteLine(\"Hello, World!\");\n\t}\n}";
+            }
+            else
+            {
+                filename = "Main";
+                fileext = ".cpp";
+                filecont = "#include <iostream>\n\nint main()\n{\n\tstd::cout << \"Hello World!\";\n}";
+            }
+
+            File newfile = new File
+            {
+                FolderID = foldid,
+                Name = filename,
+                Extension = fileext,
+                Type = project.Type,
+                Content = filecont
+            };
+
+            return newfile;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace CloudAtlas.Tests.Models
         {
             Group gr = new Group();
             gr.ID = 1;
-            Assert.AreEqual(gr.Name, 1);
+            Assert.AreEqual(gr.ID, 1);
         }
         [TestMethod]
         public void TestOwnerID()

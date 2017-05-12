@@ -22,6 +22,11 @@ namespace CloudAtlas
             Groups.Add(Context.ConnectionId, Convert.ToString(projectID));
         }
 
+        public void RefreshTree(int projectID)
+        {
+            Clients.Group(Convert.ToString(projectID), Context.ConnectionId).RefreshTree();
+        }
+
         public void ChatMessage(string name, string message, int projectID)
         {
             Clients.Group(Convert.ToString(projectID)).ChatMessage(name, message);

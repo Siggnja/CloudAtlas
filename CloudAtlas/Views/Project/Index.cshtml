@@ -104,6 +104,8 @@
             editor.getSession().setMode("ace/mode/c_cpp");
             editor.setReadOnly(true);
 
+            // Jstree variable
+            var tree = $('#jstree');
 
             // Hub functions
             var chat = $.connection.chatHub;
@@ -125,6 +127,10 @@
                 // Add the message to the page.
                 $('#discussion').append('<li><strong>' + htmlEncode(name)
                     + '</strong>: ' + htmlEncode(message) + '</li>');
+            };
+
+            chat.client.refreshTree = function () {
+                tree.jstree(true).refresh();
             };
 
 
@@ -157,86 +163,85 @@
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });
-
-            var tree = $('#jstree');
-            // 6 create an instance when the DOM is ready
-            tree.jstree({
-                "plugins": ["themes", "contextmenu", "dnd", "types", "state"],
-                "core": {
-                    check_callback: true,
-                    "data": {
-                        'url': "/Project/InitilizeTree/@Model.Project.ID",
-                        'data': function (node) {
+                
+                // 6 create an instance when the DOM is ready
+                tree.jstree({
+                    "plugins": ["themes", "contextmenu", "dnd", "types", "state"],
+                    "core": {
+                        check_callback: true,
+                        "data": {
+                            'url': "/Project/InitilizeTree/@Model.Project.ID",
+                            'data': function (node) {
+                            }
                         }
-                    }
-                },
-                "types": {
-                    "folder": {
-                        "icon": "fa fa-folder",
-                        "valid_children": ["default"]
                     },
-                    "default": {
-                        "valid_children": ["default", "file"]
+                    "types": {
+                        "folder": {
+                            "icon": "fa fa-folder",
+                            "valid_children": ["default"]
+                        },
+                        "default": {
+                            "valid_children": ["default", "file"]
+                        },
+                        "file": {
+                            "icon": "fa fa-file-text-o",
+                            "valid_children": []
+                        }
                     },
-                    "file": {
-                        "icon": "fa fa-file-text-o",
-                        "valid_children": []
-                    }
-                },
-                "contextmenu": {
-                    "items": function (node) {
-                        return {
-                            "rename": {
-                                label: "Rename",
-                                action: function (obj) {
-                                    tree.jstree(true).edit(node);
-                                }
-                            },
-                            "create": {
-                                action: false,
-                                label: "Create",
-                                action: false,
-                                submenu: {
-                                    "create file":
-                                    {
-                                        "seperator_before": false,
-                                        "seperator_after": false,
-                                        "label": "File",
-                                        action: function (obj) {
-                                            var fid = node.id;
-                                            tree.jstree(true).create_node(node, "file", "last", false, false);
-                                        }
-                                    },
-                                    "create_folder": {
-                                        "seperator_before": false,
-                                        "seperator_after": false,
-                                        "label": "Folder",
-                                        action: function (obj) {
-                                            var fid = node.id;
-                                            tree.jstree(true).create_node(node, "folder", "last", false, false);
+                    "contextmenu": {
+                        "items": function (node) {
+                            return {
+                                "rename": {
+                                    label: "Rename",
+                                    action: function (obj) {
+                                        tree.jstree(true).edit(node);
+                                    }
+                                },
+                                "create": {
+                                    action: false,
+                                    label: "Create",
+                                    action: false,
+                                    submenu: {
+                                        "create file":
+                                        {
+                                            "seperator_before": false,
+                                            "seperator_after": false,
+                                            "label": "File",
+                                            action: function (obj) {
+                                                var fid = node.id;
+                                                tree.jstree(true).create_node(node, "file", "last", false, false);
+                                            }
+                                        },
+                                        "create_folder": {
+                                            "seperator_before": false,
+                                            "seperator_after": false,
+                                            "label": "Folder",
+                                            action: function (obj) {
+                                                var fid = node.id;
+                                                tree.jstree(true).create_node(node, "folder", "last", false, false);
+                                            }
                                         }
                                     }
+                                },
+                                "delete": {
+                                    label: "Delete",
+                                    action: function () {
+                                        tree.jstree(true).delete_node(node);
+                                    },
+                                    separator_before: true
+                                },
+                                "download": {
+                                    label: "Download",
+                                    action: function (){
+                                        $('#downloadfileid').val(node.id);
+                                        $('#downloadbutton').click();
+                                    },
+                                    separator_before: true
                                 }
-                            },
-                            "delete": {
-                                label: "Delete",
-                                action: function () {
-                                    tree.jstree(true).delete_node(node);
-                                },
-                                separator_before: true
-                            },
-                            "download": {
-                                label: "Download",
-                                action: function (){
-                                    $('#downloadfileid').val(node.id);
-                                    $('#downloadbutton').click();
-                                },
-                                separator_before: true
                             }
                         }
                     }
-                }
-            });
+                });
 
                 $("#jstree").on("create_node.jstree", function (event, data)
                 {
@@ -251,6 +256,7 @@
                             modal: true,
                             close: function () {
                                 tree.jstree(true).refresh();
+                                chat.server.refreshTree($('#hiddenproject').val());
                             },
                             buttons: {
                                 Cancel: function () {
@@ -269,9 +275,11 @@
                             success: function (response) {
                                 tree.jstree(true).settings.core.data = response;
                                 tree.jstree(true).refresh();
+                                chat.server.refreshTree($('#hiddenproject').val());
                             },
                             error: function (response) {
                                 tree.jstree(true).refresh();
+                                chat.server.refreshTree($('#hiddenproject').val());
                             }
                         });
                     }
@@ -292,9 +300,11 @@
                             success: function (response) {
                                 tree.jstree(true).settings.core.data = response;
                                 tree.jstree(true).refresh();
+                                chat.server.refreshTree($('#hiddenproject').val());
                             },
                             error: function (response) {
                                 tree.jstree(true).refresh();
+                                chat.server.refreshTree($('#hiddenproject').val());
                             }
 
                         });
@@ -308,9 +318,11 @@
                             data: { id: fid, newName: data.node.text, projectId: @Model.Project.ID},
                             success: function (response) {
                                 tree.jstree(true).refresh();
+                                chat.server.refreshTree($('#hiddenproject').val());
                             },
                             error: function (response) {
                                 tree.jstree(true).refresh();
+                                chat.server.refreshTree($('#hiddenproject').val());
                             }
                         });
                     }
@@ -380,6 +392,7 @@
                         });
                     }
                 });
+
 
             });
 

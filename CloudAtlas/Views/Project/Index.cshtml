@@ -90,7 +90,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <script>
         $(function () {
-            $(".add-colab").click(function () {
+            $(document).on('click', '.add-colab', function() {
                 console.log("CLICKED");
                 $(".colab-form").removeClass("hidden");
                 $(".colab-form").addClass("show");

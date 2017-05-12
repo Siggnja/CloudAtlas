@@ -14,14 +14,13 @@ namespace CloudAtlas.Controllers
         ApplicationDbContext context = new ApplicationDbContext();
 
         public ActionResult Index()
-        {
+        { 
+            return View();
+
             if (Request.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Dashboard");
             }
-
-            var i = (from item in context.Users
-                     select item);
               return View();
         }
 

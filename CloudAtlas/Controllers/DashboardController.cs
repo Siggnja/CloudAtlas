@@ -25,8 +25,8 @@ namespace CloudAtlas.Controllers
 
         public DashboardController()
         {
-            projectsRepository = new ProjectsRepository(db);
-            groupsRepository = new GroupsRepository(db);
+            projectsRepository = new ProjectsRepository();
+            groupsRepository = new GroupsRepository();
             account = new Account(
                     "cloudatlas",
                     "215256475133816",

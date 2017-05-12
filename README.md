@@ -34,8 +34,6 @@ If you are intenting to add features of your own you will require Visual Studio 
 At this time we are not accepting any contributors 
 
 ## The MIT License (MIT)
-=====================
-
 Copyright © `<2017>` `<CloudAtlas>`
 
 Permission is hereby granted, free of charge, to any person

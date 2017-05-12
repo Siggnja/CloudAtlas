@@ -7,9 +7,7 @@
 <div class="project-container">
     <div class="main">
         <div class="actions">
-            <div id="openfile" class="filename">
-                No file open
-            </div>
+            <div id="openfile" class="filename">No file open</div>
 
             <div id="filesavedtime" class="last-saved">
                 
@@ -380,7 +378,15 @@
                         url: '/Project/OpenFile',
                         data: { id: fid },
                         success: function (response, textStatus, jqXHR) {
-                            chat.server.switchFile($('#hiddenid').val(), fid);
+                            console.log($('#openfile').text());
+                            if ($('#openfile').text() === "No file open")
+                            {
+                                chat.server.joinFile($('#hiddenid').val());
+                            }
+                            else
+                            {
+                                chat.server.switchFile($('#hiddenid').val(), fid);
+                            }
                             editor.setReadOnly(false);
                             $('#hiddenid').val(fid);
                             $('#openfile').text(response.name);

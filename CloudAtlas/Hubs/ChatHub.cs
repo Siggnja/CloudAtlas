@@ -11,11 +11,6 @@ namespace CloudAtlas
             Groups.Add(Context.ConnectionId, Convert.ToString(fileID));
         }
 
-        public void LeaveFile(int fileID)
-        {
-            Groups.Remove(Context.ConnectionId, Convert.ToString(fileID));
-        }
-
         public void SwitchFile(int oldID, int newID)
         {
             Groups.Remove(Context.ConnectionId, Convert.ToString(oldID));

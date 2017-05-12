@@ -6,8 +6,10 @@ namespace CloudAtlas.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Email address is not valid")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Username is required")]
+        public string UserName { get; set; }
     }
 
     public class ExternalLoginListViewModel

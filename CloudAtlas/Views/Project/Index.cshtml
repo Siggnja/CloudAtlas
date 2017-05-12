@@ -1,4 +1,4 @@
-﻿@model CloudAtlas.Models.ApplicationUser
+﻿@model CloudAtlas.Models.ProjectViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -6,141 +6,433 @@
 }
 <div class="project-container">
     <div class="main">
-        <div id="editor" style="width: 100%; height:100%;">
-            int x = 3;
-            cout << x;
+        <div class="actions">
+            <div id="openfile" class="filename">
+                No file open
+            </div>
+
+            <div id="filesavedtime" class="last-saved">
+                
+            </div>
+        </div>
+        <div id="editor" style="width: 100%; height:100%;"></div>
+        <div>
+            <input type="hidden" id="hiddencode" name="hiddencode" />
+            <input type="hidden" id="hiddenid" name="hiddenid" />
+            <input type="hidden" id="hiddentype" name="hiddentype" />
+            <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme" />
+            <input type="hidden" id="hiddenuserid" value="@Model.User.Id" />
+            @using (Html.BeginForm("Download", "Project", FormMethod.Post))
+            {
+                <input type="hidden" id="downloadfileid" name="fileid" />
+                <input type="submit" id="downloadbutton" hidden="hidden" />
+            }
         </div>
     </div>
 
-    <div class="left-sidebar">
-        <h3>Project 1</h3>
+    <div class="left">
 
+        <h3>@Model.Project.Name</h3>
         <div id="jstree">
             <!-- in this example the tree is populated from inline HTML -->
             <ul>
-                <li class="jstree-open" id="node_1">
-                    project 1
-                    <ul>
-                        <li id="child_node_1">test</li>
-                        <li>index.js</li>
-                        <li data-jstree='{"icon":"//jstree.com/tree.png"}'>
-                            Sum.cpp
-                        </li>
-                    </ul>
+                <li class="jstree-open" id="node_1" data-jstree='{"folderid":"@Model.Root.ID"}'>
                 </li>
             </ul>
         </div>
-    </div>
-
-    <div class="right-sidebar">
-        <h3>Collaborators - 3</h3>
-
-        <div class="collaborators">
-            <div class="user">
-                <img src="#" alt="" />
-            </div>
+            @using (Html.BeginForm("CreateFile", "Project", FormMethod.Post, htmlAttributes: new { id = "CreateFileForm", @class = "hiddenClass" }))
+            {
+                <label for="name">Name of file</label>
+                @Html.TextBox("Name", null, htmlAttributes: new { name = "name" })
+                <label for="Type">Type</label>
+                @Html.DropDownList("Type", ViewData["Type"] as List<SelectListItem>)
+                <input type="submit" name="submit" value="Create" id="createFileButton">
+                <input type="hidden" id="hiddenparent" name="hiddenparent" value="" />
+                <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
+            }
         </div>
+    <div class="right">
+        <h3>Collaborators</h3>
+        <div class="collaborators">
+            <div class="avatars" id="partial">
+                @Html.Partial("Avatars", Model)
+            </div>
 
+            <div class="colab-form hidden">
+                @using (Html.BeginForm("Invite", "Project", FormMethod.Post, htmlAttributes: new { id = "inviteForm" }))
+                {
+                    @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite" })
+                <!--<input type="submit" id="submitInvite" />-->
+                    <input type="hidden" id="hiddenproject" name="hiddenproject" value="@Model.Project.ID" />
+                    <input type="submit" id="invitebutton" value="Invite" />
+                }
+            </div>
+           
+        </div>
         <h3>Chat</h3>
-    
         <div class="messages">
             <div class="message-chat">
-                <ul id="discussion">
-
-                </ul>
+                <ul id="discussion"></ul>
             </div>
-
             <div class="message-box">
                 <input type="text" id="message" />
-                <input type="button" id="sendmessage" value="Send" />
-                <input type="hidden" id="displayname" value="@Model.Email"/>
+                <input style="visibility: hidden" type="button" id="sendmessage" value="Send" />
+                <input type="hidden" id="displayname" value="@Model.User.UserName" />
             </div>
         </div>
     </div>
 </div>
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/ace.js" type="text/javascript" charset="utf-8"></script>
-<script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/c_cpp");
-
-    $(document).ready(function () {
-        $('#message').keypress(function (e) {
-            if (e.keyCode == 13)
-                $('#sendmessage').click();
-        });
-    });
-
-    $(function () {
-        // 6 create an instance when the DOM is ready
-        $('#jstree').jstree();
-        // 7 bind to events triggered on the tree
-        $('#jstree').on("changed.jstree", function (e, data) {
-            console.log(data.selected);
-        });
-        // 8 interact with the tree - either way is OK
-        $('button').on('click', function () {
-            $('#jstree').jstree(true).select_node('child_node_1');
-            $('#jstree').jstree('select_node', 'child_node_1');
-            $.jstree.reference('#jstree').select_node('child_node_1');
-        });
-    });
-</script>
-
 @section scripts {
-    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <script>
         $(function () {
-            // Reference the hub
+            $(".add-colab").click(function () {
+                console.log("CLICKED");
+                $(".colab-form").removeClass("hidden");
+                $(".colab-form").addClass("show");
+            });
+
+            // Ace functions
+            var editor = ace.edit("editor");
+            editor.setShowPrintMargin(false);
+            var theme = "ace/theme/" + $('#hiddentheme').val();
+            editor.setTheme(theme);
+            editor.getSession().setMode("ace/mode/c_cpp");
+            editor.setReadOnly(true);
+
+
+            // Hub functions
             var chat = $.connection.chatHub;
+
             editor.$blockScrolling = Infinity;
 
             var ignore;
 
-            chat.client.updateEditor = function (changedata) {
+            chat.client.updateEditor = function (changedata, userid) {
                 ignore = true;
                 editor.getSession().getDocument().applyDelta(changedata);
                 ignore = false;
+                var line = Number(changedata.start.row) + 1;
+                var userediting = "#" + userid;
+                $(userediting).stop(true,true).text(line).show().animate({ opacity: '100' }).fadeOut(1000);
             };
 
             chat.client.chatMessage = function (name, message) {
                 // Add the message to the page.
                 $('#discussion').append('<li><strong>' + htmlEncode(name)
                     + '</strong>: ' + htmlEncode(message) + '</li>');
-                console.log(message);
             };
 
-            
+
             // Hub
             $.connection.hub.start().done(function () {
 
+                chat.server.joinChat($('#hiddenproject').val());
+
                 // Change is detected and editor is updated.
                 editor.on("change", function (obj) {
-                    if (!ignore)
-                    {
-                        chat.server.updateEditor(obj);
+                    if (!ignore) {
+                        $.ajax({
+                            url: '/Project/SaveFileAuto',
+                            dataType: 'json',
+                            data: { code: editor.getValue(), id: $('#hiddenid').val(), projectid: $('#hiddenproject').val() },
+                            method: 'POST'
+                        });
+                        chat.server.updateEditor(obj, $('#hiddenid').val(), $('#hiddenuserid').val());
+                        var d = new Date();
+                        var h = d.getHours();
+                        var m = d.getMinutes();
+                        if(m < 10) { m = "0" + m }
+                        $('#filesavedtime').text("Saved by you at " + h + ":" + m);
                     }
                 });
 
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
-                    chat.server.chatMessage($('#displayname').val(), $('#message').val());
+                    chat.server.chatMessage($('#displayname').val(), $('#message').val(), $('#hiddenproject').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });
 
             });
+
+
+            function htmlEncode(value) {
+                var encodedValue = $('<div />').text(value).html();
+                return encodedValue;
+            }
+
+            $('#message').keypress(function (e) {
+                if (e.keyCode == 13)
+                    $('#sendmessage').click();
+            });
+
+            var tree = $('#jstree');
+            // 6 create an instance when the DOM is ready
+            tree.jstree({
+                "plugins": ["themes", "contextmenu", "dnd", "types", "state"],
+                "core": {
+                    check_callback: true,
+                    "data": {
+                        'url': "/Project/InitilizeTree/@Model.Project.ID",
+                        'data': function (node) {
+                        }
+                    }
+                },
+                "types": {
+                    "folder": {
+                        "icon": "fa fa-folder",
+                        "valid_children": ["default"]
+                    },
+                    "default": {
+                        "valid_children": ["default", "file"]
+                    },
+                    "file": {
+                        "icon": "fa fa-file-text-o",
+                        "valid_children": []
+                    }
+                },
+                "contextmenu": {
+                    "items": function (node) {
+                        return {
+                            "rename": {
+                                label: "Rename",
+                                action: function (obj) {
+                                    tree.jstree(true).edit(node);
+                                }
+                            },
+                            "create": {
+                                action: false,
+                                label: "Create",
+                                action: false,
+                                submenu: {
+                                    "create file":
+                                    {
+                                        "seperator_before": false,
+                                        "seperator_after": false,
+                                        "label": "File",
+                                        action: function (obj) {
+                                            var fid = node.id;
+                                            tree.jstree(true).create_node(node, "file", "last", false, false);
+                                        }
+                                    },
+                                    "create_folder": {
+                                        "seperator_before": false,
+                                        "seperator_after": false,
+                                        "label": "Folder",
+                                        action: function (obj) {
+                                            var fid = node.id;
+                                            tree.jstree(true).create_node(node, "folder", "last", false, false);
+                                        }
+                                    }
+                                }
+                            },
+                            "delete": {
+                                label: "Delete",
+                                action: function () {
+                                    tree.jstree(true).delete_node(node);
+                                },
+                                separator_before: true
+                            },
+                            "download": {
+                                label: "Download",
+                                action: function (){
+                                    $('#downloadfileid').val(node.id);
+                                    $('#downloadbutton').click();
+                                },
+                                separator_before: true
+                            }
+                        }
+                    }
+                }
+            });
+
+            $("#jstree").on("create_node.jstree", function (event, data)
+            {
+                $("#hiddenparent").val(data.node.parent);
+                if (data.node.text === "file")
+                {
+                    $("#CreateFileForm").dialog({
+                            autoOpen: true,
+                            position: { my: "center", at: "top+150", of: window },
+                            width: 750,
+                            resizable: false,
+                            title: 'Add File',
+                            modal: true,
+                            close: function () {
+                                tree.jstree(true).refresh();
+                            },
+                            buttons: {
+                                Cancel: function () {
+                                    $(this).dialog("close");
+                                }
+                            }
+                    });
+
+
+
+                }
+                else {
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        cache: false,
+                        url: '/Project/CreateFolder',
+                        data: { parentId: data.parent, projectId: @Model.Project.ID},
+                        success: function (response) {
+                            console.log("in here");
+                            tree.jstree(true).settings.core.data = response;
+                            tree.jstree(true).refresh();
+                        },
+                        error: function (response) {
+                            tree.jstree(true).refresh();
+                        }
+                    });
+                }
+            });
+            $("#jstree").on("rename_node.jstree", function (event, data)
+            {
+                var fid = data.node.id;
+                if (data.node.type === "file")
+                {
+                    var name = data.node.text;
+                    if (data.node.text.indexOf('.') != -1)
+                    {
+                        name = data.node.text.substring(0, data.text.indexOf('.'));
+                    }
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        cache: false,
+                        url: '/Project/RenameFile',
+                        data: { id: fid, newName: name, projectId: @Model.Project.ID},
+                        success: function (response)
+                        {
+                            tree.jstree(true).settings.core.data = response;
+                            tree.jstree(true).refresh();
+                        }
+
+                    });
+                }
+                else
+                {
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        cache: false,
+                        url: '/Project/RenameFolder',
+                        data: { id: fid, newName: data.node.text, projectId: @Model.Project.ID}
+                    });
+                }
+
+            });
+            $("#jstree").on("delete_node.jstree", function (event, data)
+            {
+                var fid = data.node.id;
+                if (data.node.type === "file")
+                {
+
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        cache: false,
+                        url: '/Project/RemoveFile',
+                        data: { id: fid,projectId: @Model.Project.ID}
+                    });
+                }
+                else
+                {
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        cache: false,
+                        url: '/Project/RemoveFolder',
+                        data: { id: fid, projectId: @Model.Project.ID},
+                        success: function (response, textStatus, jqXHR)
+                        {
+
+                        }
+                    });
+                }
+
+            });
+
+            // 7 bind to events triggered on the tree
+            $('#jstree').on("select_node.jstree", function (e, data)
+            {
+                if ("undefined" === typeof data)
+                {
+                    return;
+                }
+                if (data.node.type === "file")
+                {
+                    var fid = data.node.id;
+                    $.ajax({
+                        type: 'get',
+                        dataType: 'json',
+                        cache: false,
+                        url: '/Project/OpenFile',
+                        data: { id: fid },
+                        success: function (response, textStatus, jqXHR) {
+                            chat.server.switchFile($('#hiddenid').val(), fid);
+                            editor.setReadOnly(false);
+                            $('#hiddenid').val(fid);
+                            $('#openfile').text(response.name);
+                            $('#filesavedtime').text('');
+                            ignore = true;
+                            editor.setValue(response.content, 1);
+                            $('#hiddencode').val(response.content);
+                            $('#hiddentype').val(response.type);
+                            var syntax = "ace/mode/" + $('#hiddentype').val();
+                            editor.getSession().setMode(syntax);
+                            ignore = false;
+                            editor.focus();
+                        }
+                    });
+                }
+                else
+                {
+                }
+            });
+
+
+            $("#inviteForm").on('submit', function () {
+                var form = $(this);
+                $.ajax({
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    method: 'POST',
+                    success: function (result) {
+                        $("#searchInvite").val('');
+                        $("#invitebutton").css({ 'background-color': '#27ae60' });
+                        $('#invitebutton').val('Added!');
+                        setTimeout(function () {
+                            $('#invitebutton').val('Invite');
+                            $("#invitebutton").css({ 'background-color': '#293241' });
+                        }, 1000);
+                        $("#partial").html(result);
+
+                        $(".colab-form").removeClass("show");
+                        $(".colab-form").addClass("hidden");
+                    }
+                });
+
+                return false;
+            });
+
+
+            $("#searchInvite").autocomplete({
+                source: '@Url.Action("Search", "Project")'
+            });
         });
 
-        function htmlEncode(value) {
-            var encodedValue = $('<div />').text(value).html();
-            return encodedValue;
-        }
+
 
     </script>
 }

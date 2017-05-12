@@ -81,6 +81,16 @@ namespace CloudAtlas.Controllers
             {
                 return View();
             }
+            File changeFile = filerepository.GetFileById((int)id);
+            foreach(var fil in folderrepository.GetAllFilesById(changeFile.FolderID))
+            {
+                if(fil.Name == newName)
+                {
+                    return InitilizeTree(projectId);
+                }
+            }
+
+
             filerepository.UpdateFileNameByID((int)id, newName);
             return InitilizeTree(projectId);
         }
@@ -91,7 +101,14 @@ namespace CloudAtlas.Controllers
             {
                 return View();
             }
-
+            Folder changeFold = folderrepository.GetFolderByID((int)id);
+            foreach(var temp in changeFold.Parent.SubFolders)
+            {
+                if(temp.Name == newName)
+                {
+                    return RedirectToAction("Index", "Project", new { id = projectId });
+                }
+            }
             folderrepository.UpdateFolderNameByID((int)id, newName);
             
             return RedirectToAction("Index", "Project", new { id = projectId });
@@ -104,7 +121,6 @@ namespace CloudAtlas.Controllers
             {
                 return View();
             }
-
             filerepository.RemoveFileByID((int)id);
 
             return RedirectToAction("Index", "Project", new { id = projectId });
@@ -156,27 +172,36 @@ namespace CloudAtlas.Controllers
             var project = projrepository.GetProjectById(id);
             var root = folderrepository.GetFolderByID(project.FolderID);
             nodes.Add(new JsTreeModel() { id = root.ID.ToString(), parent = "#", text = root.Name, type = "folder" });
-            addChildren(nodes, root);
-            addChildrenFiles(nodes, root);
+            AddChildren(nodes, root);
+            AddChildrenFiles(nodes, root);
 
             return Json(nodes, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult CreateFileInput()
+        public ActionResult AddFileInput()
         {
             SelectLanguage();
             return PartialView("CreateFileInput", new File());
         }
         [HttpPost]
-        public ActionResult CreateFile(FormCollection collection)
+        public ActionResult AddFile(FormCollection collection)
         {
             var temp = collection["hiddenparent"];
             int? parentId = int.Parse(temp.ToString());
-            int projectId = int.Parse(collection["hiddenproject"]);
             if (parentId == null)
             {
                 return View();
             }
-            string extension = getExtension(collection["Type"].ToString());
+            int projectId = int.Parse(collection["hiddenproject"]);
+            Project proj = projrepository.GetProjectById(projectId);
+            foreach(var fil in folderrepository.GetFolderByID((int)parentId).Files)
+            {
+                if(fil.Name == collection["name"])
+                {
+                    return RedirectToAction("Index", "Project", new { id = projectId });
+                }
+            }
+           
+            string extension = GetExtension(collection["Type"].ToString());
             Folder par = folderrepository.GetFolderByID((int)parentId);
             File newFile = new Models.File { Name = collection["name"], Content = "", FolderID = par.ID, Type = collection["Type"], Extension = extension };
             filerepository.AddFile(newFile);
@@ -184,7 +209,7 @@ namespace CloudAtlas.Controllers
            return RedirectToAction("Index", "Project", new { id = projectId });
 
         }
-        private string getExtension(string type)
+        private string GetExtension(string type)
         {
             if (type == "javascript") return ".js";
             if (type == "css") return ".css";
@@ -193,19 +218,19 @@ namespace CloudAtlas.Controllers
             if (type == "html" ) return ".html";
             return "";
         }
-        public void addChildren(List<JsTreeModel> nodes, Folder root)
+        public void AddChildren(List<JsTreeModel> nodes, Folder root)
         {
             if(root != null && root.SubFolders != null)
             {
                 foreach (Folder f in root.SubFolders)
                 {
                     nodes.Add(new JsTreeModel() { id = f.ID.ToString(), parent = root.ID.ToString(), text = f.Name, type = "folder" });
-                    addChildren(nodes, f);
-                    addChildrenFiles(nodes, f);
+                    AddChildren(nodes, f);
+                    AddChildrenFiles(nodes, f);
                 }
             }
         }
-        private void addChildrenFiles(List<JsTreeModel> nodes,Folder fold)
+        private void AddChildrenFiles(List<JsTreeModel> nodes,Folder fold)
         {
             if(fold != null && fold.Files != null)
             {
@@ -218,14 +243,21 @@ namespace CloudAtlas.Controllers
             }
         }
         [HttpPost]
-        public ActionResult CreateFolder(int? parentId, int projectId)
+        public ActionResult AddFolder(int? parentId, int projectId)
         {
             if (parentId == null)
             {
                 return View();
             }
             Folder par = folderrepository.GetFolderByID((int)parentId);
-            Folder newFold = new Folder{ Name="New Folder",IsRoot=false,ParentID=parentId};
+            foreach(var res in par.SubFolders)
+            {
+                if (res.Name == "New Folder")
+                {
+                    return View();
+                }
+            }
+            Folder newFold = new Folder { Name = "New Folder", IsRoot = false, ParentID = parentId };
             folderrepository.AddFolder(newFold, par);
 
             return InitilizeTree(projectId);

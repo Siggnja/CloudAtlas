@@ -39,13 +39,18 @@ namespace CloudAtlas.Repositories
         public void RemoveFolderByID(int id)
         {
             Folder deleteMe = GetFolderByID(id);
+            if(deleteMe.IsRoot)
+            {
+                return;
+            }
             Folder parent = deleteMe.Parent;
+
 
             if (parent != null)
             {
                 parent.SubFolders.Remove(deleteMe);
             }
-            DeleteFolderHelper(deleteMe);
+            RemoveFolderHelper(deleteMe);
 
 
             db.Folders.Remove(deleteMe);
@@ -64,14 +69,14 @@ namespace CloudAtlas.Repositories
             db.SaveChanges();
         }
 
-        private void DeleteFolderHelper(Folder deleteMe)
+        private void RemoveFolderHelper(Folder deleteMe)
         {
             if (deleteMe != null && deleteMe.SubFolders != null)
             {
                 for (int i = 0; i < deleteMe.SubFolders.Count; i++)
                 {
-                    DeleteFolderHelper(deleteMe.SubFolders.ElementAt(i));
-                    DeleteAllFiles(deleteMe.SubFolders.ElementAt(i));
+                    RemoveFolderHelper(deleteMe.SubFolders.ElementAt(i));
+                    RemoveAllFiles(deleteMe.SubFolders.ElementAt(i));
                     db.Folders.Remove(deleteMe.SubFolders.ElementAt(i));
 
                 }
@@ -82,7 +87,7 @@ namespace CloudAtlas.Repositories
             GetFolderByID(id).Files.Remove(file);
         }
 
-        private void DeleteAllFiles(Folder fold)
+        private void RemoveAllFiles(Folder fold)
         {
             if (fold.Files != null)
             {

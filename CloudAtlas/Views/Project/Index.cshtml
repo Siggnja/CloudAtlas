@@ -40,7 +40,7 @@
                 </li>
             </ul>
         </div>
-            @using (Html.BeginForm("CreateFile", "Project", FormMethod.Post, htmlAttributes: new { id = "CreateFileForm", @class = "hiddenClass" }))
+            @using (Html.BeginForm("AddFile", "Project", FormMethod.Post, htmlAttributes: new { id = "CreateFileForm", @class = "hiddenClass" }))
             {
                 <label for="name">Name of file</label>
                 @Html.TextBox("Name", null, htmlAttributes: new { name = "name" })
@@ -93,7 +93,6 @@
     <script>
         $(function () {
             $(".add-colab").click(function () {
-                console.log("CLICKED");
                 $(".colab-form").removeClass("hidden");
                 $(".colab-form").addClass("show");
             });
@@ -235,8 +234,17 @@
                             },
                             "delete": {
                                 label: "Delete",
-                                action: function () {
-                                    tree.jstree(true).delete_node(node);
+                                action: function ()
+                                {
+                                    if (node.parent === "#")
+                                    {
+                                        // Do nothing, this is the root
+                                    }
+                                    else
+                                    {
+                                        tree.jstree(true).delete_node(node);
+                                    }
+                                    
                                 },
                                 separator_before: true
                             },
@@ -283,10 +291,9 @@
                         type: 'post',
                         dataType: 'json',
                         cache: false,
-                        url: '/Project/CreateFolder',
+                        url: '/Project/AddFolder',
                         data: { parentId: data.parent, projectId: @Model.Project.ID},
                         success: function (response) {
-                            console.log("in here");
                             tree.jstree(true).settings.core.data = response;
                             tree.jstree(true).refresh();
                         },
@@ -316,6 +323,9 @@
                         {
                             tree.jstree(true).settings.core.data = response;
                             tree.jstree(true).refresh();
+                        },
+                         error: function (response) {
+                            tree.jstree(true).refresh();
                         }
 
                     });
@@ -327,7 +337,13 @@
                         dataType: 'json',
                         cache: false,
                         url: '/Project/RenameFolder',
-                        data: { id: fid, newName: data.node.text, projectId: @Model.Project.ID}
+                        data: { id: fid, newName: data.node.text, projectId: @Model.Project.ID},
+                        success: function (response) {
+                            tree.jstree(true).refresh();
+                        },
+                        error: function (response) {
+                            tree.jstree(true).refresh();
+                        }
                     });
                 }
 

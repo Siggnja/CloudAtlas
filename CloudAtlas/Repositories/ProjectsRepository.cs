@@ -32,9 +32,20 @@ namespace CloudAtlas.Repositories
                              select i);
             return new List<Project>();
             */
-            return (from item in db.Users
-                    where item.Id == id
-                    select item.Projects).FirstOrDefault().ToList();
+
+            var projects = (from item in db.Users
+                           where item.Id == id
+                           select item.Projects).FirstOrDefault();
+
+            if(projects != null)
+            {
+                return projects.ToList();
+            }
+            else
+            {
+                return new List<Project>();
+            }
+
             /*
             foreach (var proj in allGroups)
             {

@@ -66,9 +66,22 @@ namespace CloudAtlas.Repositories
             var allGroups = (from i in db.Groups
                              select i);
 */
-            return (from item in db.Users
-                    where item.Id == id
-                    select item.Groups).FirstOrDefault().ToList();
+
+            var groups = (from item in db.Users
+                          where item.Id == id
+                          select item.Groups).FirstOrDefault();
+
+            if(groups != null)
+            {
+                return groups.ToList();
+            }
+            else
+            {
+                return new List<Group>();
+            }
+
+
+
             /*
             foreach(var grou in allGroups)
             {

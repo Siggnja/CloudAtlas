@@ -48,6 +48,20 @@
                 e.stopImmediatePropagation();
                 return false;
             }
+            else if (name.length > 30)
+            {
+                $('#searchInvite').val('');
+                $('#name').val('');
+                $('#submit').css({ 'background-color': 'indianred' });
+                $('#submit').val('Name longer than 30 characters!');
+                setTimeout(function () {
+                    $('#submit').val('Create');
+                    $('#submit').css({ 'background-color': '#293241' });
+                }, 1000);
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
+            }
             else {
                 return true;
             }

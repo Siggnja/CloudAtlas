@@ -70,6 +70,18 @@
 
                     return false;
                 }
+                else if (name.length > 30)
+                {
+                    $("#save").css({ 'background-color': 'indianred' });
+                    $('#save').val('Name longer than 30 characters!');
+                    $('#name').val("");
+                    setTimeout(function () {
+                        $('#save').val('Save Changes');
+                        $("#save").css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    return false;
+                }
                 $.ajax({
                     url: '/Dashboard/SaveSettings',
                     dataType: 'json',

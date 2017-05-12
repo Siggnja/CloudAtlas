@@ -16,7 +16,8 @@ Is a cloud bases programming environment where groups of user can work in parale
 * Sverrir Sigurðsson
 
 ## The Product
-CloudAtlas is a developing environment that uses the cloud instead a local IDE as is the normal in programming. We allow teams to work in parallel without setting up a complex environment which is something that may appeal to many programmers especially for less complex projects. However that just the tip of the iceberg because CloudAtlas is equipped with multi layered functionality. The smooth UI allows for a compartable flow through the web page and the user experience ideal. Users have complete control of their edtior which allow a wide variety of features everything from themes and shortcuts to syntax highlighting and error checking which is language based. With all this in its’ arsenal CloudAtlas is here to stay, and at your disposal.
+CloudAtlas is a developing environment that uses the cloud instead a local IDE as is the normal in programming. We allow teams to work in parallel without setting up a complex environment which is something that may appeal to many programmers especially for less complex projects. However that just the tip of the iceberg because CloudAtlas is equipped with multi layered functionality. The smooth UI allows for a compatible flow through the web page and the user experience ideal. Users have complete control of their editor which allow a wide variety of features everything from themes and shortcuts to syntax highlighting and error checking which is language based. With all this in its’ arsenal CloudAtlas is here to stay, and at your disposal.
+
 
 ## CloudAtlas - About
 The code is hosted via GitHub and the entire project was written in ASP.NET MVC5.

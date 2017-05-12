@@ -7,7 +7,7 @@
 
 
 
-<div class="create-project-container">
+<div class="create-group-container">
     <h2>@Model.Name</h2>
 
 @if (Model.OwnerID.Equals(ViewData["userid"]))
@@ -18,22 +18,25 @@
         @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite", name = "invite" })
         <input type="submit" name="submit" id="submit" value="Invite">
 
-        <h3>Group owner</h3>
-        <p>@Model.Owner.Email</p>
+        <div class="owner-info" style="text-align: center;">
+            <h3>Group owner</h3>
+            <p>@Model.Owner.Email</p>
 
-        <label for="members" id="membersLabel">Group members</label>
-        <ul id="members">
-            @foreach (var user in Model.ApplicationUsers)
-            {
-                if (user == Model.Owner) { continue; }
-                <li><span>@user.Email</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>
-            }
-        </ul>
+            <label for="members" id="membersLabel">Group members</label>
+            <ul id="members">
+                @foreach (var user in Model.ApplicationUsers)
+                {
+                    if (user == Model.Owner) { continue; }
+                    <li><span>@user.Email</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>
+                }
+            </ul>
+        </div>
+        
     </div>
 
-        <a href=@Url.Action("Delete", "Group", new { groupID = Model.ID })>
-            <h2>Delete group</h2>
-        </a>
+    <a class="deleteButton" href=@Url.Action("Delete", "Group", new { groupID = Model.ID })>
+        <h2>Delete group</h2>
+    </a>
 }
 else
 {
@@ -56,10 +59,6 @@ else
         <h2>Leave group</h2>
     </a>
 }
-
-
-
-
 
 </div>
 

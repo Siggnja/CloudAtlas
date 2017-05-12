@@ -105,7 +105,7 @@ else
                 data: { email: curremail, groupID: currid },
                 method: 'POST',
                 success: function (data) {
-                    if (data.status == 1)
+                    if (data.status === "added")
                     {
                         $("#searchInvite").val('');
                         $("#submit").css({ 'background-color': '#27ae60' });
@@ -116,7 +116,7 @@ else
                             $("#submit").css({ 'background-color': '#293241' });
                         }, 1000);
                     }
-                    else if(data.status == 2)
+                    else if (data.status === "ingroup")
                     {
                         $("#searchInvite").val('');
                         $("#submit").css({ 'background-color': 'indianred' });

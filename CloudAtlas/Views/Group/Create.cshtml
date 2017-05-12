@@ -32,10 +32,12 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(document).ready(function () {
-
         $('#createForm').submit(function (e) {
-            if ($('#name').val() === "") {
+            var name = $('#name').val();
+
+            if (name === null || name.match(/^ *$/) !== null) {
                 $('#searchInvite').val('');
+                $('#name').val('');
                 $('#submit').css({ 'background-color': 'indianred' });
                 $('#submit').val('Group needs a name!');
                 setTimeout(function () {

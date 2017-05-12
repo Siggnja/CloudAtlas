@@ -121,19 +121,19 @@ namespace CloudAtlas.Controllers
             var curruser = groupsrepository.GetUserByEmail(email);
             if(curruser == null)
             {
-                return Json(new { status = 3 },
+                return Json(new { status = "notfound" },
                 JsonRequestBehavior.AllowGet);
             }
 
             if(groupsrepository.UserInGroup(curruser, group))
             {
-                return Json(new { status = 2 },
+                return Json(new { status = "ingroup" },
                 JsonRequestBehavior.AllowGet);
             }
 
             groupsrepository.AddUserToGroup(curruser, group);
 
-            return Json(new { status = 1 },
+            return Json(new { status = "added" },
                 JsonRequestBehavior.AllowGet);
         }
 

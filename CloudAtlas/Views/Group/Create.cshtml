@@ -32,10 +32,12 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(document).ready(function () {
-
         $('#createForm').submit(function (e) {
-            if ($('#name').val() == "") {
+            var name = $('#name').val();
+
+            if (name === null || name.match(/^ *$/) !== null) {
                 $('#searchInvite').val('');
+                $('#name').val('');
                 $('#submit').css({ 'background-color': 'indianred' });
                 $('#submit').val('Group needs a name!');
                 setTimeout(function () {
@@ -58,19 +60,19 @@
         $('#searchInvite').autocomplete({
             autoFocus: true,
             source: '@Url.Action("Search", "Group")'
-        })
+        });
 
         $("#searchInvite").keypress(function (event) {
             if (event.keyCode == 13) {
                 var email = $("#searchInvite").val();
                 var first = false;
                 var second = false;
-                for (i in userList) {
+                for (var i in userList) {
                     if (userList[i] == email) {
                         first = true;
                     }
                 }
-                if (first == false)
+                if (first === false)
                 {
                     $("#searchInvite").val('');
                     $("#submit").css({ 'background-color': 'indianred' });
@@ -86,7 +88,7 @@
                         second = true;
                     }
                 }
-                if (second == true)
+                if (second === true)
                 {
                     $("#searchInvite").val('');
                     $("#submit").css({ 'background-color': 'indianred' });
@@ -114,14 +116,14 @@
         $(document).on('click', '.removeFromList', function (e) {
             var s = $(this).parent().text();
             $(this).parent().remove();
-            for (i in invitedUser)
+            for (var i in invitedUser)
             {
                 if (invitedUser[i] == s)
                 {
                     invitedUser.splice(i, 1);
                 }
             }
-            if ($("#members").children().length == 0)
+            if ($("#members").children().length === 0)
             {
                 $("#membersLabel").hide();
             }

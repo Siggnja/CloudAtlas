@@ -40,27 +40,29 @@
 }
 else
 {
-    <h3>Group owner</h3>
-    <p>@Model.Owner.Email</p>
+    <div class="owner-info" style="text-align: center;">
+        <h3>Group owner</h3>
+        <p style="margin-bottom: 40px">@Model.Owner.Email</p>
 
-    <label for="members" id="membersLabel">Group members</label>
-    <ul id="members">
-        @foreach (var user in Model.ApplicationUsers)
-        {
-            if (user == Model.Owner) { continue; }
+        <label for="members" id="membersLabel" style="font-weight: 600;margin-top: 40px;">Group members</label>
+        <ul id="members">
+            @foreach (var user in Model.ApplicationUsers)
+            {
+                if (user == Model.Owner) { continue; }
 
-            <li>
-                <span>@user.Email</span>
-            </li>
+                <li>
+                    <span>@user.Email</span>
+                </li>
+            }
+        </ul>
+    </div>
+
+        <a class="deleteButton" href=@Url.Action("Leave", "Group", new { groupID = Model.ID })>
+            <h2>Leave group</h2>
+        </a>
         }
-    </ul>
 
-    <a href=@Url.Action("Leave", "Group", new { groupID = Model.ID })>
-        <h2>Leave group</h2>
-    </a>
-}
-
-</div>
+    </div>
 
 
 @section scripts

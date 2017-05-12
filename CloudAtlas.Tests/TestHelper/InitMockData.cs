@@ -11,9 +11,9 @@ namespace CloudAtlas.Tests.TestHelper
     {
         public static void InitData(MockDatabase mockDb)
         { 
-            ApplicationUser Siggi = new ApplicationUser() { Email = "siggnja@gmail.com", UserName = "Siggi", Id = "00537b30-1295-4e84-84b5-db7e76feee70", EmailConfirmed = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEnabled = false, AccessFailedCount = 0,Groups = new List<Group>() };
-            ApplicationUser Svessi = new ApplicationUser() { Email = "svesig@gmail.com", UserName = "svesig", Id = "f380908a-8f2e-4441-ae2f-b2a07f8b0e36", EmailConfirmed = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEnabled = false, AccessFailedCount = 0, Groups = new List<Group>() };
-            ApplicationUser Kolli = new ApplicationUser() { Email = "kolli@gmail.com", UserName = "kolli", Id = "00537b30-1295-4e84-84b5-db7e76feee70", EmailConfirmed = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEnabled = false, AccessFailedCount = 0, Groups = new List<Group>() };
+            ApplicationUser Siggi = new ApplicationUser() { Email = "siggnja@gmail.com", UserName = "Siggi", Id = "00537b30-1295-4e84-84b5-db7e76feee70", EmailConfirmed = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEnabled = false, AccessFailedCount = 0,Groups = new List<Group>(),Projects = new List<Project>() };
+            ApplicationUser Svessi = new ApplicationUser() { Email = "svesig@gmail.com", UserName = "svesig", Id = "f380908a-8f2e-4441-ae2f-b2a07f8b0e36", EmailConfirmed = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEnabled = false, AccessFailedCount = 0, Groups = new List<Group>(), Projects = new List<Project>() };
+            ApplicationUser Kolli = new ApplicationUser() { Email = "kolli@gmail.com", UserName = "kolli", Id = "00537b30-1295-4e84-84b5-db7e76feee70", EmailConfirmed = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEnabled = false, AccessFailedCount = 0, Groups = new List<Group>(), Projects = new List<Project>() };
 
             var fold1 = new Folder() { ID = 1, Name = "Folder1", IsRoot = true, SubFolders = new List<Folder>(), Files = new List<File>() };
             var fold2 = new Folder() { ID = 2, Name = "Folder2", IsRoot = false, SubFolders = new List<Folder>(), Files = new List<File>() };
@@ -31,10 +31,10 @@ namespace CloudAtlas.Tests.TestHelper
             var group2 = new Group() {ID=2, Name = "Arsenal", OwnerID = "f380908a-8f2e-4441-ae2f-b2a07f8b0e36" };
             var group3 = new Group() {ID=3, Name = "GitKraken", OwnerID = "00537b30-1295-4e84-84b5-db7e76feee70" };
 
-            var proj1 = new Project() { Name = "Project1", Type = "Javascript", IsGroupProject = false, FolderID = fold1.ID };
-            var proj2 = new Project() { Name = "Project2", Type = "Javascript", IsGroupProject = false, FolderID = fold2.ID };
-            var proj3 = new Project() { Name = "Project3", Type = "Javascript", IsGroupProject = false, FolderID = fold3.ID };
-            var proj4 = new Project() { Name = "Project4", Type = "Javascript", IsGroupProject = false, FolderID = fold4.ID };
+            var proj1 = new Project() {ID=1, Name = "Project1", Type = "Javascript", IsGroupProject = false, FolderID = fold1.ID };
+            var proj2 = new Project() {ID=2, Name = "Project2", Type = "Javascript", IsGroupProject = false, FolderID = fold2.ID };
+            var proj3 = new Project() {ID=3, Name = "Project3", Type = "Javascript", IsGroupProject = false, FolderID = fold3.ID };
+            var proj4 = new Project() {ID=4, Name = "Project4", Type = "Javascript", IsGroupProject = false, FolderID = fold4.ID };
 
             fold1.Files.Add(file1);
             fold1.SubFolders.Add(fold5);
@@ -42,7 +42,11 @@ namespace CloudAtlas.Tests.TestHelper
             fold3.Files.Add(file3);
             fold4.Files.Add(file4);
 
+            
+
             Siggi.Groups.Add(group1);
+            Siggi.Projects.Add(proj1);
+            Siggi.Projects.Add(proj2);
             mockDb.Users.Add(Siggi);
             mockDb.Users.Add(Svessi);
             mockDb.Users.Add(Kolli);

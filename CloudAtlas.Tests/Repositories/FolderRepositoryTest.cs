@@ -22,7 +22,7 @@ namespace CloudAtlas.Tests.Repositories
         }
 
         [TestMethod]
-        public void TestGetFolder()
+        public void TestGetFolderByID()
         {
             //Arrange
             var getFolder = _folder.GetFolderByID(1);

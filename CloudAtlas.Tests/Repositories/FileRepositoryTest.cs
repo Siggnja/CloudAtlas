@@ -85,5 +85,15 @@ namespace CloudAtlas.Tests.Repositories
             //Assert
             Assert.IsNull(_file.GetFileById(6));
         }
+        [TestMethod]
+        public void GetFileByIDTest()
+        {
+            //Arrange
+            File file1 = _file.GetFileById(1);
+            //Act
+            var res = _file.GetFileById(1);
+            //Asserr
+            Assert.AreEqual(res, file1);
+        }
     }
 }

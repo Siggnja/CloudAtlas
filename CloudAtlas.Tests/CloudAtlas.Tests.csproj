@@ -97,6 +97,7 @@
     <Compile Include="Repositories\FileRepositoryTest.cs" />
     <Compile Include="Repositories\FolderRepositoryTest.cs" />
     <Compile Include="Repositories\GroupRepositoryTest.cs" />
+    <Compile Include="Repositories\ProjectRepositoryTest.cs" />
     <Compile Include="TestHelper\InitMockData.cs" />
   </ItemGroup>
   <ItemGroup>

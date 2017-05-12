@@ -20,7 +20,6 @@ namespace CloudAtlas.Tests
             Users = new InMemoryDbSet<ApplicationUser>();
         }
 
-
         public IDbSet<Project> Projects { get; set; }
 
         public IDbSet<Folder> Folders { get; set; }
@@ -29,9 +28,6 @@ namespace CloudAtlas.Tests
 
         public IDbSet<Group> Groups { get; set; }
         public IDbSet<ApplicationUser> Users { get; set; }
-
-        // TODO: bætið við fleiri færslum hér
-        // eftir því sem þeim fjölgar í AppDataContext klasanum ykkar!
 
         public int SaveChanges()
         {

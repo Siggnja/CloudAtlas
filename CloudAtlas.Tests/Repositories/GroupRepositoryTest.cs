@@ -69,6 +69,20 @@ namespace CloudAtlas.Tests.Repositories
             Assert.AreEqual(wolfpack, pack[0]);
 
         }
+        [TestMethod]
+        public void SearchGroupByNameTest()
+        {
+            Assert.IsNotNull(_groups.SearchGroupByName("00537b30-1295-4e84-84b5-db7e76feee70", "Wolf"));
+        }
+        [TestMethod]
+        public void GetGroupByUserId()
+        {
+            //Arrange
+            Group gr1 = _groups.GetGroupById(1);
+            //Act
+            var res = _groups.GetGroupsByUserID("00537b30-1295-4e84-84b5-db7e76feee70");
+            Assert.AreEqual(gr1,res[0]);
+        }
 
     }
 }

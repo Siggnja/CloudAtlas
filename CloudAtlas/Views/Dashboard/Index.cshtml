@@ -11,9 +11,19 @@
             {
                 <div class="box @(ViewData["userid"].Equals(i.OwnerID) ? "is-owner" : "not-owner" )">
                     <div class="left">
-                        <a href=@Url.Action("Index", "Project", new { id = i.ID })>
-                            @i.Name
-                        </a>
+                        @if (i.ApplicationUsers.Count > 1)
+                        {
+                            <a href=@Url.Action("Index", "Project", new { id = i.ID })>
+                                @i.Name  <i class="fa fa-users" aria-hidden="true"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href=@Url.Action("Index", "Project", new { id = i.ID })>
+                                @i.Name
+                            </a>
+                        }
+
                         @if (ViewData["userid"].Equals(i.OwnerID))
                         {
                             <a href=@Url.Action("Delete", "Project", new { projectid = i.ID })>

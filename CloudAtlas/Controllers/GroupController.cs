@@ -12,21 +12,19 @@ namespace CloudAtlas.Controllers
     [Authorize]
     public class GroupController : Controller
     {
-        private readonly ApplicationDbContext context;
         private readonly GroupsRepository groupsrepository;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public GroupController()
         {
-            context = new ApplicationDbContext();
-
-            groupsrepository = new GroupsRepository(context);
+            groupsrepository = new GroupsRepository(db);
         }
 
 
         // GET: Group
         public ActionResult Index(int id)
         {
-            var group = groupsrepository.getGroupById(id);
+            var group = groupsrepository.GetGroupById(id);
 
             ViewData["userid"] = User.Identity.GetUserId<string>();
 
@@ -55,9 +53,7 @@ namespace CloudAtlas.Controllers
 
             foreach (var i in users)
             {
-                var user = (from item in context.Users
-                            where item.Email == i
-                            select item).FirstOrDefault();
+                var user = groupsrepository.GetUserByEmail(i);
 
                 if (user != null)
                 {
@@ -65,16 +61,12 @@ namespace CloudAtlas.Controllers
                 }
             }
 
-            applicationUsers.Add((from item in context.Users
-                                    where item.Id == loggedInUser
-                                    select item).First());
+            applicationUsers.Add(groupsrepository.GetUserByID(loggedInUser));
 
 
             Group newGroup = new Group { Name = name, OwnerID = loggedInUser, ApplicationUsers = applicationUsers };
 
-            context.Groups.Add(newGroup);
-
-            context.SaveChanges();
+            groupsrepository.AddGroup(newGroup);
 
             return RedirectToAction("Index", "DashBoard");
 
@@ -87,16 +79,13 @@ namespace CloudAtlas.Controllers
             string userID = User.Identity.GetUserId<string>();
             if (term != null)
             {
-                toSearch = (from item in context.Users
-                            where item.Id != userID
-                            && item.Email.StartsWith(term)
-                            select item.Email).ToList();
+                toSearch = groupsrepository.SearchUserByEmail(term, userID);
             }
             else
             {
-                toSearch = (from item in context.Users
-                            where item.Id != userID
-                            select item.Email).ToList();
+                var users = groupsrepository.GetUsers();
+
+                toSearch = users.Select(m => m.Email).ToList();
             }
 
             return Json(toSearch, JsonRequestBehavior.AllowGet);
@@ -112,12 +101,9 @@ namespace CloudAtlas.Controllers
         [HttpPost]
         public ActionResult AddUser(string email, int groupID)
         {
-            var group = groupsrepository.getGroupById(groupID);
+            var group = groupsrepository.GetGroupById(groupID);
 
-            var curruser = (from user in context.Users
-                            where user.Email == email
-                            select user).FirstOrDefault();
-
+            var curruser = groupsrepository.GetUserByEmail(email);
             if(curruser == null)
             {
                 return Json(new { status = 3 },
@@ -139,11 +125,9 @@ namespace CloudAtlas.Controllers
         [HttpPost]
         public ActionResult RemoveUser(string email, int groupID)
         {
-            var group = groupsrepository.getGroupById(groupID);
+            var group = groupsrepository.GetGroupById(groupID);
 
-            var curruser = (from user in context.Users
-                            where user.Email == email
-                            select user).FirstOrDefault();
+            var curruser = groupsrepository.GetUserByEmail(email);
 
             if(!groupsrepository.UserInGroup(curruser, group))
             {
@@ -159,7 +143,7 @@ namespace CloudAtlas.Controllers
 
         public ActionResult Delete(int groupID)
         {
-            groupsrepository.deleteGroupById(groupID);
+            groupsrepository.DeleteGroupById(groupID);
 
             return RedirectToAction("Index", "Dashboard");
         }
@@ -167,11 +151,9 @@ namespace CloudAtlas.Controllers
         public ActionResult Leave(int groupID)
         {
             string userid = User.Identity.GetUserId<string>();
-            var curruser = (from user in context.Users
-                            where user.Id == userid
-                            select user).FirstOrDefault();
+            var curruser = groupsrepository.GetUserByID(userid);
 
-            var group = groupsrepository.getGroupById(groupID);
+            var group = groupsrepository.GetGroupById(groupID);
 
             groupsrepository.RemoveUserFromGroup(curruser, group);
 

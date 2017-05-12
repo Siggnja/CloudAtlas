@@ -22,7 +22,7 @@ namespace CloudAtlas.Tests.Repositories
         public void TestGetFile()
         {
             //Arrange
-            var newFile = _file.getFileById(1);
+            var newFile = _file.GetFileById(1);
             //Assert
             Assert.IsNotNull(newFile);
 
@@ -41,9 +41,9 @@ namespace CloudAtlas.Tests.Repositories
             };
 
             //Act
-            _file.addFile(newFile);
+            _file.AddFile(newFile);
             //Assert
-            Assert.IsNotNull(_file.getFileById(newFile.ID));
+            Assert.IsNotNull(_file.GetFileById(newFile.ID));
 
         }
         [TestMethod]
@@ -60,7 +60,7 @@ namespace CloudAtlas.Tests.Repositories
             };
 
             //Act
-            _file.addFile(newFile);
+            _file.AddFile(newFile);
             //Assert
             Assert.IsTrue(newFile.Content.Equals("var x = 'Hello';"));
 
@@ -76,13 +76,14 @@ namespace CloudAtlas.Tests.Repositories
                 Content = "var x = 'Hello';",
                 Name = "init.js",
                 Extension = ".js",
-                Type = "javascript"
+                Type = "javascript",
+                FolderID = 1
             };
             //Act
-            _file.addFile(newFile);
-            _file.deleteFile(newFile);
+            _file.AddFile(newFile);
+            _file.RemoveFileByID(newFile.ID);
             //Assert
-            Assert.IsNull(_file.getFileById(6));
+            Assert.IsNull(_file.GetFileById(6));
         }
     }
 }

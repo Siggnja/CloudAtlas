@@ -35,7 +35,7 @@ namespace CloudAtlas.Tests.Repositories
         {
             //Arrange
             var newFolder = new Folder() { ID = 6, Name = "Folder1", IsRoot = true, SubFolders = new List<Folder>(), Files = new List<File>() };
-            _folder.addFolder(newFolder);
+            _folder.AddFolder(newFolder);
             //Act
             var getFolder = _folder.GetFolderByID(newFolder.ID);
             //Assert
@@ -51,8 +51,8 @@ namespace CloudAtlas.Tests.Repositories
 
             //Act
             parent.SubFolders.Add(child);
-            _folder.addFolder(parent);
-            _folder.addFolder(child);
+            _folder.AddFolder(parent);
+            _folder.AddFolder(child);
             //Assert
             Assert.AreEqual(parent,_folder.GetParentFolder(child));
 
@@ -67,9 +67,9 @@ namespace CloudAtlas.Tests.Repositories
             //Act
             parent.SubFolders.Add(child1);
             parent.SubFolders.Add(child2);
-            _folder.addFolder(parent);
-            _folder.addFolder(child1);
-            _folder.addFolder(child2);
+            _folder.AddFolder(parent);
+            _folder.AddFolder(child1);
+            _folder.AddFolder(child2);
             
 
             //Convert both to list
@@ -86,9 +86,9 @@ namespace CloudAtlas.Tests.Repositories
         {
             //Arrange
             var newFolder = new Folder() { ID = 6, Name = "Folder1", IsRoot = true, SubFolders = new List<Folder>(), Files = new List<File>() };
-            _folder.addFolder(newFolder);
+            _folder.AddFolder(newFolder);
             //Act
-            _folder.removeFolder(newFolder);
+            _folder.RemoveFolderByID(newFolder.ID);
             var getFolder = _folder.GetFolderByID(newFolder.ID);
 
             //Assert
@@ -98,7 +98,7 @@ namespace CloudAtlas.Tests.Repositories
         [TestMethod]
         public void TestGetAllFiles()
         {
-            var res = _folder.getAllFilesById(1);
+            var res = _folder.GetAllFilesById(1);
             //Assert
             Assert.AreEqual(res.ElementAt(0).ID, 1);
         }
@@ -115,9 +115,9 @@ namespace CloudAtlas.Tests.Repositories
                 Type = "javascript",
                 FolderID = 2
             };
-            _folder.addFileToFolder(5,newFile);
+            _folder.AddFileToFolder(5,newFile);
             //Act
-            List<File> allFiles = _folder.getAllFilesById(fold5.ID);
+            List<File> allFiles = _folder.GetAllFilesById(fold5.ID);
             //Assert
             Assert.AreEqual(allFiles.Count,1);
             Assert.AreEqual(allFiles.ElementAt(0).ID, newFile.ID);
@@ -135,10 +135,10 @@ namespace CloudAtlas.Tests.Repositories
                 Type = "javascript",
                 FolderID = 2
             };
-            _folder.addFileToFolder(5, newFile);
+            _folder.AddFileToFolder(5, newFile);
             //Act
-            _folder.removeFileFromFolder(5, newFile);
-            var result = _folder.getAllFilesById(5);
+            _folder.RemoveFileFromFolder(5, newFile);
+            var result = _folder.GetAllFilesById(5);
             //Assert
             Assert.AreEqual(result.Count,0);
         }

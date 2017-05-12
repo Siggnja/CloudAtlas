@@ -7,13 +7,12 @@ using System.Web;
 
 namespace CloudAtlas.Repositories
 {
-    public class ProjectsRepository
+    public class ProjectsRepository : BaseRepository
     {
-        private readonly IAppDataContext db;
-        public ProjectsRepository(IAppDataContext context)
+        public ProjectsRepository(IAppDataContext context) : base(context)
         {
-            db = context ?? new ApplicationDbContext();
         }
+
         public void AddProjectToUser(Project proj, ApplicationUser user)
         {
             user.Projects.Add(proj);
@@ -26,33 +25,10 @@ namespace CloudAtlas.Repositories
         }
         public List<Project> GetProjectsByUserId(string id)
         {
-            /*
-            List<Project> result = new List<Project>();
-            var allGroups = (from i in db.Projects
-                             select i);
-            return new List<Project>();
-            */
             return (from item in db.Users
                     where item.Id == id
                     select item.Projects).FirstOrDefault().ToList();
-            /*
-            foreach (var proj in allGroups)
-            {
-                foreach (var user in proj.ApplicationUsers)
-                {
-                    if (user == null)
-                    {
-                        break;
-                    }
-                    if (user.Id == id)
-                    {
-                        result.Add(proj);
-                        break;
-                    }
-                }
-            }
-            return result;
-            */
+
         }
         public Project GetProjectById(int id)
         {

@@ -22,7 +22,7 @@ namespace CloudAtlas.Tests.Repositories
         public void GetGroupByIdTest()
         {
             //Assert
-            Assert.IsNotNull(_groups.getGroupById(1));
+            Assert.IsNotNull(_groups.GetGroupById(1));
         }
         [TestMethod]
         public void AddGroupTest()
@@ -30,9 +30,9 @@ namespace CloudAtlas.Tests.Repositories
             //Arrange
             var group1 = new Group() { Name = "WolfPack", OwnerID = "00537b30-1295-4e84-84b5-db7e76feee70" };
             //Act
-            _groups.addGroup(group1);
+            _groups.AddGroup(group1);
             //Assert
-            Assert.IsNotNull(_groups.getGroupById(group1.ID));
+            Assert.IsNotNull(_groups.GetGroupById(group1.ID));
         }
         [TestMethod]
         public void DeleteGroupById()
@@ -40,10 +40,10 @@ namespace CloudAtlas.Tests.Repositories
             //Arrange
             var group1 = new Group() { Name = "Packed", OwnerID = "00537b30-1295-4e84-84b5-db7e76feee70" };
             //Act
-            _groups.addGroup(group1);
-            _groups.deleteGroupById(group1.ID);
+            _groups.AddGroup(group1);
+            _groups.DeleteGroupById(group1.ID);
             //Assert
-            Assert.IsNull(_groups.getGroupById(group1.ID));
+            Assert.IsNull(_groups.GetGroupById(group1.ID));
         }
         [TestMethod]
         public void UserInGroupTest()
@@ -62,7 +62,7 @@ namespace CloudAtlas.Tests.Repositories
         public void GetAllGroupsByUserId()
         {
             //Arrange
-            var wolfpack = _groups.getGroupById(1);
+            var wolfpack = _groups.GetGroupById(1);
             //Act
             var pack = _groups.getAllGroupsByUserId("00537b30-1295-4e84-84b5-db7e76feee70");
             //Assert

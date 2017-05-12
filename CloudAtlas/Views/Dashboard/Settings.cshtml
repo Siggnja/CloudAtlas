@@ -21,7 +21,7 @@
         <input type="hidden" id="hiddentheme" value="@Model.Theme" />
 
 
-        @using (Html.BeginForm("UploadImage", "DashBoard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("UploadImage", "Dashboard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data" }))
         {
 
             <input id="image-file" type=file id=File name=File />

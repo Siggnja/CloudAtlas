@@ -76,7 +76,7 @@ namespace CloudAtlas.Controllers
 
             context.SaveChanges();
 
-            return RedirectToAction("Index", "DashBoard");
+            return RedirectToAction("Index", "Dashboard");
 
         }
 

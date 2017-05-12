@@ -38,6 +38,10 @@
 @section scripts {
     <script>
         $(function () {
+            $("#image-file").change(function () {
+                $('#imageForm').submit();
+            });
+
             $("#name").keypress(function (event) {
                 if (event.keyCode == 13) {
                     $('#save').click();

@@ -114,8 +114,7 @@ namespace CloudAtlas.Controllers
                     File = new FileDescription(Server.MapPath("~/Content/images/Avatars/" + fileName)),
                     PublicId = fileName,
                  Transformation =  (new Transformation()
-                .Width(400).Height(400).Gravity("face").Radius("max").Crop("crop").Chain()
-                .Width(300).Crop("scale"))
+                .Width(280).Height(280).Gravity("face").Radius("max").Crop("fill").Chain())                
         
                 };
 

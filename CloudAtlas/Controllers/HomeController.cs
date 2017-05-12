@@ -16,6 +16,12 @@ namespace CloudAtlas.Controllers
         public ActionResult Index()
         { 
             return View();
+
+            if (Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+              return View();
         }
 
         public ActionResult About()

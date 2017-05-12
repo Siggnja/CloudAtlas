@@ -24,7 +24,7 @@
         @using (Html.BeginForm("UploadImage", "DashBoard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data" }))
         {
 
-            <input type=file id=File name=File />
+            <input id="image-file" type=file id=File name=File />
 
             <input type="submit" id="Submit" value="Upload" />
         }
@@ -36,6 +36,12 @@
 @section scripts {
     <script>
         $(function () {
+            $("#name").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $('#save').click();
+                }
+            });
+
             $('#colorScheme').val($('#hiddentheme').val());
 
             $('#save').click(function () {
@@ -66,6 +72,15 @@
                 });
             });
 
+            $('#image-file').bind('change', function () {
+                var x = this.files[0].size / 1024 / 1024;
+                if (x > 4.0)
+                {
+                    alert("The file you are trying to upload exceeds the 4MB upload limit");
+                    $(this).val('');
+                }
+            });
+
             $("#imageForm").on('submit', function () {
                 var form = $(this);
                 var fileInput = $("#File").val();
@@ -82,10 +97,6 @@
                 else {
                     $("#Submit").css({ 'background-color': '#27ae60' });
                     $('#Submit').val('Uploading...');
-                    setTimeout(function () {
-                        $('#Submit').val('Upload');
-                        $("#Submit").css({ 'background-color': '#293241' });
-                    }, 1000);
                     $.ajax({
                         url: form.attr('action'),
                         url: form.serialize(),

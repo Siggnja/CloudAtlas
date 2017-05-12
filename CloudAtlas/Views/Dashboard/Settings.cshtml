@@ -9,10 +9,15 @@
     <h1>Settings</h1>
 
     <div class="settings-img">
+        <div class="upload-dude">
+            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+        </div>
         <img alt="@Model.UserName" title="@Model.UserName" src="@Url.Content(Model.AvatarPath)" />
     </div>
 
-    <div>@Model.Email</div>
+    <div class="user-email">
+        @Model.Email
+    </div>
 
     <div class="settings-form">
         <label for="name">Name</label>
@@ -24,11 +29,7 @@
 
         @using (Html.BeginForm("UploadImage", "Dashboard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data" }))
         {
-            <label for="image-file" class="custom-file-upload">
-                <i class="fa fa-cloud-upload"></i> Upload Image
-            </label>
             <input id="image-file" type="file" id="File" name="File" />
-            <input type="submit" id="Submit" value="Upload" />
         }
 
         <input type="button" id="save" value="Save Changes" />
@@ -38,6 +39,13 @@
 @section scripts {
     <script>
         $(function () {
+
+            $('.settings-img').click(function () {
+                console.log("Clicked image");
+                $('#image-file').click();
+            });
+
+
             $("#image-file").change(function () {
                 $('#imageForm').submit();
             });

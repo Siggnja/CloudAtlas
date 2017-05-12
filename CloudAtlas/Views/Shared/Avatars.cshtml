@@ -1,0 +1,14 @@
+﻿@model CloudAtlas.Models.ProjectViewModel
+@foreach (var item in Model.Project.ApplicationUsers)
+{
+    <div class="user-img">
+        <p class="blah" id="@item.Id"></p>
+        <img alt="@item.UserName" title="@item.UserName" src="@Url.Content(item.AvatarPath)" />
+    </div>
+    
+}
+
+    <div class="new-user">
+        <i class="fa fa-plus-circle add-colab" aria-hidden="true"></i>
+    </div>
+    

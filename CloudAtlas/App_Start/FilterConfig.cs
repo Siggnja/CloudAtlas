@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using CloudAtlas.Handlers;
+using System.Web;
 using System.Web.Mvc;
 
 namespace CloudAtlas
@@ -7,7 +8,8 @@ namespace CloudAtlas
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            //filters.Add(new HandleErrorAttribute());
+           // filters.Add(new CustomHandlerErrorAttribute());
         }
     }
 }

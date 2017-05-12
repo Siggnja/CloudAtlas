@@ -68,7 +68,7 @@ namespace CloudAtlas.Controllers
 
             groupsrepository.AddGroup(newGroup);
 
-            return RedirectToAction("Index", "DashBoard");
+            return RedirectToAction("Index", "Dashboard");
 
         }
 

@@ -338,6 +338,13 @@ body {
     text-align: center; }
   .settings-container .settings-form {
     width: 500px; }
+    .settings-container .settings-form input[type="file"] {
+      display: none; }
+    .settings-container .settings-form .custom-file-upload {
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 6px 12px;
+      cursor: pointer; }
     .settings-container .settings-form select {
       width: 100%;
       height: 35px;

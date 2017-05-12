@@ -12,6 +12,8 @@
         <img alt="@Model.UserName" title="@Model.UserName" src="@Url.Content(Model.AvatarPath)" />
     </div>
 
+    <div>@Model.Email</div>
+
     <div class="settings-form">
         <label for="name">Name</label>
         <input type="text" name="name" id="name" value="@Model.UserName">
@@ -20,12 +22,12 @@
         @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem>, new { @id = "colorScheme" })
         <input type="hidden" id="hiddentheme" value="@Model.Theme" />
 
-
-        @using (Html.BeginForm("UploadImage", "DashBoard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("UploadImage", "Dashboard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data" }))
         {
-
-            <input id="image-file" type=file id=File name=File />
-
+            <label for="image-file" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Upload Image
+            </label>
+            <input id="image-file" type="file" id="File" name="File" />
             <input type="submit" id="Submit" value="Upload" />
         }
 
@@ -36,6 +38,10 @@
 @section scripts {
     <script>
         $(function () {
+            $("#image-file").change(function () {
+                $('#imageForm').submit();
+            });
+
             $("#name").keypress(function (event) {
                 if (event.keyCode == 13) {
                     $('#save').click();

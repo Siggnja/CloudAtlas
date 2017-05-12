@@ -198,7 +198,7 @@ namespace CloudAtlas.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "DashBoard");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

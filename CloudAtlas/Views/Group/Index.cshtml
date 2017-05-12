@@ -75,7 +75,7 @@ else
         $('#searchInvite').autocomplete({
             autoFocus: true,
             source: '@Url.Action("Search", "Group")'
-        })
+        });
 
         $("#searchInvite").keypress(function (event) {
             if (event.keyCode == 13) {
@@ -105,22 +105,22 @@ else
                 data: { email: curremail, groupID: currid },
                 method: 'POST',
                 success: function (data) {
-                    if (data.status == 1)
+                    if (data.status === "added")
                     {
                         $("#searchInvite").val('');
                         $("#submit").css({ 'background-color': '#27ae60' });
-                        $('#submit').val('Added!')
+                        $('#submit').val('Added!');
                         $("#members").append("<li><span>" + curremail + "</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>");
                         setTimeout(function () {
                             $('#submit').val('Invite');
                             $("#submit").css({ 'background-color': '#293241' });
                         }, 1000);
                     }
-                    else if(data.status == 2)
+                    else if (data.status === "ingroup")
                     {
                         $("#searchInvite").val('');
                         $("#submit").css({ 'background-color': 'indianred' });
-                        $('#submit').val('Already in group!')
+                        $('#submit').val('Already in group!');
                         setTimeout(function () {
                             $('#submit').val('Invite');
                             $("#submit").css({ 'background-color': '#293241' });
@@ -130,7 +130,7 @@ else
                     {
                         $("#searchInvite").val('');
                         $("#submit").css({ 'background-color': 'indianred' });
-                        $('#submit').val('User not found!')
+                        $('#submit').val('User not found!');
                         setTimeout(function () {
                             $('#submit').val('Invite');
                             $("#submit").css({ 'background-color': '#293241' });

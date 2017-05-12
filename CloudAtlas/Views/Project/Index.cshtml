@@ -7,9 +7,7 @@
 <div class="project-container">
     <div class="main">
         <div class="actions">
-            <div id="openfile" class="filename">
-                No file open
-            </div>
+            <div id="openfile" class="filename">No file open</div>
 
             <div id="filesavedtime" class="last-saved">
                 
@@ -93,6 +91,7 @@
     <script>
         $(function () {
             $(".add-colab").click(function () {
+                console.log("CLICKED");
                 $(".colab-form").removeClass("hidden");
                 $(".colab-form").addClass("show");
             });
@@ -159,19 +158,6 @@
                     $('#message').val('').focus();
                 });
 
-            });
-
-
-            function htmlEncode(value) {
-                var encodedValue = $('<div />').text(value).html();
-                return encodedValue;
-            }
-
-            $('#message').keypress(function (e) {
-                if (e.keyCode == 13)
-                    $('#sendmessage').click();
-            });
-
             var tree = $('#jstree');
             // 6 create an instance when the DOM is ready
             tree.jstree({
@@ -234,17 +220,8 @@
                             },
                             "delete": {
                                 label: "Delete",
-                                action: function ()
-                                {
-                                    if (node.parent === "#")
-                                    {
-                                        // Do nothing, this is the root
-                                    }
-                                    else
-                                    {
-                                        tree.jstree(true).delete_node(node);
-                                    }
-                                    
+                                action: function () {
+                                    tree.jstree(true).delete_node(node);
                                 },
                                 separator_before: true
                             },
@@ -261,12 +238,11 @@
                 }
             });
 
-            $("#jstree").on("create_node.jstree", function (event, data)
-            {
-                $("#hiddenparent").val(data.node.parent);
-                if (data.node.text === "file")
+                $("#jstree").on("create_node.jstree", function (event, data)
                 {
-                    $("#CreateFileForm").dialog({
+                    $("#hiddenparent").val(data.node.parent);
+                    if (data.node.text === "file") {
+                        $("#CreateFileForm").dialog({
                             autoOpen: true,
                             position: { my: "center", at: "top+150", of: window },
                             width: 750,
@@ -281,140 +257,151 @@
                                     $(this).dialog("close");
                                 }
                             }
-                    });
-
-
-
-                }
-                else {
-                    $.ajax({
-                        type: 'post',
-                        dataType: 'json',
-                        cache: false,
-                        url: '/Project/AddFolder',
-                        data: { parentId: data.parent, projectId: @Model.Project.ID},
-                        success: function (response) {
-                            tree.jstree(true).settings.core.data = response;
-                            tree.jstree(true).refresh();
-                        },
-                        error: function (response) {
-                            tree.jstree(true).refresh();
-                        }
-                    });
-                }
-            });
-            $("#jstree").on("rename_node.jstree", function (event, data)
-            {
-                var fid = data.node.id;
-                if (data.node.type === "file")
-                {
-                    var name = data.node.text;
-                    if (data.node.text.indexOf('.') != -1)
-                    {
-                        name = data.node.text.substring(0, data.text.indexOf('.'));
+                        });
                     }
-                    $.ajax({
-                        type: 'post',
-                        dataType: 'json',
-                        cache: false,
-                        url: '/Project/RenameFile',
-                        data: { id: fid, newName: name, projectId: @Model.Project.ID},
-                        success: function (response)
-                        {
-                            tree.jstree(true).settings.core.data = response;
-                            tree.jstree(true).refresh();
-                        },
-                         error: function (response) {
-                            tree.jstree(true).refresh();
+                    else {
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            cache: false,
+                            url: '/Project/AddFolder',
+                            data: { parentId: data.parent, projectId: @Model.Project.ID},
+                            success: function (response) {
+                                tree.jstree(true).settings.core.data = response;
+                                tree.jstree(true).refresh();
+                            },
+                            error: function (response) {
+                                tree.jstree(true).refresh();
+                            }
+                        });
+                    }
+                });
+                $("#jstree").on("rename_node.jstree", function (event, data) {
+                    var fid = data.node.id;
+                    if (data.node.type === "file") {
+                        var name = data.node.text;
+                        if (data.node.text.indexOf('.') != -1) {
+                            name = data.node.text.substring(0, data.text.indexOf('.'));
                         }
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            cache: false,
+                            url: '/Project/RenameFile',
+                            data: { id: fid, newName: name, projectId: @Model.Project.ID},
+                            success: function (response) {
+                                tree.jstree(true).settings.core.data = response;
+                                tree.jstree(true).refresh();
+                            },
+                            error: function (response) {
+                                tree.jstree(true).refresh();
+                            }
 
-                    });
-                }
-                else
-                {
-                    $.ajax({
-                        type: 'post',
-                        dataType: 'json',
-                        cache: false,
-                        url: '/Project/RenameFolder',
-                        data: { id: fid, newName: data.node.text, projectId: @Model.Project.ID},
-                        success: function (response) {
-                            tree.jstree(true).refresh();
-                        },
-                        error: function (response) {
-                            tree.jstree(true).refresh();
-                        }
-                    });
-                }
-
-            });
-            $("#jstree").on("delete_node.jstree", function (event, data)
-            {
-                var fid = data.node.id;
-                if (data.node.type === "file")
-                {
-
-                    $.ajax({
-                        type: 'post',
-                        dataType: 'json',
-                        cache: false,
-                        url: '/Project/RemoveFile',
-                        data: { id: fid,projectId: @Model.Project.ID}
-                    });
-                }
-                else
-                {
-                    $.ajax({
-                        type: 'post',
-                        dataType: 'json',
-                        cache: false,
-                        url: '/Project/RemoveFolder',
-                        data: { id: fid, projectId: @Model.Project.ID},
-                        success: function (response, textStatus, jqXHR)
-                        {
-
-                        }
-                    });
-                }
-
-            });
-
-            // 7 bind to events triggered on the tree
-            $('#jstree').on("select_node.jstree", function (e, data)
-            {
-                if ("undefined" === typeof data)
-                {
-                    return;
-                }
-                if (data.node.type === "file")
+                        });
+                    }
+                    else {
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            cache: false,
+                            url: '/Project/RenameFolder',
+                            data: { id: fid, newName: data.node.text, projectId: @Model.Project.ID},
+                            success: function (response) {
+                                tree.jstree(true).refresh();
+                            },
+                            error: function (response) {
+                                tree.jstree(true).refresh();
+                            }
+                        });
+                    }
+                });
+                $("#jstree").on("delete_node.jstree", function (event, data)
                 {
                     var fid = data.node.id;
-                    $.ajax({
-                        type: 'get',
-                        dataType: 'json',
-                        cache: false,
-                        url: '/Project/OpenFile',
-                        data: { id: fid },
-                        success: function (response, textStatus, jqXHR) {
-                            chat.server.switchFile($('#hiddenid').val(), fid);
-                            editor.setReadOnly(false);
-                            $('#hiddenid').val(fid);
-                            $('#openfile').text(response.name);
-                            $('#filesavedtime').text('');
-                            ignore = true;
-                            editor.setValue(response.content, 1);
-                            $('#hiddencode').val(response.content);
-                            $('#hiddentype').val(response.type);
-                            var syntax = "ace/mode/" + $('#hiddentype').val();
-                            editor.getSession().setMode(syntax);
-                            ignore = false;
-                            editor.focus();
-                        }
-                    });
-                }
-                else
+                    if (data.node.type === "file")
+                    {
+
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            cache: false,
+                            url: '/Project/RemoveFile',
+                            data: { id: fid,projectId: @Model.Project.ID}
+                        });
+                    }
+                    else
+                    {
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            cache: false,
+                            url: '/Project/RemoveFolder',
+                            data: { id: fid, projectId: @Model.Project.ID},
+                            success: function (response, textStatus, jqXHR)
+                            {
+
+                            }
+                        });
+                    }
+
+                });
+
+                // 7 bind to events triggered on the tree
+                $('#jstree').on("select_node.jstree", function (e, data)
                 {
-                }
+                    if ("undefined" === typeof data)
+                    {
+                        return;
+                    }
+                    if (data.node.type === "file")
+                    {
+                        var fid = data.node.id;
+                        $.ajax({
+                            type: 'get',
+                            dataType: 'json',
+                            cache: false,
+                            url: '/Project/OpenFile',
+                            data: { id: fid },
+                            success: function (response, textStatus, jqXHR) {
+                                console.log($('#openfile').text());
+                                if ($('#openfile').text() === "No file open")
+                                {
+                                    console.log("joining file");
+                                    chat.server.joinFile($('#hiddenid').val(), fid);
+                                }
+                                else
+                                {
+                                    console.log("switching");
+                                    chat.server.switchFile($('#hiddenid').val(), fid);
+                                }
+                                editor.setReadOnly(false);
+                                $('#hiddenid').val(fid);
+                                $('#openfile').text(response.name);
+                                $('#filesavedtime').text('');
+                                ignore = true;
+                                editor.setValue(response.content, 1);
+                                $('#hiddencode').val(response.content);
+                                $('#hiddentype').val(response.type);
+                                var syntax = "ace/mode/" + $('#hiddentype').val();
+                                editor.getSession().setMode(syntax);
+                                ignore = false;
+                                editor.focus();
+                            }
+                        });
+                    }
+                });
+
+            });
+
+
+            function htmlEncode(value) {
+                var encodedValue = $('<div />').text(value).html();
+                return encodedValue;
+            }
+
+            $('#message').keypress(function (e) {
+                if (e.keyCode == 13)
+                    $('#sendmessage').click();
             });
 
 

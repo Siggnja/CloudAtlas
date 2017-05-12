@@ -16,7 +16,7 @@
         <div id="editor" style="width: 100%; height:100%;"></div>
         <div>
             <input type="hidden" id="hiddencode" name="hiddencode" />
-            <input type="hidden" id="hiddenid" name="hiddenid" />
+            <input type="hidden" id="hiddenid" name="hiddenid" value="0" />
             <input type="hidden" id="hiddentype" name="hiddentype" />
             <input type="hidden" id="hiddentheme" name="hiddentheme" value="@Model.User.Theme" />
             <input type="hidden" id="hiddenuserid" value="@Model.User.Id" />
@@ -365,24 +365,14 @@
                             url: '/Project/OpenFile',
                             data: { id: fid },
                             success: function (response, textStatus, jqXHR) {
-                                console.log($('#openfile').text());
-                                if ($('#openfile').text() === "No file open")
-                                {
-                                    console.log("joining file");
-                                    chat.server.joinFile($('#hiddenid').val(), fid);
-                                }
-                                else
-                                {
-                                    console.log("switching");
-                                    chat.server.switchFile($('#hiddenid').val(), fid);
-                                }
+                                console.log("From: " + $('#hiddenid').val() + " - To: " + fid);
+                                chat.server.switchFile($('#hiddenid').val(), fid);
                                 editor.setReadOnly(false);
                                 $('#hiddenid').val(fid);
                                 $('#openfile').text(response.name);
                                 $('#filesavedtime').text('');
                                 ignore = true;
                                 editor.setValue(response.content, 1);
-                                $('#hiddencode').val(response.content);
                                 $('#hiddentype').val(response.type);
                                 var syntax = "ace/mode/" + $('#hiddentype').val();
                                 editor.getSession().setMode(syntax);

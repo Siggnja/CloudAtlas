@@ -12,16 +12,9 @@ namespace CloudAtlas.Tests.Models
     [TestClass]
     public class FileModelTest
     {
-        public FileModelTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-
+      
         [TestMethod]
-        public void TestContent()
+        public void TestFileContent()
         {
             File res = new File();
             res.Content = "<html></html>";
@@ -31,11 +24,51 @@ namespace CloudAtlas.Tests.Models
             //
         }
         [TestMethod]
-        public void TestName()
+        public void TestFileName()
         {
             File res = new File();
             res.Name = "init.js";
             Assert.AreEqual(res.Name, "init.js");
+            //
+            // TODO: Add test logic here
+            //
+        }
+        [TestMethod]
+        public void TestFileType()
+        {
+            File res = new File();
+            res.Type = "javascript";
+            Assert.AreEqual(res.Type, "javascript");
+            //
+            // TODO: Add test logic here
+            //
+        }
+        [TestMethod]
+        public void TestFileExentsion()
+        {
+            File res = new File();
+            res.Extension = ".js";
+            Assert.AreEqual(res.Extension, ".js");
+            //
+            // TODO: Add test logic here
+            //
+        }
+        [TestMethod]
+        public void TestFileId()
+        {
+            File res = new File();
+            res.ID = 1;
+            Assert.AreEqual(res.ID, 1);
+            //
+            // TODO: Add test logic here
+            //
+        }
+        [TestMethod]
+        public void TestFolderId()
+        {
+            File res = new File();
+            res.FolderID = 1;
+            Assert.AreEqual(res.FolderID, 1);
             //
             // TODO: Add test logic here
             //

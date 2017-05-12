@@ -54,7 +54,7 @@ namespace CloudAtlas.Controllers
                             where user.Id == userid
                             select user).FirstOrDefault();
 
-            SelectTheme(curruser);
+            SelectTheme();
 
 
             return View(curruser);
@@ -82,7 +82,7 @@ namespace CloudAtlas.Controllers
                 JsonRequestBehavior.AllowGet);
         }
 
-        public void SelectTheme(ApplicationUser user)
+        public void SelectTheme()
         {
             IEnumerable<SelectListItem> themes = new List<SelectListItem>() {
 
@@ -143,7 +143,7 @@ namespace CloudAtlas.Controllers
                             where u.Id == userid
                             select u).FirstOrDefault();
 
-            SelectTheme(userCurr);
+            SelectTheme();
 
 
             return View("Settings", userCurr);

@@ -12,31 +12,6 @@ namespace CloudAtlas.Tests
     [TestClass]
     public class FolderModelTest
     {
-        public FolderModelTest()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         #region Additional test attributes
         //
         // You can use the following additional attributes as you write your tests:
@@ -60,12 +35,29 @@ namespace CloudAtlas.Tests
         #endregion
 
         [TestMethod]
-        public void TestName()
+        public void TestFolderName()
         {
             Folder test = new Folder();
             test.Name = "Root";
             Assert.AreEqual(test.Name.ToString(), "Root");
-
         }
+        [TestMethod]
+        public void TestFolderIsRoot()
+        {
+            Folder test = new Folder();
+            test.IsRoot = false;
+            Assert.AreEqual(test.IsRoot, false);
+        }
+        [TestMethod]
+        public void TestFiles()
+        {
+            Folder test = new Folder();
+            test.Files = new List<File>();
+            test.Files.Add(new File { ID = 1, Name = "Temp" });
+            Assert.AreEqual(test.Files.Count, 1);
+        }
+
+
+
     }
 }

@@ -25,10 +25,44 @@ namespace CloudAtlas.Repositories
         }
         public List<Project> GetProjectsByUserId(string id)
         {
-            return (from item in db.Users
-                    where item.Id == id
-                    select item.Projects).FirstOrDefault().ToList();
+            /*
+            List<Project> result = new List<Project>();
+            var allGroups = (from i in db.Projects
+                             select i);
+            return new List<Project>();
+            */
 
+            var projects = (from item in db.Users
+                           where item.Id == id
+                           select item.Projects).FirstOrDefault();
+
+            if(projects != null)
+            {
+                return projects.ToList();
+            }
+            else
+            {
+                return new List<Project>();
+            }
+
+            /*
+            foreach (var proj in allGroups)
+            {
+                foreach (var user in proj.ApplicationUsers)
+                {
+                    if (user == null)
+                    {
+                        break;
+                    }
+                    if (user.Id == id)
+                    {
+                        result.Add(proj);
+                        break;
+                    }
+                }
+            }
+            return result;
+            */
         }
         public Project GetProjectById(int id)
         {

@@ -103,13 +103,27 @@ namespace CloudAtlas.Controllers
                 return View();
             }
             Folder changeFold = folderrepository.GetFolderByID((int)id);
-            foreach(var temp in changeFold.Parent.SubFolders)
+            if(changeFold.IsRoot)
             {
-                if(temp.Name == newName)
+                foreach (var temp in changeFold.SubFolders)
                 {
-                    return RedirectToAction("Index", "Project", new { id = projectId });
+                    if (temp.Name == newName)
+                    {
+                        return RedirectToAction("Index", "Project", new { id = projectId });
+                    }
                 }
             }
+            else
+            {
+                foreach (var temp in changeFold.Parent.SubFolders)
+                {
+                    if (temp.Name == newName)
+                    {
+                        return RedirectToAction("Index", "Project", new { id = projectId });
+                    }
+                }
+            }
+
             folderrepository.UpdateFolderNameByID((int)id, newName);
             
             return RedirectToAction("Index", "Project", new { id = projectId });

@@ -225,8 +225,12 @@
                                 },
                                 "delete": {
                                     label: "Delete",
-                                    action: function () {
-                                        tree.jstree(true).delete_node(node);
+                                    action: function ()
+                                    {
+                                        if (node.parent === '#') { }
+                                        else {
+                                            tree.jstree(true).delete_node(node);
+                                        }
                                     },
                                     separator_before: true
                                 },

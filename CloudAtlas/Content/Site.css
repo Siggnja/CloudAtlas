@@ -468,6 +468,16 @@ body {
           position: relative;
           margin-right: 13px;
           margin-bottom: 13px; }
+          .project-container .right .collaborators .avatars .user-img .blah {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            height: 40px;
+            z-index: 100;
+            color: #000;
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 5px; }
           .project-container .right .collaborators .avatars .user-img img {
             width: 100%;
             position: absolute;

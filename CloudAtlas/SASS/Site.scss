@@ -639,6 +639,18 @@ body {
                     margin-right: 13px;
                     margin-bottom: 13px;
 
+                    .blah {
+                        position: absolute;
+                        width: 100%;
+                        text-align: center;
+                        height: 40px;
+                        z-index: 100;
+                        color: #000;
+                        font-size: 20px;
+                        font-weight: 600;
+                        margin-top: 5px;
+                    }
+
                     img {
                         width: 100%;
                         position: absolute;
@@ -650,8 +662,7 @@ body {
                             opacity: 0.5;
                         }
                     }
-
-                                  }
+                }
 
                 .new-user {
                     color: $blue;

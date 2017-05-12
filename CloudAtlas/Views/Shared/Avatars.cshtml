@@ -2,9 +2,10 @@
 @foreach (var item in Model.Project.ApplicationUsers)
 {
     <div class="user-img">
+        <p class="blah" id="@item.Id"></p>
         <img alt="@item.UserName" title="@item.UserName" src="@Url.Content(item.AvatarPath)" />
     </div>
-    <p id="@item.Id"></p>
+    
 }
 
     <div class="new-user">

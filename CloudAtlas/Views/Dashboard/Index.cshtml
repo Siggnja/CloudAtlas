@@ -9,7 +9,7 @@
         <div class="box-projects">
             @foreach (var i in Model.Projects)
             {
-                <div class="box @(ViewData["userid"].Equals(i.OwnerID) ? "is-owner" : "not-owner" )">
+                <div class="box @(ViewData["userid"].Equals(i.OwnerID) ? "is-owner" : "not-owner")">
                     <div class="left">
                         @if (i.ApplicationUsers.Count > 1)
                         {
@@ -61,7 +61,7 @@
         <div class="box-groups">
             @foreach (var i in Model.Groups)
             {
-                <div class="box">
+                <div class="box @(ViewData["userid"].Equals(i.OwnerID) ? "is-owner" : "not-owner")">
                     <a href=@Url.Action("Index", "Group", new { id = i.ID })>
                         @i.Name
                     </a>

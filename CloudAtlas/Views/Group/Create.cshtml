@@ -4,8 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="create-project-container">
-    <h2>New group</h2>
+<div class="create-group-container">
+    <h1>Love is friendship</h1>
 
     @using (Html.BeginForm("Create", "Group", FormMethod.Post, htmlAttributes: new { @class = "create-project-form", id = "createForm", name = "creategroup",onsubmit = "return validateForm()" }))
     {
@@ -32,12 +32,28 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(document).ready(function () {
-
         $('#createForm').submit(function (e) {
-            if ($('#name').val() == "") {
+            var name = $('#name').val();
+
+            if (name === null || name.match(/^ *$/) !== null) {
                 $('#searchInvite').val('');
+                $('#name').val('');
                 $('#submit').css({ 'background-color': 'indianred' });
                 $('#submit').val('Group needs a name!');
+                setTimeout(function () {
+                    $('#submit').val('Create');
+                    $('#submit').css({ 'background-color': '#293241' });
+                }, 1000);
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                return false;
+            }
+            else if (name.length > 30)
+            {
+                $('#searchInvite').val('');
+                $('#name').val('');
+                $('#submit').css({ 'background-color': 'indianred' });
+                $('#submit').val('Name longer than 30 characters!');
                 setTimeout(function () {
                     $('#submit').val('Create');
                     $('#submit').css({ 'background-color': '#293241' });
@@ -58,19 +74,19 @@
         $('#searchInvite').autocomplete({
             autoFocus: true,
             source: '@Url.Action("Search", "Group")'
-        })
+        });
 
         $("#searchInvite").keypress(function (event) {
             if (event.keyCode == 13) {
                 var email = $("#searchInvite").val();
                 var first = false;
                 var second = false;
-                for (i in userList) {
+                for (var i in userList) {
                     if (userList[i] == email) {
                         first = true;
                     }
                 }
-                if (first == false)
+                if (first === false)
                 {
                     $("#searchInvite").val('');
                     $("#submit").css({ 'background-color': 'indianred' });
@@ -86,7 +102,7 @@
                         second = true;
                     }
                 }
-                if (second == true)
+                if (second === true)
                 {
                     $("#searchInvite").val('');
                     $("#submit").css({ 'background-color': 'indianred' });
@@ -114,14 +130,14 @@
         $(document).on('click', '.removeFromList', function (e) {
             var s = $(this).parent().text();
             $(this).parent().remove();
-            for (i in invitedUser)
+            for (var i in invitedUser)
             {
                 if (invitedUser[i] == s)
                 {
                     invitedUser.splice(i, 1);
                 }
             }
-            if ($("#members").children().length == 0)
+            if ($("#members").children().length === 0)
             {
                 $("#membersLabel").hide();
             }

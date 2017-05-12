@@ -324,12 +324,32 @@ body {
   margin-top: 30px;
   width: 900px; }
   .settings-container h1 {
-    font-size: 3em;
+    font-size: 4em;
     text-transform: uppercase;
     color: #4EA5D9;
-    margin-bottom: 10px; }
-  .settings-container img {
+    margin-top: 10px;
+    margin-bottom: 50px; }
+  .settings-container .settings-img .upload-dude {
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    color: #4EA5D9;
+    z-index: 1000;
+    font-size: 90px;
     border-radius: 50%; }
+    .settings-container .settings-img .upload-dude:hover {
+      opacity: 1;
+      cursor: pointer; }
+  .settings-container .settings-img img {
+    border-radius: 50%; }
+  .settings-container .user-email {
+    padding: 15px;
+    color: #293241;
+    font-size: 2em; }
   .settings-container p {
     width: 100%;
     height: 35px;
@@ -487,10 +507,8 @@ body {
             margin-top: 5px; }
           .project-container .right .collaborators .avatars .user-img img {
             width: 100%;
-            position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); }
+            left: 50%; }
             .project-container .right .collaborators .avatars .user-img img:hover {
               opacity: 0.5; }
         .project-container .right .collaborators .avatars .new-user {
@@ -557,6 +575,12 @@ body {
     text-transform: uppercase;
     color: #4EA5D9;
     margin-bottom: 10px; }
+  .create-project-container .go-back {
+    color: #293241;
+    font-size: 15px;
+    width: 300px;
+    margin-top: 30px;
+    text-align: center; }
   .create-project-container p {
     width: 100%;
     height: 35px;
@@ -619,4 +643,95 @@ body {
 
 .show {
   display: block; }
+
+.create-group-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  width: 900px; }
+  .create-group-container h2 {
+    color: #4EA5D9;
+    font-size: 4em; }
+  .create-group-container h3 {
+    margin-top: 15px;
+    text-transform: uppercase;
+    color: #293241;
+    font-size: 2em; }
+  .create-group-container #membersLabel {
+    color: #293241;
+    text-transform: uppercase;
+    font-size: 2em; }
+  .create-group-container .create-project-form {
+    width: 500px; }
+    .create-group-container .create-project-form select {
+      width: 100%;
+      height: 35px;
+      padding: 5px;
+      font-size: 17px; }
+    .create-group-container .create-project-form label {
+      display: block;
+      margin: 15px 0 5px 0;
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-size: 15px;
+      color: #212121; }
+    .create-group-container .create-project-form span {
+      width: 100%;
+      height: 35px;
+      font-size: 20px;
+      color: #4EA5D9;
+      font-style: italic; }
+    .create-group-container .create-project-form .removeFromList {
+      font-size: 25px;
+      padding: 5px;
+      color: red; }
+    .create-group-container .create-project-form input[type="text"],
+    .create-group-container .create-project-form input[type="email"],
+    .create-group-container .create-project-form input[type="password"] {
+      padding: 5px 10px;
+      outline: 0;
+      height: 35px;
+      color: #212121;
+      font-size: 17px;
+      width: 100%;
+      border: 0.063rem solid #b0bec5; }
+    .create-group-container .create-project-form input[type="button"], .create-group-container .create-project-form input[type="submit"] {
+      padding: 5px;
+      height: 40px;
+      margin: 15px 0 0;
+      outline: 0;
+      border: 0;
+      background: #293241;
+      color: #FFF;
+      font-weight: 700;
+      font-size: .875rem;
+      letter-spacing: .25px;
+      width: 100%; }
+      .create-group-container .create-project-form input[type="button"]:hover, .create-group-container .create-project-form input[type="submit"]:hover {
+        color: #4EA5D9;
+        cursor: pointer; }
+  .create-group-container .deleteButton {
+    margin-top: 30px;
+    text-decoration: none; }
+    .create-group-container .deleteButton h2 {
+      color: indianred;
+      text-transform: uppercase;
+      font-size: 25px;
+      -webkit-transition: all 0.1s ease;
+      -moz-transition: all 0.1s ease;
+      -o-transition: all 0.1s ease; }
+      .create-group-container .deleteButton h2:hover {
+        font-size: 40px;
+        font-weight: 600; }
+
+.owner-info h3 {
+  font-weight: 600;
+  font-size: 35px; }
+
+.owner-info p {
+  font-size: 20px; }
+
+.is-owner {
+  background-color: #34495e !important; }
 

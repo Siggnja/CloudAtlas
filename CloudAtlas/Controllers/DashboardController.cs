@@ -27,6 +27,8 @@ namespace CloudAtlas.Controllers
         {
             projectsRepository = new ProjectsRepository(db);
             groupsRepository = new GroupsRepository(db);
+
+            //Creates the connection to cloudinary, an online image host
             account = new Account(
                     "cloudatlas",
                     "215256475133816",
@@ -46,6 +48,10 @@ namespace CloudAtlas.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Finds the settings for the current user and returns the correct view
+        /// </summary>
+
         public ActionResult Settings()
         {
             string userid = User.Identity.GetUserId<string>();
@@ -64,6 +70,10 @@ namespace CloudAtlas.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// Takes in the user's username and theme, and saves them to the database
+        /// </summary>
 
         public ActionResult SaveSettings(string UserName, string theme)
         {
@@ -97,6 +107,12 @@ namespace CloudAtlas.Controllers
             ViewData["Theme"] = themes;
         }
 
+        /// <summary>
+        /// Takes in a image file, uploads it to the web server,
+        /// then uploads it to cloudinary image host and deletes it from the web server.
+        /// Saves the path to cloudinary image in database.
+        /// </summary>
+
         [HttpPost]
         public ActionResult UploadImage(HttpPostedFileBase file)
         {
@@ -107,8 +123,11 @@ namespace CloudAtlas.Controllers
                 var fileName = userid;
                 var path = Path.Combine(Server.MapPath("~/Content/images/Avatars/"), fileName);
 
+                //Saves the file to the web server
                 file.SaveAs(path);
 
+                //Creates the image file for cloudinary, and links the users ID to the filename.
+                //Then transforms the image and crops it.
                 var uploadParams = new ImageUploadParams()
                 {
                     File = new FileDescription(Server.MapPath("~/Content/images/Avatars/" + fileName)),
@@ -118,8 +137,10 @@ namespace CloudAtlas.Controllers
         
                 };
 
+                //Upload image to cloudinary
                 var uploadResult = cloudinary.Upload(uploadParams);
 
+                //delete from web server
                 if (System.IO.File.Exists(path))
                 {
                     System.IO.File.Delete(path);
@@ -129,10 +150,9 @@ namespace CloudAtlas.Controllers
                                 where user.Id == userid
                                 select user).FirstOrDefault();
 
-
+                
+                //finds the cloudinary url from a Jtoken object and saves it in the database
                 curruser.AvatarPath = uploadResult.JsonObj["secure_url"].ToString();
-
-
 
                 db.SaveChanges();
 

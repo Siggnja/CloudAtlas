@@ -15,6 +15,7 @@ namespace CloudAtlas.Controllers
         private readonly GroupsRepository groupsrepository;
         private ApplicationDbContext db = new ApplicationDbContext();
 
+  
         public GroupController()
         {
             groupsrepository = new GroupsRepository(db);
@@ -36,10 +37,17 @@ namespace CloudAtlas.Controllers
         {
             return View(new Group());
         }
+
+        /// <summary>
+        /// Takes in formCollection, checks if the user exist and adds him to the group
+        /// </summary>
+       
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
             var name = collection["Name"];
+
+            //String of users already in group
             var usersString = collection["HiddenUsers"];
             var loggedInUser = User.Identity.GetUserId<string>();
 
@@ -47,9 +55,11 @@ namespace CloudAtlas.Controllers
             {
                 return View(new Group());
             }
-
+            
+            //Creates array of users from userString seperated by whitespace
             string[] users = usersString.Split(' ');
             List<ApplicationUser> applicationUsers = new List<ApplicationUser>();
+
 
             foreach (var i in users)
             {
@@ -63,7 +73,7 @@ namespace CloudAtlas.Controllers
 
             applicationUsers.Add(groupsrepository.GetUserByID(loggedInUser));
 
-
+            //Creates the group and defines who the owner is and adds it to the database
             Group newGroup = new Group { Name = name, OwnerID = loggedInUser, ApplicationUsers = applicationUsers };
 
             groupsrepository.AddGroup(newGroup);
@@ -72,6 +82,11 @@ namespace CloudAtlas.Controllers
 
         }
 
+        /// <summary>
+        /// Searches for users to add in the group, checks if the users are already in the group
+        /// or if they dont exist. Returns Json String to view
+        /// </summary>
+     
         public JsonResult Search(string term)
         {
             var toSearch = new List<string>();
@@ -106,22 +121,27 @@ namespace CloudAtlas.Controllers
             var curruser = groupsrepository.GetUserByEmail(email);
             if(curruser == null)
             {
-                return Json(new { status = 3 },
+                return Json(new { status = "notfound" },
                 JsonRequestBehavior.AllowGet);
             }
 
             if(groupsrepository.UserInGroup(curruser, group))
             {
-                return Json(new { status = 2 },
+                return Json(new { status = "ingroup" },
                 JsonRequestBehavior.AllowGet);
             }
 
             groupsrepository.AddUserToGroup(curruser, group);
 
-            return Json(new { status = 1 },
+            return Json(new { status = "added" },
                 JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Removes the user from database, returns success if the user was removed
+        /// else returns notingroup
+        /// </summary>
+       
         [HttpPost]
         public ActionResult RemoveUser(string email, int groupID)
         {
@@ -141,6 +161,9 @@ namespace CloudAtlas.Controllers
                 JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Deletes group from database
+        /// </summary>
         public ActionResult Delete(int groupID)
         {
             groupsrepository.DeleteGroupById(groupID);
@@ -148,6 +171,11 @@ namespace CloudAtlas.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
+
+        /// <summary>
+        /// Removes the user from the specified group 
+        /// </summary>
+        
         public ActionResult Leave(int groupID)
         {
             string userid = User.Identity.GetUserId<string>();

@@ -7,7 +7,7 @@
 
 
 
-<div class="create-project-container">
+<div class="create-group-container">
     <h2>@Model.Name</h2>
 
 @if (Model.OwnerID.Equals(ViewData["userid"]))
@@ -18,50 +18,51 @@
         @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite", name = "invite" })
         <input type="submit" name="submit" id="submit" value="Invite">
 
-        <h3>Group owner</h3>
-        <p>@Model.Owner.Email</p>
+        <div class="owner-info" style="text-align: center;">
+            <h3>Group owner</h3>
+            <p>@Model.Owner.Email</p>
 
-        <label for="members" id="membersLabel">Group members</label>
+            <label for="members" id="membersLabel">Group members</label>
+            <ul id="members">
+                @foreach (var user in Model.ApplicationUsers)
+                {
+                    if (user == Model.Owner) { continue; }
+                    <li><span>@user.Email</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>
+                }
+            </ul>
+        </div>
+        
+    </div>
+
+    <a class="deleteButton" href=@Url.Action("Delete", "Group", new { groupID = Model.ID })>
+        <h2>Delete group</h2>
+    </a>
+}
+else
+{
+    <div class="owner-info" style="text-align: center;">
+        <h3>Group owner</h3>
+        <p style="margin-bottom: 40px">@Model.Owner.Email</p>
+
+        <label for="members" id="membersLabel" style="font-weight: 600;margin-top: 40px;">Group members</label>
         <ul id="members">
             @foreach (var user in Model.ApplicationUsers)
             {
                 if (user == Model.Owner) { continue; }
-                <li><span>@user.Email</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>
+
+                <li>
+                    <span>@user.Email</span>
+                </li>
             }
         </ul>
     </div>
 
-        <a href=@Url.Action("Delete", "Group", new { groupID = Model.ID })>
-            <h2>Delete group</h2>
+        <a class="deleteButton" href=@Url.Action("Leave", "Group", new { groupID = Model.ID })>
+            <h2>Leave group</h2>
         </a>
-}
-else
-{
-    <h3>Group owner</h3>
-    <p>@Model.Owner.Email</p>
-
-    <label for="members" id="membersLabel">Group members</label>
-    <ul id="members">
-        @foreach (var user in Model.ApplicationUsers)
-        {
-            if (user == Model.Owner) { continue; }
-
-            <li>
-                <span>@user.Email</span>
-            </li>
         }
-    </ul>
 
-    <a href=@Url.Action("Leave", "Group", new { groupID = Model.ID })>
-        <h2>Leave group</h2>
-    </a>
-}
-
-
-
-
-
-</div>
+    </div>
 
 
 @section scripts
@@ -75,7 +76,7 @@ else
         $('#searchInvite').autocomplete({
             autoFocus: true,
             source: '@Url.Action("Search", "Group")'
-        })
+        });
 
         $("#searchInvite").keypress(function (event) {
             if (event.keyCode == 13) {
@@ -105,22 +106,22 @@ else
                 data: { email: curremail, groupID: currid },
                 method: 'POST',
                 success: function (data) {
-                    if (data.status == 1)
+                    if (data.status === "added")
                     {
                         $("#searchInvite").val('');
                         $("#submit").css({ 'background-color': '#27ae60' });
-                        $('#submit').val('Added!')
+                        $('#submit').val('Added!');
                         $("#members").append("<li><span>" + curremail + "</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>");
                         setTimeout(function () {
                             $('#submit').val('Invite');
                             $("#submit").css({ 'background-color': '#293241' });
                         }, 1000);
                     }
-                    else if(data.status == 2)
+                    else if (data.status === "ingroup")
                     {
                         $("#searchInvite").val('');
                         $("#submit").css({ 'background-color': 'indianred' });
-                        $('#submit').val('Already in group!')
+                        $('#submit').val('Already in group!');
                         setTimeout(function () {
                             $('#submit').val('Invite');
                             $("#submit").css({ 'background-color': '#293241' });
@@ -130,7 +131,7 @@ else
                     {
                         $("#searchInvite").val('');
                         $("#submit").css({ 'background-color': 'indianred' });
-                        $('#submit').val('User not found!')
+                        $('#submit').val('User not found!');
                         setTimeout(function () {
                             $('#submit').val('Invite');
                             $("#submit").css({ 'background-color': '#293241' });

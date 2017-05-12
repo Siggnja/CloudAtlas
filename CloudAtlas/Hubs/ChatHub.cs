@@ -11,11 +11,6 @@ namespace CloudAtlas
             Groups.Add(Context.ConnectionId, Convert.ToString(fileID));
         }
 
-        public void LeaveFile(int fileID)
-        {
-            Groups.Remove(Context.ConnectionId, Convert.ToString(fileID));
-        }
-
         public void SwitchFile(int oldID, int newID)
         {
             Groups.Remove(Context.ConnectionId, Convert.ToString(oldID));
@@ -25,6 +20,11 @@ namespace CloudAtlas
         public void JoinChat(int projectID)
         {
             Groups.Add(Context.ConnectionId, Convert.ToString(projectID));
+        }
+
+        public void RefreshTree(int projectID)
+        {
+            Clients.Group(Convert.ToString(projectID), Context.ConnectionId).RefreshTree();
         }
 
         public void ChatMessage(string name, string message, int projectID)

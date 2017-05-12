@@ -62,6 +62,20 @@
                     e.stopImmediatePropagation();
                     return false;
                 }
+                else if (name.length > 30)
+                {
+                    $('#save').css({ 'background-color': 'indianred' });
+                    $('#save').val('Name longer than 30 characters!');
+                    $('#namefield').val("");
+                    setTimeout(function () {
+                        $('#save').val('Register');
+                        $('#save').css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
                 else {
                     $('#save').val('Registering...');
                     $('#save').css({ 'background-color': '#27ae60' });

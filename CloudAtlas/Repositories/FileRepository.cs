@@ -8,8 +8,8 @@ namespace CloudAtlas.Repositories
 {
     public class FileRepository
     {
-        private readonly ApplicationDbContext db;
-        public FileRepository(ApplicationDbContext context)
+        private readonly IAppDataContext db;
+        public FileRepository(IAppDataContext context)
         {
             db = context ?? new ApplicationDbContext();
         }

@@ -9,8 +9,8 @@ namespace CloudAtlas.Repositories
 {
     public class ProjectsRepository
     {
-        private readonly ApplicationDbContext db;
-        public ProjectsRepository(ApplicationDbContext context)
+        private readonly IAppDataContext db;
+        public ProjectsRepository(IAppDataContext context)
         {
             db = context ?? new ApplicationDbContext();
         }
@@ -69,10 +69,6 @@ namespace CloudAtlas.Repositories
         {
             db.Projects.Remove(project);
             db.SaveChanges();
-        }
-        public void UpdateProject(EntityState state,Project project)
-        {
-            db.Entry(project).State = state;
         }
     }
 }

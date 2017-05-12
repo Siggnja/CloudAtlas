@@ -8,8 +8,8 @@ namespace CloudAtlas.Repositories
 {
     public class GroupsRepository
     {
-        private readonly ApplicationDbContext db;
-        public GroupsRepository(ApplicationDbContext context)
+        private readonly IAppDataContext db;
+        public GroupsRepository(IAppDataContext context)
         {
             db = context ?? new ApplicationDbContext();
         }
@@ -24,24 +24,11 @@ namespace CloudAtlas.Repositories
                     select i
                     ).FirstOrDefault();
         }
-        public List<Project> getGroupProjects(int id)
-        {
-            return getGroupById(id).Projects.ToList();
-        }
+
         public void deleteGroupById(int id)
         {
             var group = getGroupById(id);
             db.Groups.Remove(group);
-            db.SaveChanges();
-        }
-        public void addGroupProject(Project project,Group group)
-        {
-            group.Projects.Add(project);
-            db.SaveChanges();
-        }
-        public void DeleteGroupProject(Project project, Group group)
-        {
-            group.Projects.Remove(project);
             db.SaveChanges();
         }
         public void AddUserToGroup(ApplicationUser user, Group group)
@@ -61,32 +48,9 @@ namespace CloudAtlas.Repositories
 
         public List<Group> getAllGroupsByUserId(string id)
         {
-            /*
-            List<Group> result = new List<Group>();
-            var allGroups = (from i in db.Groups
-                             select i);
-*/
             return (from item in db.Users
                     where item.Id == id
                     select item.Groups).FirstOrDefault().ToList();
-            /*
-            foreach(var grou in allGroups)
-            {
-                foreach(var user in grou.ApplicationUsers)
-                {
-                    if(user == null)
-                    {
-                        break;
-                    }
-                    if(user.Id == id)
-                    {
-                        result.Add(grou);
-                        break;
-                    }
-                }
-            }
-            return result;
-            */
         }
         
     }

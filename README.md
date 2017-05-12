@@ -16,7 +16,7 @@ Is a cloud bases programming environment where groups of user can work in parale
 * Sverrir Sigurðsson
 
 ## The Product
-CloudAtlas is a developing environment that uses the cloud instead a local IDE as is the normal in programming. We allow teams to work in parallel without setting up a complex environment is something that may appeal to many programmers especially for less complex projects. That just the tip of the iceberg.  CloudAtlas is equipped with multi layered functionality. The smooth UI allows for an compartable flow and the user experience ideal. User have complete control of their edtior everything from themes and shortcuts to syntax highlighting and error checking which is language based. With all this in its’ arsenal CloudAtlas is here to stay, and at your dispocal.
+CloudAtlas is a developing environment that uses the cloud instead a local IDE as is the normal in programming. We allow teams to work in parallel without setting up a complex environment which is something that may appeal to many programmers especially for less complex projects. However that just the tip of the iceberg because CloudAtlas is equipped with multi layered functionality. The smooth UI allows for a compartable flow through the web page and the user experience ideal. Users have complete control of their edtior which allow a wide variety of features everything from themes and shortcuts to syntax highlighting and error checking which is language based. With all this in its’ arsenal CloudAtlas is here to stay, and at your disposal.
 
 ## CloudAtlas - About
 The code is hosted via GitHub and the entire project was written in ASP.NET MVC5.
@@ -24,7 +24,7 @@ The coding rules from [Microsoft](https://docs.microsoft.com/en-us/dotnet/articl
 
 ## Installation
 
-No installation required, for commercial use just go [CloudAtlas](http://atlascloud.azurewebsites.net/)
+No installation required, for commercial use just go to [CloudAtlas](http://atlascloud.azurewebsites.net/).
 
 If you are intenting to add features of your own you will require Visual Studio 2017 and to be able to add CSS styling you will need to install a [Web Compiler](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.WebCompiler) and edit Site.sass which will then compile it to Site.css followed by a minimized version of the CSS.
 

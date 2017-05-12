@@ -30,13 +30,11 @@ namespace CloudAtlas
         public void ChatMessage(string name, string message, int projectID)
         {
             Clients.Group(Convert.ToString(projectID)).ChatMessage(name, message);
-            //Clients.All.ChatMessage(name, message);
         }
 
-        public void UpdateEditor(object changeData, int fileID)
+        public void UpdateEditor(object changeData, int fileID, string userID)
         {
-            Clients.Group(Convert.ToString(fileID), Context.ConnectionId).UpdateEditor(changeData);
-            //Clients.Others.UpdateEditor(changeData);
+            Clients.Group(Convert.ToString(fileID), Context.ConnectionId).UpdateEditor(changeData, userID);
         }
     }
 }

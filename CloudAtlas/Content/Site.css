@@ -186,9 +186,10 @@ body {
       justify-content: center;
       flex-wrap: wrap; }
       .dashboard-container .my-projects .box-projects .is-owner {
-        background-color: indianred; }
+        background-color: #34495e; }
       .dashboard-container .my-projects .box-projects .create-button-wrap a {
-        color: #293241; }
+        color: #293241;
+        text-decoration: none; }
       .dashboard-container .my-projects .box-projects .create-button-wrap .create-box {
         display: flex;
         justify-content: center;
@@ -196,7 +197,7 @@ body {
         color: #fff;
         height: 100px;
         width: 280px;
-        background-color: #293241;
+        background-color: #2ecc71;
         box-shadow: 0px 0px 0px 3px #293241;
         border: 3px solid #fff;
         -webkit-transition: all 0.3s ease;
@@ -277,7 +278,8 @@ body {
           .dashboard-container .my-groups .box-groups .box a:hover {
             color: #54494B; }
       .dashboard-container .my-groups .box-groups .create-button-wrap a {
-        color: #293241; }
+        color: #293241;
+        text-decoration: none; }
       .dashboard-container .my-groups .box-groups .create-button-wrap .create-box {
         display: flex;
         justify-content: center;
@@ -285,7 +287,7 @@ body {
         color: #fff;
         height: 100px;
         width: 280px;
-        background-color: #293241;
+        background-color: #2ecc71;
         box-shadow: 0px 0px 0px 3px #293241;
         border: 3px solid #fff;
         -webkit-transition: all 0.3s ease;
@@ -414,7 +416,7 @@ body {
     width: 80%; }
   .project-container .left {
     order: -1;
-    flex: 0 0 17em;
+    width: 300px;
     background-color: #fff;
     border-right: 1px solid grey;
     border-left: 1px solid grey; }
@@ -431,7 +433,7 @@ body {
     .project-container .left #jstree {
       margin: 0 10px; }
   .project-container .right {
-    flex: 0 0 17em;
+    width: 300px;
     background-color: #fff;
     border-left: 1px solid grey; }
     .project-container .right .collaborators {
@@ -439,40 +441,55 @@ body {
       flex-direction: column;
       align-items: flex-start;
       width: 100%;
-      padding: 10px 15px; }
-      .project-container .right .collaborators .colab-form input[type=text] {
-        height: 25px; }
-      .project-container .right .collaborators .colab-form input[type=submit] {
-        border: 0;
-        height: 25px;
-        width: 60px;
-        color: #fff;
-        background-color: #54494B; }
-        .project-container .right .collaborators .colab-form input[type=submit]:hover {
-          color: #4EA5D9;
-          cursor: pointer; }
+      padding: 15px 15px; }
+      .project-container .right .collaborators .colab-form {
+        margin-top: 20px; }
+        .project-container .right .collaborators .colab-form input[type=text] {
+          height: 25px; }
+        .project-container .right .collaborators .colab-form input[type=submit] {
+          border: 0;
+          height: 25px;
+          width: 60px;
+          color: #fff;
+          background-color: #54494B; }
+          .project-container .right .collaborators .colab-form input[type=submit]:hover {
+            color: #4EA5D9;
+            cursor: pointer; }
       .project-container .right .collaborators .avatars {
         display: flex;
         width: 100%;
-        margin-bottom: 15px; }
+        flex-wrap: wrap; }
         .project-container .right .collaborators .avatars .user-img {
           border: 4px solid #4EA5D9;
-          width: 45px;
-          height: 45px;
+          width: 40px;
+          height: 40px;
           overflow: hidden;
           border-radius: 50%;
           position: relative;
-          margin-right: 15px; }
+          margin-right: 13px;
+          margin-bottom: 13px; }
+          .project-container .right .collaborators .avatars .user-img .blah {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            height: 40px;
+            z-index: 100;
+            color: #000;
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 5px; }
           .project-container .right .collaborators .avatars .user-img img {
             width: 100%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%); }
-        .project-container .right .collaborators .avatars a {
+            .project-container .right .collaborators .avatars .user-img img:hover {
+              opacity: 0.5; }
+        .project-container .right .collaborators .avatars .new-user {
           color: #4EA5D9;
-          font-size: 50px; }
-          .project-container .right .collaborators .avatars a:hover {
+          font-size: 44px; }
+          .project-container .right .collaborators .avatars .new-user:hover {
             color: #54494B; }
         .project-container .right .collaborators .avatars #inviteForm input[type=text] {
           background-color: red; }
@@ -539,6 +556,8 @@ body {
     padding: 5px;
     font-size: 17px;
     text-align: center; }
+  .create-project-container img {
+    border-radius: 50%; }
   .create-project-container .create-project-form {
     width: 500px; }
     .create-project-container .create-project-form select {

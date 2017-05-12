@@ -324,12 +324,32 @@ body {
   margin-top: 30px;
   width: 900px; }
   .settings-container h1 {
-    font-size: 3em;
+    font-size: 4em;
     text-transform: uppercase;
     color: #4EA5D9;
-    margin-bottom: 10px; }
-  .settings-container img {
+    margin-top: 10px;
+    margin-bottom: 50px; }
+  .settings-container .settings-img .upload-dude {
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    color: #4EA5D9;
+    z-index: 1000;
+    font-size: 90px;
     border-radius: 50%; }
+    .settings-container .settings-img .upload-dude:hover {
+      opacity: 1;
+      cursor: pointer; }
+  .settings-container .settings-img img {
+    border-radius: 50%; }
+  .settings-container .user-email {
+    padding: 15px;
+    color: #293241;
+    font-size: 2em; }
   .settings-container p {
     width: 100%;
     height: 35px;
@@ -557,6 +577,12 @@ body {
     text-transform: uppercase;
     color: #4EA5D9;
     margin-bottom: 10px; }
+  .create-project-container .go-back {
+    color: #293241;
+    font-size: 15px;
+    width: 300px;
+    margin-top: 30px;
+    text-align: center; }
   .create-project-container p {
     width: 100%;
     height: 35px;

@@ -1,24 +1,116 @@
-﻿
+﻿@model CloudAtlas.Models.ApplicationUser
+
 @{
     ViewBag.Title = "Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="settings-container">
-
     <h1>Settings</h1>
 
-    <form class="settings-form">
+    <div class="settings-img">
+        <img alt="@Model.UserName" title="@Model.UserName" src="@Url.Content(Model.AvatarPath)" />
+    </div>
+
+    <div>@Model.Email</div>
+
+    <div class="settings-form">
         <label for="name">Name</label>
-        <input type="text" name="name">
+        <input type="text" name="name" id="name" value="@Model.UserName">
 
         <label for="colorScheme">Color Scheme</label>
-        <select name="colorScheme" class="color-scheme">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-        </select>
+        @Html.DropDownList(Model.Theme, ViewData["Theme"] as List<SelectListItem>, new { @id = "colorScheme" })
+        <input type="hidden" id="hiddentheme" value="@Model.Theme" />
 
-        <input type="submit" name="submit" value="Save Changes">
-    </form>
+        @using (Html.BeginForm("UploadImage", "Dashboard", FormMethod.Post, htmlAttributes: new { id = "imageForm", enctype = "multipart/form-data" }))
+        {
+            <label for="image-file" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Upload Image
+            </label>
+            <input id="image-file" type="file" id="File" name="File" />
+            <input type="submit" id="Submit" value="Upload" />
+        }
 
+        <input type="button" id="save" value="Save Changes" />
+    </div>
 </div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $("#image-file").change(function () {
+                $('#imageForm').submit();
+            });
+
+            $("#name").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $('#save').click();
+                }
+            });
+
+            $('#colorScheme').val($('#hiddentheme').val());
+
+            $('#save').click(function () {
+                var name = $("#name").val();
+                if (name === null || name.match(/^ *$/) !== null) {
+                    $("#save").css({ 'background-color': 'indianred' });
+                    $('#save').val('Name can not be empty');
+                    setTimeout(function () {
+                        $('#save').val('Save Changes');
+                        $("#save").css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    return false;
+                }
+                $.ajax({
+                    url: '/Dashboard/SaveSettings',
+                    dataType: 'json',
+                    data: { UserName: $('#name').val(), theme: $('#colorScheme').find(":selected").val() },
+                    method: 'POST',
+                    success: function (data) {
+                        $("#save").css({ 'background-color': '#27ae60' });
+                        $('#save').val('Saved!')
+                        setTimeout(function () {
+                            $('#save').val('Save Changes');
+                            $("#save").css({ 'background-color': '#293241' });
+                        }, 1000);
+                    }
+                });
+            });
+
+            $('#image-file').bind('change', function () {
+                var x = this.files[0].size / 1024 / 1024;
+                if (x > 4.0)
+                {
+                    alert("The file you are trying to upload exceeds the 4MB upload limit");
+                    $(this).val('');
+                }
+            });
+
+            $("#imageForm").on('submit', function () {
+                var form = $(this);
+                var fileInput = $("#File").val();
+                if (fileInput == '') {
+                    $("#Submit").css({ 'background-color': 'indianred' });
+                    $('#Submit').val('No image detected');
+                    setTimeout(function () {
+                        $('#Submit').val('Upload');
+                        $("#Submit").css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    return false;
+                }
+                else {
+                    $("#Submit").css({ 'background-color': '#27ae60' });
+                    $('#Submit').val('Uploading...');
+                    $.ajax({
+                        url: form.attr('action'),
+                        url: form.serialize(),
+                        method: 'POST'
+                    });
+                }
+            });
+        });
+
+    </script>    
+}

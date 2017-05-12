@@ -1,0 +1,58 @@
+﻿@model CloudAtlas.Models.Project
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.AntiForgeryToken()
+<div class="create-project-container">
+    <h1>Lets create something new</h1>
+
+        @using (Html.BeginForm("Create", "Project", FormMethod.Post, htmlAttributes: new { @class = "create-project-form", @id = "createForm", @name = "createForm" }))
+        {
+            <label for="name">Name of project</label>
+            @Html.TextBoxFor(m => m.Name, htmlAttributes: new { name = "name", id = "name" })
+
+            <label for="colorScheme">Programming language</label>
+
+            @Html.DropDownListFor(x => x.Type, ViewData["Type"] as List<SelectListItem>)
+            <input type="submit" id="submit" name="submit" value="Create">
+        }
+    <div>
+        @Html.ActionLink("Back to List", "Index", "Dashboard")
+    </div>
+
+</div>
+
+
+@section scripts {
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#createForm').submit(function (e) {
+                var name = $('#name').val();
+                if (name === null || name.match(/^ *$/) !== null) {
+                    $('#submit').css({ 'background-color': 'indianred' });
+                    $('#submit').val('Project needs a name!');
+                    $('#name').val("");
+                    setTimeout(function () {
+                        $('#submit').val('Create');
+                        $('#submit').css({ 'background-color': '#293241' });
+                    }, 1000);
+
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+                else {
+                    $('#submit').val('Creating...');
+                    $('#submit').css({ 'background-color': '#27ae60' });
+                    return true;
+                }
+
+            });
+        });
+    </script>
+}
+

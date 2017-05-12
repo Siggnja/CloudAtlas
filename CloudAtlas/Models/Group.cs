@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,6 +10,8 @@ namespace CloudAtlas.Models
     {
         public int ID { get; set; }
 
+        [Required(ErrorMessage = "Name can not be empty")]
+        //[StringLength(30, ErrorMessage = "Group name can not be  longer then 30 characters")]
         public string Name { get; set; }
 
         public string OwnerID { get; set; }

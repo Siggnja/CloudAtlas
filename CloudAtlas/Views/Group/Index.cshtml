@@ -1,0 +1,144 @@
+﻿@model CloudAtlas.Models.Group
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="create-project-container">
+    <h2>@Model.Name</h2>
+
+@if (Model.OwnerID.Equals(ViewData["userid"]))
+{
+    <input type="hidden" id="hiddenid" value="@Model.ID" />
+    <div class="create-project-form">
+        <label for="invite"> Invite Users </label>
+        @Html.TextBox("UserEmail", null, htmlAttributes: new { id = "searchInvite", name = "invite" })
+        <input type="submit" name="submit" id="submit" value="Invite">
+
+        <h3>Group owner</h3>
+        <p>@Model.Owner.Email</p>
+
+        <label for="members" id="membersLabel">Group members</label>
+        <ul id="members">
+            @foreach (var user in Model.ApplicationUsers)
+            {
+                if (user == Model.Owner) { continue; }
+                <li><span>@user.Email</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>
+            }
+        </ul>
+    </div>
+
+        <a href=@Url.Action("Delete", "Group", new { groupID = Model.ID })>
+            <h2>Delete group</h2>
+        </a>
+}
+else
+{
+    <h3>Group owner</h3>
+    <p>@Model.Owner.Email</p>
+
+    <label for="members" id="membersLabel">Group members</label>
+    <ul id="members">
+        @foreach (var user in Model.ApplicationUsers)
+        {
+            if (user == Model.Owner) { continue; }
+
+            <li>
+                <span>@user.Email</span>
+            </li>
+        }
+    </ul>
+
+    <a href=@Url.Action("Leave", "Group", new { groupID = Model.ID })>
+        <h2>Leave group</h2>
+    </a>
+}
+
+
+
+
+
+</div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $(document).ready(function () {
+
+        $('#searchInvite').autocomplete({
+            autoFocus: true,
+            source: '@Url.Action("Search", "Group")'
+        })
+
+        $("#searchInvite").keypress(function (event) {
+            if (event.keyCode == 13) {
+                $('#submit').click();
+            }
+        });
+
+        $(document).on('click', '.removeFromList', function (e) {
+            var deleteemail = $(this).parent().first().text();
+            var currid = $('#hiddenid').val();
+            $(this).parent().remove();
+            $.ajax({
+                url: '/Group/RemoveUser',
+                dataType: 'json',
+                data: { email: deleteemail, groupID: currid },
+                method: 'POST'
+            });
+        });
+
+
+        $('#submit').click(function () {
+            var curremail = $('#searchInvite').val();
+            var currid = $('#hiddenid').val();
+            $.ajax({
+                url: '/Group/AddUser',
+                dataType: 'json',
+                data: { email: curremail, groupID: currid },
+                method: 'POST',
+                success: function (data) {
+                    if (data.status == 1)
+                    {
+                        $("#searchInvite").val('');
+                        $("#submit").css({ 'background-color': '#27ae60' });
+                        $('#submit').val('Added!')
+                        $("#members").append("<li><span>" + curremail + "</span><a href='#' class='removeFromList'><i class='fa fa-times' aria-hidden='true'></i></a></li>");
+                        setTimeout(function () {
+                            $('#submit').val('Invite');
+                            $("#submit").css({ 'background-color': '#293241' });
+                        }, 1000);
+                    }
+                    else if(data.status == 2)
+                    {
+                        $("#searchInvite").val('');
+                        $("#submit").css({ 'background-color': 'indianred' });
+                        $('#submit').val('Already in group!')
+                        setTimeout(function () {
+                            $('#submit').val('Invite');
+                            $("#submit").css({ 'background-color': '#293241' });
+                        }, 1000);
+                    }
+                    else
+                    {
+                        $("#searchInvite").val('');
+                        $("#submit").css({ 'background-color': 'indianred' });
+                        $('#submit').val('User not found!')
+                        setTimeout(function () {
+                            $('#submit').val('Invite');
+                            $("#submit").css({ 'background-color': '#293241' });
+                        }, 1000);
+                    }
+                }
+            });
+        });
+    });
+    </script>
+}

@@ -25,6 +25,7 @@ The coding rules from [Microsoft](https://docs.microsoft.com/en-us/dotnet/articl
 ## Installation
 
 No installation required, for commercial use just go [CloudAtlas](http://atlascloud.azurewebsites.net/)
+
 If you are intenting to add features of your own you will require Visual Studio 2017 and to be able to add CSS styling you will need to install a [Web Compiler](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.WebCompiler) and edit Site.sass which will then compile it to Site.css followed by a minimized version of the CSS.
 
 ## Contributors

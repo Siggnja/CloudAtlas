@@ -6,71 +6,80 @@ using System.Web;
 
 namespace CloudAtlas.Repositories
 {
-    public class FolderRepository
+    public class FolderRepository : BaseRepository
     {
-        private readonly ApplicationDbContext db;
-        public FolderRepository(ApplicationDbContext context)
+        public List<Folder> GetFoldersFromRootID(int id)
         {
-            db = context ?? new ApplicationDbContext();
+            return (from fold in db.Folders
+                    where fold.ParentID == id
+                    select fold).ToList();
         }
-        public Folder GetFolderByID(int id)
+        public void UpdateFolderNameByID(int id, string name)
         {
-            return (from i in db.Folders
-                    where i.ID == id
-                    select i).FirstOrDefault();
+            var folder = GetFolderByID((int)id);
+            folder.Name = name.Trim();
+            db.SaveChanges();
         }
-        public Folder GetParentFolder(Folder folder)
+        public void RemoveFolderByID(int id)
         {
-            return folder.Parent;               
+            Folder deleteMe = GetFolderByID(id);
+            Folder parent = deleteMe.Parent;
+
+            if (parent != null)
+            {
+                parent.SubFolders.Remove(deleteMe);
+            }
+            DeleteFolderHelper(deleteMe);
+
+
+            db.Folders.Remove(deleteMe);
+
+            db.SaveChanges();
         }
-        public List<Folder> GetSubFolders(Folder folder)
+        public void AddFolder(Folder folder, Folder par)
         {
-            return folder.SubFolders.ToList();
+            db.Folders.Add(folder);
+            par.SubFolders.Add(folder);
+            db.SaveChanges();
         }
-        public void addFolder(Folder folder)
+        public void AddFolder(Folder folder)
         {
             db.Folders.Add(folder);
             db.SaveChanges();
         }
-        public void removeFolder(Folder folder)
+
+        private void DeleteFolderHelper(Folder deleteMe)
         {
-            db.Folders.Remove(folder);
+            if (deleteMe != null && deleteMe.SubFolders != null)
+            {
+                for (int i = 0; i < deleteMe.SubFolders.Count; i++)
+                {
+                    DeleteFolderHelper(deleteMe.SubFolders.ElementAt(i));
+                    DeleteAllFiles(deleteMe.SubFolders.ElementAt(i));
+                    db.Folders.Remove(deleteMe.SubFolders.ElementAt(i));
+
+                }
+            }
         }
-        public List<File> getAllFilesById(int id)
-        {
-            var fold = GetFolderByID(id);
-            return fold.Files.ToList();
-        }
-        public void addFileToFolder(int id,File file)
-        {
-            GetFolderByID(id).Files.Add(file);
-        }
-        public void removeFileFromFolder(int id, File file)
+        public void RemoveFileFromFolder(int id, File file)
         {
             GetFolderByID(id).Files.Remove(file);
         }
-        /*
-      /*
-    public Project GetProjectById(int id)
-    {
-        return (from i in db.Projects
-                where i.ID == id
-                select i).FirstOrDefault();
-    }
-    public void AddProject(Project project)
-    {
-        db.Projects.Add(project);
-        db.SaveChanges();
-    }
-    public void RemoveProject(Project project)
-    {
-        db.Projects.Remove(project);
-        db.SaveChanges();
-    }
-    public void UpdateProject(EntityState state, Project project)
-    {
-        db.Entry(project).State = state;
-    }
-    */
+
+        private void DeleteAllFiles(Folder fold)
+        {
+            if (fold.Files != null)
+            {
+                for (int i = 0; i < fold.Files.Count; i++)
+                {
+                    var id = fold.Files.ElementAt(i).ID;
+
+                    var file = GetFileByID(id);
+                    RemoveFileFromFolder(file.FolderID, file);
+                    db.Files.Remove(file);
+                    db.SaveChanges();
+                }
+            }
+        }
     }
 }

@@ -17,42 +17,33 @@ namespace CloudAtlas.Controllers
     [Authorize]
     public class ProjectController : Controller
     {
-        ApplicationDbContext context = new ApplicationDbContext();
         private readonly ProjectsRepository projrepository;
-        private readonly FolderRepository foldrepository;
+        private readonly FolderRepository folderrepository;
         private readonly FileRepository filerepository;
 
         public ProjectController()
         {
-            projrepository = new ProjectsRepository(context);
-            foldrepository = new FolderRepository(context);
-            filerepository = new FileRepository(context);
+            projrepository = new ProjectsRepository();
+            folderrepository = new FolderRepository();
+            filerepository = new FileRepository();
         }
 
         // GET: Project
         public ActionResult Index(int id)
         {
-            var project = (from proj in context.Projects
-                           where proj.ID == id
-                           select proj).FirstOrDefault();
+            var project = projrepository.GetProjectById(id);
 
-            var root = (from fold in context.Folders
-                        where fold.ID == project.FolderID
-                        select fold).FirstOrDefault();
+            var root = folderrepository.GetFolderByID(project.FolderID);
 
-            var folders = (from fold in context.Folders
-                           where fold.ParentID == root.ID
-                           select fold).ToList();
+            var folders = folderrepository.GetFoldersFromRootID(id);
 
-            var files = (from file in context.Files
-                         where file.FolderID == root.ID
-                         select file).ToList();
+           var files = filerepository.GetFilesByFolderID(root.ID);
 
-            string userid = User.Identity.GetUserId<string>();
-            var curruser = (from user in context.Users
-                            where user.Id == userid
-                            select user).FirstOrDefault();
-            ViewData["userId"] = userid;
+            string userId = User.Identity.GetUserId<string>();
+
+            var curruser = projrepository.GetUserByID(userId);
+
+            ViewData["userId"] = userId;
 
 
             ProjectViewModel model = new ProjectViewModel
@@ -63,6 +54,7 @@ namespace CloudAtlas.Controllers
                 Folders = folders,
                 Files = files
             };
+
             SelectLanguage();
 
 
@@ -71,9 +63,7 @@ namespace CloudAtlas.Controllers
 
         public ActionResult OpenFile(int id)
         {
-            var thisfile = (from file in context.Files
-                            where file.ID == id
-                            select file).FirstOrDefault();
+            var thisfile = filerepository.GetFileByID(id);
 
             return Json(new { content = thisfile.Content, type = thisfile.Type, name = thisfile.Name },
                 JsonRequestBehavior.AllowGet);
@@ -85,9 +75,7 @@ namespace CloudAtlas.Controllers
             {
                 return View();
             }
-            var file = filerepository.getFileById((int)id);
-            file.Name = newName.Trim();
-            context.SaveChanges();
+            filerepository.UpdateFileNameByID((int)id, newName);
             return InitilizeTree(projectId);
         }
         [HttpPost]
@@ -97,9 +85,9 @@ namespace CloudAtlas.Controllers
             {
                 return View();
             }
-            var folder = foldrepository.GetFolderByID((int)id);
-            folder.Name = newName.Trim();
-            context.SaveChanges();
+
+            folderrepository.UpdateFolderNameByID((int)id, newName);
+            
             return RedirectToAction("Index", "Project", new { id = projectId });
 
         }
@@ -110,11 +98,9 @@ namespace CloudAtlas.Controllers
             {
                 return View();
             }
-            var file = filerepository.getFileById((int)id);
-            foldrepository.removeFileFromFolder(file.FolderID, file);
-            filerepository.deleteFile(file);
 
-            context.SaveChanges();
+            filerepository.RemoveFileByID((int)id);
+
             return RedirectToAction("Index", "Project", new { id = projectId });
 
         }
@@ -125,70 +111,29 @@ namespace CloudAtlas.Controllers
             {
                 return View();
             }
-            Folder deleteMe = foldrepository.GetFolderByID((int)id);
-            Folder parent = deleteMe.Parent;
-
-            if (parent != null)
-            {
-                parent.SubFolders.Remove(deleteMe);
-            }
-            DeleteFolderHelper(deleteMe);
-
-
-            foldrepository.removeFolder(deleteMe);
-
-            context.SaveChanges();
+            folderrepository.RemoveFolderByID((int)id);
             return RedirectToAction("Index", "Project", new { id = projectId });
 
         }
-        private void DeleteFolderHelper(Folder deleteMe)
-        {
-            if(deleteMe != null && deleteMe.SubFolders != null)
-            {
-                for(int i = 0;i<deleteMe.SubFolders.Count;i++)
-                {
-                    DeleteFolderHelper(deleteMe.SubFolders.ElementAt(i));
-                    DeleteAllFiles(deleteMe.SubFolders.ElementAt(i));
-                    foldrepository.removeFolder(deleteMe.SubFolders.ElementAt(i));
-                }
-            }
-        }
-        private void DeleteAllFiles(Folder fold)
-        {
-            if(fold.Files != null)
-            {
-                for(int i=0;i<fold.Files.Count;i++)
-                {
-                    filerepository.deleteFile(fold.Files.ElementAt(i));
-                }
-            }
-        }
+ 
         public ActionResult DeleteFile(int? idFile)
         {
             if (idFile == null)
             {
                 return View();
             }
-            filerepository.deleteFile(filerepository.getFileById((int)idFile));
+            filerepository.RemoveFileByID((int)idFile);
             return View();
         }
         public ActionResult TreeView(int id)
         {
-            var project = (from proj in context.Projects
-                           where proj.ID == id
-                           select proj).FirstOrDefault();
+            var project = projrepository.GetProjectById(id);
 
-            var root = (from fold in context.Folders
-                        where fold.ID == project.FolderID
-                        select fold).FirstOrDefault();
+            var root = folderrepository.GetFolderByID(project.FolderID);
 
-            var folders = (from fold in context.Folders
-                           where fold.ParentID == root.ID
-                           select fold).ToList();
+            var folders = folderrepository.GetFoldersFromRootID(id);
 
-            var files = (from file in context.Files
-                         where file.FolderID == root.ID
-                         select file).ToList();
+            var files = filerepository.GetFilesByFolderID(root.ID);
 
             ProjectViewModel model = new ProjectViewModel
             {
@@ -202,9 +147,8 @@ namespace CloudAtlas.Controllers
         public ActionResult InitilizeTree(int id)
         {
             var nodes = new List<JsTreeModel>();
-            Debug.WriteLine(id);
             var project = projrepository.GetProjectById(id);
-            var root = foldrepository.GetFolderByID(project.FolderID);
+            var root = folderrepository.GetFolderByID(project.FolderID);
             nodes.Add(new JsTreeModel() { id = root.ID.ToString(), parent = "#", text = root.Name, type = "folder" });
             addChildren(nodes, root);
             addChildrenFiles(nodes, root);
@@ -227,9 +171,9 @@ namespace CloudAtlas.Controllers
                 return View();
             }
             string extension = getExtension(collection["Type"].ToString());
-            Folder par = foldrepository.GetFolderByID((int)parentId);
+            Folder par = folderrepository.GetFolderByID((int)parentId);
             File newFile = new Models.File { Name = collection["name"], Content = "", FolderID = par.ID, Type = collection["Type"], Extension = extension };
-            filerepository.addFile(newFile);
+            filerepository.AddFile(newFile);
 
            return RedirectToAction("Index", "Project", new { id = projectId });
 
@@ -274,12 +218,10 @@ namespace CloudAtlas.Controllers
             {
                 return View();
             }
-            Folder par = foldrepository.GetFolderByID((int)parentId);
+            Folder par = folderrepository.GetFolderByID((int)parentId);
             Folder newFold = new Folder{ Name="New Folder",IsRoot=false,ParentID=parentId};
-            foldrepository.addFolder(newFold);
-            par.SubFolders.Add(newFold);
+            folderrepository.AddFolder(newFold, par);
 
-            context.SaveChanges();
             return InitilizeTree(projectId);
 
         }
@@ -290,14 +232,6 @@ namespace CloudAtlas.Controllers
             var code = collection["hiddencode"];
             var id = Int32.Parse(collection["hiddenid"]);
 
-            var thisfile = (from file in context.Files
-                            where file.ID == id
-                            select file).FirstOrDefault();
-
-            thisfile.Content = code;
-
-            context.SaveChanges();
-
             var projectid = Int32.Parse(collection["hiddenproject"]);
 
             return RedirectToAction("Index", "Project", new { id = projectid});
@@ -307,13 +241,7 @@ namespace CloudAtlas.Controllers
         public ActionResult SaveFileAuto(string code, int id, int projectid)
         {
 
-            var thisfile = (from file in context.Files
-                            where file.ID == id
-                            select file).FirstOrDefault();
-
-            thisfile.Content = code;
-
-            context.SaveChanges();
+            filerepository.SaveFile(id, code);
 
 
             return RedirectToAction("Index", "Project", new { id = projectid });
@@ -331,22 +259,12 @@ namespace CloudAtlas.Controllers
         {
             string loggedInUser = User.Identity.GetUserId<string>();
 
-            var users = (from user in context.Users
-                            where user.Email.StartsWith(term)
-                            select user.Email).ToList();
+            var users = projrepository.SearchUserByEmail(term, loggedInUser);
 
-            var userGroup = (from user in context.Users
-                             where user.Id == loggedInUser
-                             select user.Groups).FirstOrDefault();
-
-            var groups = (from gr in userGroup
-                          where gr.Name.ToLower().StartsWith(term.ToLower())
-                          select gr.Name).ToList();
+            var groups = projrepository.SearchGroupByName(loggedInUser, term);
 
             var listName = users.Union(groups);
                 
-            
-
             return Json(listName, JsonRequestBehavior.AllowGet);
         }
 
@@ -357,13 +275,9 @@ namespace CloudAtlas.Controllers
             int projectID = Int32.Parse(hidden);
             string loggedInUser = User.Identity.GetUserId<string>();
 
-            var project = (from i in context.Projects
-                           where i.ID == projectID
-                           select i).FirstOrDefault();
+            var project = projrepository.GetProjectById(projectID);
 
-            var user = (from item in context.Users
-                        where item.Id == loggedInUser
-                        select item).FirstOrDefault();
+            var user = projrepository.GetUserByID(loggedInUser);
 
             var checkGroup = (from g in user.Groups
                               where g.Name == stringToCheck
@@ -380,7 +294,9 @@ namespace CloudAtlas.Controllers
                 }
             }
 
-            var checkUser = (from item in context.Users
+            var users = projrepository.GetUsers();
+
+            var checkUser = (from item in users
                              where item.Email == stringToCheck
                              select item).FirstOrDefault();
 
@@ -405,7 +321,7 @@ namespace CloudAtlas.Controllers
         {
             Folder newfold = new Folder { Name = "Root", IsRoot = true };
 
-            foldrepository.addFolder(newfold);
+            folderrepository.AddFolder(newfold);
 
             var foldid = newfold.ID;
 
@@ -453,7 +369,7 @@ namespace CloudAtlas.Controllers
                 Content = filecont
             };
 
-            filerepository.addFile(newfile);
+            filerepository.AddFile(newfile);
 
             string userid = User.Identity.GetUserId<string>();
 
@@ -465,11 +381,9 @@ namespace CloudAtlas.Controllers
                 FolderID = foldid,
                 OwnerID = userid
             };
-            
 
-            var curruser = (from user in context.Users
-                            where user.Id == userid
-                            select user).FirstOrDefault();
+
+            var curruser = projrepository.GetUserByID(userid);
 
 
             projrepository.AddProject(newProject);
@@ -494,9 +408,7 @@ namespace CloudAtlas.Controllers
         public ActionResult Leave(int projectid)
         {
             string userid = User.Identity.GetUserId<string>();
-            var curruser = (from user in context.Users
-                            where user.Id == userid
-                            select user).FirstOrDefault();
+            var curruser = projrepository.GetUserByID(userid);
 
             var project = projrepository.GetProjectById(projectid);
 
@@ -509,7 +421,7 @@ namespace CloudAtlas.Controllers
         {
 
             var archive = Server.MapPath("~/archive.zip");
-            var currentfile = filerepository.getFileById(fileID);
+            var currentfile = filerepository.GetFileById(fileID);
 
             if (System.IO.File.Exists(archive))
             {

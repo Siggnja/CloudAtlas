@@ -14,10 +14,8 @@ namespace CloudAtlas.Controllers
         ApplicationDbContext context = new ApplicationDbContext();
 
         public ActionResult Index()
-        {
-             var i = (from item in context.Users
-                     select item);
-              return View();
+        { 
+            return View();
         }
 
         public ActionResult About()

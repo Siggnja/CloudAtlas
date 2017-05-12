@@ -30,7 +30,7 @@ namespace CloudAtlas.Tests.Repositories
         public void AddProjectTest()
         {
             //Arrange
-            var newProject = new Project() {ID=10, Name = "Project10", Type = "Javascript", IsGroupProject = false };
+            var newProject = new Project() {ID=10, Name = "Project10", Type = "Javascript" };
 
             //Act
             _Project.AddProject(newProject);

@@ -77,8 +77,6 @@ namespace CloudAtlas.Tests.Repositories
             List<Folder> res2 = _folder.GetSubFolders(parent);
             //Assert - Use IsTrue because of object refrences
             Assert.AreEqual(res1.Count,res2.Count);
-            Assert.AreEqual(res1.ElementAt(0).FolderID, res1.ElementAt(0).FolderID);
-            Assert.AreEqual(res1.ElementAt(1).FolderID, res1.ElementAt(1).FolderID);
 
         }
         [TestMethod]

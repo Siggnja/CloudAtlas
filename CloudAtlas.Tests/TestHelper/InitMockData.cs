@@ -31,10 +31,10 @@ namespace CloudAtlas.Tests.TestHelper
             var group2 = new Group() {ID=2, Name = "Arsenal", OwnerID = "f380908a-8f2e-4441-ae2f-b2a07f8b0e36" };
             var group3 = new Group() {ID=3, Name = "GitKraken", OwnerID = "00537b30-1295-4e84-84b5-db7e76feee70" };
 
-            var proj1 = new Project() {ID=1, Name = "Project1", Type = "Javascript", IsGroupProject = false, FolderID = fold1.ID };
-            var proj2 = new Project() {ID=2, Name = "Project2", Type = "Javascript", IsGroupProject = false, FolderID = fold2.ID };
-            var proj3 = new Project() {ID=3, Name = "Project3", Type = "Javascript", IsGroupProject = false, FolderID = fold3.ID };
-            var proj4 = new Project() {ID=4, Name = "Project4", Type = "Javascript", IsGroupProject = false, FolderID = fold4.ID };
+            var proj2 = new Project() {ID=2, Name = "Project2", Type = "Javascript" };
+            var proj1 = new Project() {ID=1, Name = "Project1", Type = "Javascript" };
+            var proj3 = new Project() {ID=3, Name = "Project3", Type = "Javascript" };
+            var proj4 = new Project() {ID=4, Name = "Project4", Type = "Javascript" };
 
             fold1.Files.Add(file1);
             fold1.SubFolders.Add(fold5);

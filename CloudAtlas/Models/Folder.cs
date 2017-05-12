@@ -18,7 +18,6 @@ namespace CloudAtlas.Models
 
         public int? ParentID { get; set; }
 
-        public int? FolderID { get; set; }
 
         [InverseProperty("SubFolders")]
         public virtual Folder Parent { get; set; }

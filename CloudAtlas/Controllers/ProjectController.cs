@@ -461,7 +461,6 @@ namespace CloudAtlas.Controllers
             {
                 Name = project.Name,
                 Type = project.Type,
-                IsGroupProject = false,
                 FolderID = foldid,
                 OwnerID = userid
             };

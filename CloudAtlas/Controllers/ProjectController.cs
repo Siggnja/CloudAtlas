@@ -61,6 +61,9 @@ namespace CloudAtlas.Controllers
 
             return View(model);
         }
+        /// <summary>
+        /// Opens a file   
+        /// </summary>
 
         public ActionResult OpenFile(int id)
         {
@@ -69,6 +72,8 @@ namespace CloudAtlas.Controllers
             return Json(new { content = thisfile.Content, type = thisfile.Type, name = thisfile.Name },
                 JsonRequestBehavior.AllowGet);
         }
+        
+      
         [HttpPost]
         public ActionResult RenameFile(int? id, string newName, int projectId)
         {

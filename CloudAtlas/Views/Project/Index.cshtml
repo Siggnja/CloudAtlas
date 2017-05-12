@@ -125,7 +125,7 @@
 
             chat.client.chatMessage = function (name, message) {
                 // Add the message to the page.
-                $('#discussion').append('<li><strong>' + htmlEncode(name)
+                $('#discussion').append('<li><strong style="font-weight: bold;">' + htmlEncode(name)
                     + '</strong>: ' + htmlEncode(message) + '</li>');
             };
 

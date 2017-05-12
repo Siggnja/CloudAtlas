@@ -6,35 +6,24 @@ using System.Web;
 
 namespace CloudAtlas.Repositories
 {
-    public class GroupsRepository
+    public class GroupsRepository : BaseRepository
     {
-        private readonly ApplicationDbContext db;
-        public GroupsRepository(ApplicationDbContext context)
-        {
-            db = context ?? new ApplicationDbContext();
-        }
-        public void addGroup(Group group)
+        public void AddGroup(Group group)
         {
             db.Groups.Add(group);
-        }
-        public Group getGroupById(int id)
-        {
-            return (from i in db.Groups
-                    where i.ID == id
-                    select i
-                    ).FirstOrDefault();
+            db.SaveChanges();
         }
         public List<Project> getGroupProjects(int id)
         {
-            return getGroupById(id).Projects.ToList();
+            return GetGroupById(id).Projects.ToList();
         }
-        public void deleteGroupById(int id)
+        public void DeleteGroupById(int id)
         {
-            var group = getGroupById(id);
+            var group = GetGroupById(id);
             db.Groups.Remove(group);
             db.SaveChanges();
         }
-        public void addGroupProject(Project project,Group group)
+        public void AddGroupProject(Project project,Group group)
         {
             group.Projects.Add(project);
             db.SaveChanges();

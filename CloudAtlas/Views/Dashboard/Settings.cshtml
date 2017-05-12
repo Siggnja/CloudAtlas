@@ -12,6 +12,8 @@
         <img alt="@Model.UserName" title="@Model.UserName" src="@Url.Content(Model.AvatarPath)" />
     </div>
 
+    <div>@Model.Email</div>
+
     <div class="settings-form">
         <label for="name">Name</label>
         <input type="text" name="name" id="name" value="@Model.UserName">

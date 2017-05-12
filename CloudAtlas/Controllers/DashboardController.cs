@@ -25,8 +25,8 @@ namespace CloudAtlas.Controllers
 
         public DashboardController()
         {
-            projectsRepository = new ProjectsRepository();
-            groupsRepository = new GroupsRepository();
+            projectsRepository = new ProjectsRepository(db);
+            groupsRepository = new GroupsRepository(db);
             account = new Account(
                     "cloudatlas",
                     "215256475133816",
@@ -39,7 +39,7 @@ namespace CloudAtlas.Controllers
             string id = User.Identity.GetUserId<string>();
             var proj = projectsRepository.GetProjectsByUserId(id);
             var grou = groupsRepository.getAllGroupsByUserId(id);
-            DashboardViewModel model = new DashboardViewModel{ Projects = proj.ToList<Project>(), Groups = grou};
+            DashboardViewModel model = new DashboardViewModel{ Projects = proj, Groups = grou};
 
             ViewData["userid"] = id;
 
@@ -54,7 +54,7 @@ namespace CloudAtlas.Controllers
                             where user.Id == userid
                             select user).FirstOrDefault();
 
-            SelectTheme(curruser);
+            SelectTheme();
 
 
             return View(curruser);
@@ -82,7 +82,7 @@ namespace CloudAtlas.Controllers
                 JsonRequestBehavior.AllowGet);
         }
 
-        public void SelectTheme(ApplicationUser user)
+        public void SelectTheme()
         {
             IEnumerable<SelectListItem> themes = new List<SelectListItem>() {
 
@@ -143,7 +143,7 @@ namespace CloudAtlas.Controllers
                             where u.Id == userid
                             select u).FirstOrDefault();
 
-            SelectTheme(userCurr);
+            SelectTheme();
 
 
             return View("Settings", userCurr);

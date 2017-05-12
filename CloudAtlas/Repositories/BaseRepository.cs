@@ -8,11 +8,11 @@ namespace CloudAtlas.Repositories
 {
     public class BaseRepository
     {
-        public readonly ApplicationDbContext db;
+        public readonly IAppDataContext db;
 
-        public BaseRepository()
+        public BaseRepository(IAppDataContext context)
         {
-            db = new ApplicationDbContext();
+            db = context ?? new ApplicationDbContext();
         }
         public ApplicationUser GetUserByID(string ID)
         {

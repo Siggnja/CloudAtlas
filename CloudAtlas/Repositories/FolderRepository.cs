@@ -8,11 +8,27 @@ namespace CloudAtlas.Repositories
 {
     public class FolderRepository : BaseRepository
     {
+        public FolderRepository(IAppDataContext context) : base(context)
+        {
+        }
+        public Folder GetParentFolder(Folder folder)
+        {
+            return folder.Parent;
+        }
+        public List<File> GetAllFilesById(int id)
+        {
+            var fold = GetFolderByID(id);
+            return fold.Files.ToList();
+        }
         public List<Folder> GetFoldersFromRootID(int id)
         {
             return (from fold in db.Folders
                     where fold.ParentID == id
                     select fold).ToList();
+        }
+        public List<Folder> GetSubFolders(Folder folder)
+        {
+            return folder.SubFolders.ToList();
         }
         public void UpdateFolderNameByID(int id, string name)
         {
@@ -80,6 +96,11 @@ namespace CloudAtlas.Repositories
                     db.SaveChanges();
                 }
             }
+        }
+
+        public void AddFileToFolder(int id, File file)
+        {
+            GetFolderByID(id).Files.Add(file);
         }
     }
 }

@@ -15,9 +15,6 @@ namespace CloudAtlas.Models
         [Required]
         public string Type { get; set; }
 
-        public string StartupFile { get; set; }
-
-        public bool IsGroupProject { get; set; }
 
         public int FolderID { get; set; }
 
